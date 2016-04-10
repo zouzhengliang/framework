@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:se="http://svg-edit.googlecode.com">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <marker id="se_marker_end_svg_29" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_4" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#000000" stroke="#000000" stroke-width="10"/>
+  </marker>
+  <marker id="se_marker_end_svg_17" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_5" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#000000" stroke="#000000" stroke-width="10"/>
+  </marker>
+  <marker id="se_marker_end_svg_25" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_6" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#7f7f7f" stroke="#7f7f7f" stroke-width="10"/>
+  </marker>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <polyline se:connector="svg_3 svg_10" id="svg_29" points="226.25,112.5 356.042,223.75 485.833,335" stroke="#000000" stroke-width="5" fill="none" marker-end="url(#se_marker_end_svg_29)"/>
+  <polyline se:connector="svg_3 svg_24" id="svg_25" points="242.5,90.0521 337.152,90.1681 431.805,90.2842" stroke="#7f7f7f" stroke-width="5" fill="none" marker-end="url(#se_marker_end_svg_25)"/>
+  <polyline se:connector="svg_2 svg_1" id="svg_17" points="130,112.5 130,223.75 130,335" stroke="#000000" stroke-width="5" fill="none" marker-end="url(#se_marker_end_svg_17)"/>
+  <rect id="svg_1" height="20" width="120" y="350" x="70" stroke-width="5" stroke="#ffaaaa" fill="#ffd4aa"/>
+  <text transform="matrix(0.647059, 0, 0, 0.666667, 81.7647, 110)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" y="100" x="180" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#ffaaaa" fill="#000000" id="svg_20">HTTP/2</text>
+  <rect id="svg_7" height="20" width="120" y="350" x="200" stroke-width="5" stroke="#ffaaaa" fill="#ffd4aa"/>
+  <rect id="svg_10" height="20" width="110" y="350" x="460" stroke-width="5" stroke="#ffaaaa" fill="#ffd4aa"/>
+  <path id="svg_12" d="m350.095093,395.79483c0,4.371735 -13.557343,7.915741 -30.280609,7.915741m30.280609,-7.915741l0,0c0,4.371735 -13.557343,7.915741 -30.280609,7.915741c-16.724518,0 -30.280853,-3.544006 -30.280853,-7.915741m0,0l0,0c0,-4.374786 13.556335,-7.918854 30.280853,-7.918854c16.723267,0 30.280609,3.544067 30.280609,7.918854l0,31.66449c0,4.372589 -13.557343,7.916687 -30.280609,7.916687c-16.724518,0 -30.280853,-3.544098 -30.280853,-7.916687l0,-31.66449z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#ffaaaa" fill="#ffd4aa"/>
+  <rect fill="#7f7f7f" stroke="#3f3f3f" stroke-width="5" x="110" y="70" width="40" height="40" id="svg_2" rx="6" ry="6"/>
+  <rect fill="#7f7f7f" stroke="#3f3f3f" stroke-width="5" x="160" y="70" width="80" height="40" id="svg_3"/>
+  <text transform="matrix(0.647059, 0, 0, 0.666667, 81.7647, 110)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" y="470" x="370" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#ffaaaa" fill="#000000" id="svg_21">rdbms</text>
+  <text transform="matrix(0.647059, 0, 0, 0.666667, 81.7647, 110)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" y="340" x="420" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#ffaaaa" fill="#000000" id="svg_22">appserv nodes</text>
+  <path fill="#7f7f7f" stroke="#bfbfbf" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m525.233398,60.044369c-11.638184,0 -21.624329,5.431629 -26.515808,13.272892c-1.951172,-0.981262 -4.104797,-1.575447 -6.404541,-1.575447c-6.950104,0 -12.737457,5.033134 -14.524323,11.865395c-3.052795,-1.085701 -6.59845,-1.742821 -10.388824,-1.742821c-11.372467,0 -20.595245,5.599236 -20.595245,12.502121c0,6.230843 7.564819,11.353203 17.391785,12.30114c-0.43927,0.672302 -0.784821,1.338478 -0.784821,2.044342c0,6.609146 20.121094,11.99942 44.916077,11.99942c24.793152,0 44.914307,-5.390274 44.914307,-11.99942c0,-0.444633 -0.308655,-0.841637 -0.485596,-1.273682c1.087646,0.24295 2.161743,0.502823 3.353027,0.502823c6.632324,0 12.02832,-4.05632 12.02832,-9.049965c0,-4.993439 -5.395996,-9.049515 -12.02832,-9.049515c-0.813477,0 -1.505127,0.252449 -2.272766,0.368675c0.671387,-1.99662 1.118835,-4.034103 1.118835,-6.200684c0,-13.218346 -13.296387,-23.965275 -29.722107,-23.965275l0,0z" id="svg_24"/>
+  <text fill="#000000" stroke="#bfbfbf" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="510" y="100" id="svg_26" font-size="24" font-family="Fantasy" text-anchor="middle" xml:space="preserve">dns</text>
+  <text transform="matrix(0.647059, 0, 0, 0.666667, 81.7647, 110)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" y="0" x="410" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#ffaaaa" fill="#000000" id="svg_27">DNS round robin</text>
+  <rect height="20" width="120" y="350" x="330" stroke-width="5" stroke="#ffaaaa" fill="#ffd4aa" id="svg_28"/>
+  <text id="svg_8" transform="matrix(0.647059, 0, 0, 0.666667, 81.7647, 110)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" y="342.144235" x="141.023201" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#ffaaaa" fill="#000000">public ip</text>
+  <text id="svg_9" transform="matrix(0.647059, 0, 0, 0.666667, 81.7647, 110)" xml:space="preserve" text-anchor="middle" font-family="Fantasy" font-size="24" y="444.144189" x="102.386845" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#ffaaaa" fill="#000000">private ip</text>
+  <line id="svg_11" y2="379" x2="498" y1="379" x1="159" stroke-width="5" stroke="#ffaaaa" fill="none"/>
+ </g>
+</svg>

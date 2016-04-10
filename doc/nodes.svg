@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<svg width="1024" height="600" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:se="http://svg-edit.googlecode.com">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_34">
+   <rect id="svg_35" height="212.999992" width="206" y="63.500003" x="288.777783" stroke-width="3" stroke="#00007f" fill="#bfbfbf"/>
+   <rect id="svg_36" height="134.111106" width="152.915377" y="102.944446" x="288.777783" stroke-width="3" stroke="#00007f" fill="#d4ffaa"/>
+   <rect id="svg_37" height="47.333332" width="102.999998" y="189.722221" x="288.777783" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_38" height="47.333332" width="102.999998" y="142.388889" x="288.777783" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_39" height="39.444443" width="205.999984" y="237.055552" x="288.777783" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_40" height="94.666663" width="49.915385" y="142.388889" x="391.777782" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_41" height="26.033332" width="26.146153" y="168.422221" x="456.350856" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+   <rect id="svg_42" height="26.033332" width="26.146153" y="201.555553" x="456.350856" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+   <rect id="svg_43" height="26.033332" width="26.146153" y="135.288889" x="456.350856" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+  </g>
+  <g id="svg_27">
+   <rect id="svg_11" height="201.999999" width="202" y="150.500001" x="169.777774" stroke-width="3" stroke="#00007f" fill="#bfbfbf"/>
+   <rect id="svg_12" height="127.185184" width="149.946147" y="187.907408" x="169.777774" stroke-width="3" stroke="#00007f" fill="#d4ffaa"/>
+   <rect id="svg_13" height="44.888889" width="100.999998" y="270.203704" x="169.777774" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_14" height="44.888889" width="100.999998" y="225.314815" x="169.777774" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_15" height="37.407407" width="201.999984" y="315.092593" x="169.777774" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_16" height="89.777777" width="48.946154" y="225.314815" x="270.777774" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+   <rect id="svg_23" height="24.688889" width="25.638461" y="250.003704" x="334.097001" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+   <rect id="svg_24" height="24.688889" width="25.638461" y="281.425926" x="334.097001" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+   <rect id="svg_25" height="24.688889" width="25.638461" y="218.581482" x="334.097001" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+  </g>
+  <path id="svg_6" d="m340.957062,473.420258c0,6.25882 -27.397644,11.33313 -61.199707,11.33313m61.199707,-11.33313l0,0c0,6.25882 -27.397644,11.33313 -61.199707,11.33313c-33.797989,0 -61.200119,-5.07431 -61.200119,-11.33313m0,0l0,0c0,-6.259827 27.40213,-11.33493 61.200119,-11.33493c33.802063,0 61.199707,5.075104 61.199707,11.33493l0,45.333527c0,6.259216 -27.397644,11.333435 -61.199707,11.333435c-33.797989,0 -61.200119,-5.074219 -61.200119,-11.333435l0,-45.333527z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffffaa"/>
+  <text transform="matrix(0.888889, 0, 0, 0.666667, 38.8889, 120)" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_8" y="583.499959" x="275.750005" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#00007f" fill="#00007f">database</text>
+  <g id="svg_26">
+   <rect height="204.333338" width="206.999993" y="233.666654" x="41.777786" stroke-width="3" stroke="#00007f" fill="#bfbfbf" id="svg_64"/>
+   <rect height="128.654324" width="153.65768" y="271.506161" x="41.777786" stroke-width="3" stroke="#00007f" fill="#d4ffaa" id="svg_65"/>
+   <rect height="45.407409" width="103.499994" y="354.753076" x="41.777786" stroke-width="3" stroke="#00007f" fill="#ffffaa" id="svg_66"/>
+   <rect height="45.407409" width="103.499994" y="309.345668" x="41.777786" stroke-width="3" stroke="#00007f" fill="#ffffaa" id="svg_68"/>
+   <rect height="37.839507" width="206.999977" y="400.160485" x="41.777786" stroke-width="3" stroke="#00007f" fill="#ffffaa" id="svg_71"/>
+   <rect height="90.814817" width="50.157691" y="309.345668" x="145.277782" stroke-width="3" stroke="#00007f" fill="#ffffaa" id="svg_74"/>
+   <text transform="matrix(0, -0.75679, 0.796154, 0, 57.7364, 570.35)" fill="#00007f" stroke="#00007f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="283.476346" y="149.363419" id="svg_85" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">hazelcast</text>
+   <text fill="#00007f" stroke="#00007f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="19.363419" y="360.523654" id="svg_87" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.796154, 0, 0, 0.75679, 79.7039, 109.914)">xnio (tcp)</text>
+   <text id="svg_1" fill="#00007f" stroke="#00007f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="16.363419" y="299.523654" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.796154, 0, 0, 0.75679, 79.7039, 109.914)">undertow</text>
+   <text id="svg_2" fill="#00007f" stroke="#00007f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="77.363419" y="415.523654" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.796154, 0, 0, 0.75679, 79.7039, 109.914)">java runtime</text>
+   <text id="svg_3" fill="#00007f" stroke="#00007f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="51.363419" y="245.523654" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.796154, 0, 0, 0.75679, 79.7039, 109.914)">framework</text>
+   <text id="svg_4" fill="#00007f" stroke="#00007f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="92.363419" y="193.523654" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.796154, 0, 0, 0.75679, 79.7039, 109.914)">appserv</text>
+   <rect id="svg_5" height="24.974075" width="26.273075" y="334.319743" x="210.164315" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+   <rect id="svg_9" height="24.974075" width="26.273075" y="366.104928" x="210.164315" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+   <rect id="svg_10" height="24.974075" width="26.273075" y="302.534556" x="210.164315" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#00007f" fill="#ffaaaa"/>
+  </g>
+  <polyline se:connector="svg_9 svg_24" fill="none" stroke-width="5" stroke="#ff0000" points="237.937,368.549 285.267,336.072 332.597,303.596" id="svg_33"/>
+  <polyline se:connector="svg_5 svg_23" fill="none" stroke-width="5" stroke="#ff0000" points="237.937,336.807 285.267,304.469 332.597,272.132" id="svg_32"/>
+  <polyline se:connector="svg_10 svg_25" fill="none" stroke-width="5" stroke="#ff0000" points="237.937,305.064 285.267,272.866 332.597,240.667" id="svg_31"/>
+  <polyline se:connector="svg_25 svg_43" fill="none" stroke-width="5" stroke="#ff0000" points="361.235,221.269 408.043,189.701 454.851,158.134" id="svg_44"/>
+  <polyline se:connector="svg_23 svg_41" fill="none" stroke-width="5" stroke="#ff0000" points="361.235,252.891 408.043,221.977 454.851,191.064" id="svg_45"/>
+  <polyline se:connector="svg_24 svg_42" fill="none" stroke-width="5" stroke="#ff0000" points="361.235,284.513 408.043,254.253 454.851,223.993" id="svg_46"/>
+  <text transform="matrix(0.847717, 0, 0, 0.963107, 92.7878, 16.0559)" id="svg_18" fill="#3f007f" stroke="#00007f" stroke-width="0" x="721.079484" y="425.574074" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">support http/tcp, broadly applicable (IoT, ecom, game, finance, etc)</text>
+  <text transform="matrix(0.867242, 0, 0, 0.815056, 71.9974, 87.6357)" id="svg_20" fill="#3f007f" stroke="#00007f" stroke-width="0" x="652.427281" y="457.69722" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">linear scale-out &amp; load balancing &amp; high availability</text>
+  <text transform="matrix(0.920903, 0, 0, 0.842569, 32.5551, 62.3195)" id="svg_21" fill="#3f007f" stroke="#00007f" stroke-width="0" x="645.933092" y="391.988126" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">simple deployment (plug &amp; play, minimal tiers)</text>
+  <text transform="matrix(0.80245, 0, 0, 0.818078, 98.0129, 101.082)" id="svg_22" fill="#3f007f" stroke="#00007f" stroke-width="0" x="538.821258" y="527.979217" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">standard-based (rest/http/sql)</text>
+  <text font-weight="bold" id="svg_28" fill="#3f007f" stroke="#00007f" stroke-width="0" x="574.734739" y="347.907407" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">GOALS</text>
+  <text transform="matrix(0.813364, 0, 0, 0.780884, 102.761, 112.649)" id="svg_30" fill="#3f007f" stroke="#00007f" stroke-width="0" x="612.975709" y="494.162614" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve">security (authentication &amp; authorization &amp; SSL)</text>
+ </g>
+</svg>
