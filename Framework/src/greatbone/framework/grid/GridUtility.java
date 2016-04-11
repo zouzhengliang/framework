@@ -1,7 +1,7 @@
 package greatbone.framework.grid;
 
 import greatbone.framework.Config;
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import greatbone.framework.util.Roll;
 import org.w3c.dom.Element;
 
@@ -58,7 +58,7 @@ public class GridUtility implements GridMBean, Config {
     @SafeVarargs
     GridUtility(Class<? extends Fabric>... setcs) {
 
-        this.config = MyFarm.getXmlTopTag("grid");
+        this.config = Greatbone.getXmlTopTag("grid");
 
         // register datasets & filesets
         for (Class<? extends Fabric> c : setcs) {

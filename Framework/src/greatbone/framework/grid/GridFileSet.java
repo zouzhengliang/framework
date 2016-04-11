@@ -1,7 +1,7 @@
 package greatbone.framework.grid;
 
 import greatbone.framework.Config;
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import greatbone.framework.util.SpinWait;
 import org.w3c.dom.Element;
 
@@ -29,7 +29,7 @@ abstract class GridFileSet implements Fabric, Config {
 
         this.key = getClass().getSimpleName().toLowerCase(); // from class name
 
-        this.config = MyFarm.childOf(parent.config, "fileset", key);
+        this.config = Greatbone.childOf(parent.config, "fileset", key);
 
         this.parent = parent;
         // register mbean

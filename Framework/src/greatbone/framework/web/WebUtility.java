@@ -1,7 +1,7 @@
 package greatbone.framework.web;
 
 import greatbone.framework.Config;
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import greatbone.framework.util.Roll;
 import org.w3c.dom.Element;
 
@@ -27,7 +27,7 @@ public class WebUtility implements WebMBean, Config {
     final ArrayList<WebHost> hosts = new ArrayList<>(4);
 
     WebUtility() {
-        this.configel = MyFarm.getXmlTopTag("web");
+        this.configel = Greatbone.getXmlTopTag("web");
 
         // load static resources
         statics = new Roll<>(256);

@@ -1,6 +1,6 @@
 package greatbone.framework.grid;
 
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import org.xnio.ChannelListener;
 import org.xnio.OptionMap;
 import org.xnio.Options;
@@ -50,7 +50,7 @@ class GridServer extends GridPeer {
                 .getMap();
 
         // create the server.
-        acceptchan = MyFarm.WORKER.createStreamConnectionServer(soaddr, acceptor, options);
+        acceptchan = Greatbone.WORKER.createStreamConnectionServer(soaddr, acceptor, options);
 
         // start accepting connections
         acceptchan.resumeAccepts();

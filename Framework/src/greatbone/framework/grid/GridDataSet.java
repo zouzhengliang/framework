@@ -1,7 +1,7 @@
 package greatbone.framework.grid;
 
 import greatbone.framework.Config;
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import greatbone.framework.db.DbContext;
 import greatbone.framework.util.Roll;
 import org.w3c.dom.Element;
@@ -51,7 +51,7 @@ public abstract class GridDataSet<K, D extends GridData<D>> implements Fabric, G
     protected GridDataSet(GridUtility grid, int inipages) {
 
         this.key = getClass().getSimpleName().toLowerCase(); // from class name
-        this.config = MyFarm.childOf(grid.config, "dataset", key);
+        this.config = Greatbone.childOf(grid.config, "dataset", key);
 
         this.parent = grid;
         Class<D> datc = (Class<D>) typearg(1); // resolve the data class by type parameter

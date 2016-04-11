@@ -2,7 +2,7 @@ package greatbone.framework.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import greatbone.framework.Config;
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -29,7 +29,7 @@ public class DbUtility implements DbMBean, Config {
 
     DbUtility() {
 
-        config = MyFarm.getXmlTopTag("db");
+        config = Greatbone.getXmlTopTag("db");
 
         NodeList lst = config.getElementsByTagName("source");
 

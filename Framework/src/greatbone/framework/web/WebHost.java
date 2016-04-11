@@ -9,7 +9,7 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.server.protocol.http.HttpOpenListener;
 import io.undertow.util.HttpString;
 import greatbone.framework.Config;
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import org.w3c.dom.Element;
 import org.xnio.*;
 import org.xnio.channels.AcceptingChannel;
@@ -67,7 +67,7 @@ public abstract class WebHost extends WebControl implements HttpHandler, WebHost
         }
 
         // get address settings from configuration, can be null if no configuration for the host is found
-        this.config = MyFarm.childOf(parent.configel, "host", key);
+        this.config = Greatbone.childOf(parent.configel, "host", key);
         this.hostname = (config != null) ? config.getAttribute("hostname") : null;
         this.port = (config != null) ? Integer.parseInt(config.getAttribute("port")) : 80;
         this.address = (hostname == null) ? null : new InetSocketAddress(hostname, port);
@@ -121,7 +121,7 @@ public abstract class WebHost extends WebControl implements HttpHandler, WebHost
         HttpOpenListener openListener = new HttpOpenListener(buffers, undertowOptions);
         openListener.setRootHandler(this);
         ChannelListener<AcceptingChannel<StreamConnection>> acceptListener = ChannelListeners.openListenerAdapter(openListener);
-        server = MyFarm.WORKER.createStreamConnectionServer(address, acceptListener, options);
+        server = Greatbone.WORKER.createStreamConnectionServer(address, acceptListener, options);
         server.resumeAccepts();
     }
 

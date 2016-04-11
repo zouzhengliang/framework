@@ -1,6 +1,6 @@
 package greatbone.framework.grid;
 
-import greatbone.framework.MyFarm;
+import greatbone.framework.Greatbone;
 import greatbone.framework.util.Pool;
 import org.xnio.OptionMap;
 import org.xnio.Options;
@@ -31,7 +31,7 @@ class GridClient extends GridPeer {
 
         pool = new Pool<StreamConnection>(pooled) {
             protected StreamConnection create() throws IOException {
-                return MyFarm.WORKER.openStreamConnection(soaddr, null, OPTIONS).get();
+                return Greatbone.WORKER.openStreamConnection(soaddr, null, OPTIONS).get();
             }
         };
     }
