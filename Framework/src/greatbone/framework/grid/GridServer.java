@@ -61,5 +61,14 @@ class GridServer extends GridPeer {
 
     }
 
+    // handle a query call requested by the remote client
+    <D> void doBrowse() {
+
+    }
+
+    // handle a query call requested by the remote client
+    <D> void doQuery(String dataset, String page, Critera<D> filter) {
+
+    }
 
 }

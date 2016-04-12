@@ -13,31 +13,30 @@ import java.util.function.Predicate;
  * <p/>
  * fork/join on large data partition
  *
- * @param <K> type of key
  * @param <D> type of data entry
  */
-public abstract class GridPage<K, D extends GridData<D>> {
+public abstract class GridPage<D extends GridData<D>> {
 
     // the parent dataset
-    final GridDataSet<K, D> parent;
+    final GridDataSet<D> parent;
 
     // partition ID, can be string, integral or null (mere partition)
-    final K id;
+    final String id;
 
-    GridPage(final GridDataSet<K, D> parent, K id) {
+    GridPage(final GridDataSet<D> parent, String id) {
         this.parent = parent;
         this.id = id;
     }
 
-    public K key() {
+    public Object key() {
         return id;
     }
 
-    abstract D get(K key);
+    abstract D get(String key);
 
-    abstract K put(K key, D data);
+    abstract Object put(String key, D data);
 
-    public D update(K key, Updater<D> updater) {
+    public D update(String key, Updater<D> updater) {
         return null;
     }
 
@@ -57,7 +56,7 @@ public abstract class GridPage<K, D extends GridData<D>> {
         return null;
     }
 
-    GridQuery<K, D> newQuery(Critera<D> filter) {
+    GridQuery<Object, D> newQuery(Critera<D> filter) {
         return new GridQuery<>(this, filter);
     }
 

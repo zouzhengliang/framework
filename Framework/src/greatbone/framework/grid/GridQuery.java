@@ -7,7 +7,7 @@ import java.util.concurrent.ForkJoinTask;
  */
 class GridQuery<K, D extends GridData<D>> extends ForkJoinTask<D> {
 
-    final GridPage<K, D> page;
+    final GridPage<D> page;
 
     final Critera<D> filter;
 
@@ -15,7 +15,7 @@ class GridQuery<K, D extends GridData<D>> extends ForkJoinTask<D> {
     D result;
 
 
-    GridQuery(GridPage<K, D> page, Critera<D> filter) {
+    GridQuery(GridPage<D> page, Critera<D> filter) {
         this.page = page;
         this.filter = filter;
     }

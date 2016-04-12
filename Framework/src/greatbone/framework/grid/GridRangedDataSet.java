@@ -3,14 +3,14 @@ package greatbone.framework.grid;
 /**
  * The partitioning is based on integral key ranges
  */
-public abstract class GridRangedDataSet<K, D extends GridData<D>> extends GridDataSet<K, D> {
+public abstract class GridRangedDataSet<D extends GridData<D>> extends GridDataSet<D> {
 
     protected GridRangedDataSet(GridUtility parent) {
         super(parent, 16);
     }
 
     @Override
-    GridPage<K, D> shard(K key) {
+    GridPage<D> shard(String key) {
 
 
         return null;

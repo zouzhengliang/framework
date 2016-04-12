@@ -5,7 +5,7 @@ package greatbone.framework.grid;
  * <p/>
  * no loading support
  */
-public abstract class GridHashedDataSet<K, D extends GridData<D>> extends GridDataSet<K, D> {
+public abstract class GridHashedDataSet<D extends GridData<D>> extends GridDataSet<D> {
 
     protected GridHashedDataSet(GridUtility grid) {
         super(grid, 8);
@@ -16,11 +16,11 @@ public abstract class GridHashedDataSet<K, D extends GridData<D>> extends GridDa
     }
 
     @Override
-    GridPage<K, D> shard(K key) {
+    GridPage<D> shard(String key) {
         return null;
     }
 
-    public D get(K key) {
+    public D get(Object key) {
         return null;
     }
 

@@ -3,7 +3,7 @@ package greatbone.framework.grid;
 /**
  * A dataset is replicated onto each and every member node.
  */
-public abstract class GridReplicatedDataSet<K, D extends GridData<D>> extends GridDataSet<K, D> {
+public abstract class GridReplicatedDataSet<D extends GridData<D>> extends GridDataSet<D> {
 
     static final int DEFAULT_CAP = 1024 * 4;
 
@@ -22,7 +22,7 @@ public abstract class GridReplicatedDataSet<K, D extends GridData<D>> extends Gr
     }
 
     @Override
-    GridPage<K, D> shard(K key) {
+    GridPage<D> shard(String key) {
         return shard(0); // returns the only partition
     }
 

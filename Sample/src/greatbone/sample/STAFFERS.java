@@ -5,7 +5,7 @@ import greatbone.framework.grid.GridUtility;
 
 /**
  */
-public class STAFFERS extends GridReplicatedDataSet<String, Staffer> {
+public class STAFFERS extends GridReplicatedDataSet<Staffer> {
 
 
     public STAFFERS(GridUtility grid) {

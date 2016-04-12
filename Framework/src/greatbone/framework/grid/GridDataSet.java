@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  * <p/>
  * setup during environment initialization
  */
-public abstract class GridDataSet<K, D extends GridData<D>> implements Fabric, GridDataSetMBean, Config {
+public abstract class GridDataSet<D extends GridData<D>> implements Fabric, GridDataSetMBean, Config {
 
     final GridUtility parent;
 
@@ -39,10 +39,10 @@ public abstract class GridDataSet<K, D extends GridData<D>> implements Fabric, G
     // can be null
     ReadPolicy rpolicy;
 
-    GridPageList<K, D> primary;
+    GridPageList<D> primary;
 
     // copy of neighbor
-    GridPageList<K, D> copy;
+    GridPageList<D> copy;
 
     // configuration xml element
     final Element config;
@@ -117,18 +117,18 @@ public abstract class GridDataSet<K, D extends GridData<D>> implements Fabric, G
     //
     // PAGE OPERATIONS
 
-    GridPage<K, D> shard(int index) {
+    GridPage<D> shard(int index) {
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    void insert(GridPage<K, D> page) {
+    void insert(GridPage<D> page) {
 
     }
 
-    abstract GridPage<K, D> shard(K key);
+    abstract GridPage<D> shard(String key);
 
-    public List<GridQuery<K, D>> query(Critera<K> keyer, Critera<D> filter) {
+    public List<GridQuery<Object, D>> query(Critera<Object> keyer, Critera<D> filter) {
 
         return primary.query(keyer, filter);
     }
@@ -179,13 +179,13 @@ public abstract class GridDataSet<K, D extends GridData<D>> implements Fabric, G
 
     }
 
-    public D create(K key) {
+    public D create(String key) {
         return null;
     }
 
-    public D get(K key) {
+    public D get(String key) {
         // find the target page
-        GridPage<K, D> page = shard(key);
+        GridPage<D> page = shard(key);
         if (page != null) {
             return page.get(key);
         }
@@ -199,12 +199,12 @@ public abstract class GridDataSet<K, D extends GridData<D>> implements Fabric, G
 
 
     // a subclass may treat key differently, it can be full key, partial key, or null
-    public K put(K key, D data) {
+    public Object put(String key, D data) {
         if (key == null) {
 
         }
         // find the target page
-        GridPage<K, D> page = shard(key);
+        GridPage<D> page = shard(key);
         if (page == null) {
             page = new GridLocalPage<>(this, null, 1024);
             insert(page);

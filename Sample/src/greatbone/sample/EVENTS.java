@@ -7,7 +7,7 @@ import greatbone.framework.grid.ReadPolicy;
 /**
  */
 @ReadPolicy()
-public class EVENTS extends GridReplicatedDataSet<Integer, Event> {
+public class EVENTS extends GridReplicatedDataSet<Event> {
 
     public EVENTS(GridUtility grid) {
         super(grid);

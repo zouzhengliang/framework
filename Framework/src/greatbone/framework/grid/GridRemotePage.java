@@ -3,24 +3,24 @@ package greatbone.framework.grid;
 /**
  * This works as proxy of a remote parge.
  */
-class GridRemotePage<K, D extends GridData<D>> extends GridPage<K, D> {
+class GridRemotePage<D extends GridData<D>> extends GridPage<D> {
 
     // cache
     GridClient client;
 
-    GridRemotePage(GridDataSet<K, D> parent, K id, GridClient client) {
+    GridRemotePage(GridDataSet<D> parent, String id, GridClient client) {
         super(parent, id);
 
         this.client = client;
     }
 
     @Override
-    D get(K key) {
+    D get(String key) {
         return null;
     }
 
     @Override
-    K put(K key, D data) {
+    String put(String key, D data) {
         return null
                 ;
     }

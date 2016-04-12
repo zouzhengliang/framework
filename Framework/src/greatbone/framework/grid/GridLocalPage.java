@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 /**
  * A JVM-local data page store that resides off-heap.
  */
-class GridLocalPage<K, D extends GridData<D>> extends GridPage<K, D> implements GridLocalPageMBean {
+class GridLocalPage<D extends GridData<D>> extends GridPage<D> implements GridLocalPageMBean {
 
     // for atomic operation
     static final Unsafe UNSAFE;
@@ -38,7 +38,7 @@ class GridLocalPage<K, D extends GridData<D>> extends GridPage<K, D> implements 
     // actual data entries
     volatile int count;
 
-    GridLocalPage(GridDataSet<K, D> parent, K id, int capacity) {
+    GridLocalPage(GridDataSet<D> parent, String id, int capacity) {
         super(parent, id);
 
         this.entrylen = parent.schema.size;
@@ -120,7 +120,7 @@ class GridLocalPage<K, D extends GridData<D>> extends GridPage<K, D> implements 
     }
 
     @Override
-    D get(K key) {
+    D get(String key) {
         int code = key.hashCode() & 0x7fffffff;
         int idx = buckets.get(code % buckets.length());
         while (idx != -1) {
@@ -137,7 +137,7 @@ class GridLocalPage<K, D extends GridData<D>> extends GridPage<K, D> implements 
     }
 
     @Override
-    K put(K key, D data) {
+    String put(String key, D data) {
         int code = key.hashCode() & 0x7fffffff;
         int bucket = code % buckets.length(); // target bucket
         int idx = buckets.get(bucket);
@@ -181,25 +181,16 @@ class GridLocalPage<K, D extends GridData<D>> extends GridPage<K, D> implements 
         UNSAFE.putIntVolatile(null, addr, v);
     }
 
-    boolean ekey(int index, K key) {
+    boolean ekey(int index, String key) {
         long addr = store + entrylen * index + 12;
-        if (key instanceof String) {
-            String s = (String) key;
-            for (int i = 0; i < s.length(); i++) {
-                char c = s.charAt(i);
-                if (c != UNSAFE.getChar(addr)) {
-                    return false;
-                }
+        String s = (String) key;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c != UNSAFE.getChar(addr)) {
+                return false;
             }
-            return true;
-        } else if (key instanceof Integer) {
-            return (Integer) key == UNSAFE.getInt(addr);
-        } else if (key instanceof Long) {
-            return (Long) key == UNSAFE.getLong(addr);
-        } else if (key instanceof Short) {
-            return (Short) key == UNSAFE.getShort(addr);
         }
-        return false;
+        return true;
     }
 
     void ecopyto(int index, D data) {

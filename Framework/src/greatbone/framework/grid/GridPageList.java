@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * element pages that are sorted in the order of page ID
  */
-class GridPageList<K, D extends GridData<D>> extends SpinWait {
+class GridPageList<D extends GridData<D>> extends SpinWait {
 
     // all element pages that are sorted in the order of page ID
-    GridPage<K, D>[] elements;
+    GridPage<D>[] elements;
     int count;
 
     @SuppressWarnings("unchecked")
@@ -19,9 +19,9 @@ class GridPageList<K, D extends GridData<D>> extends SpinWait {
         elements = new GridPage[cap];
     }
 
-    void insert(GridPage<K, D> v) {
+    void insert(GridPage<D> v) {
 
-        GridPage<K, D>[] array = elements;
+        GridPage<D>[] array = elements;
 
         int low = 0;
         int high = count - 1;
@@ -29,7 +29,7 @@ class GridPageList<K, D extends GridData<D>> extends SpinWait {
         int r = 0;
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            GridPage<K, D> midv = array[mid];
+            GridPage<D> midv = array[mid];
             int cmp = 0;//midv.meet(key);
             if (cmp < 0) low = mid + 1;
             else if (cmp > 0) high = mid - 1;
@@ -45,7 +45,7 @@ class GridPageList<K, D extends GridData<D>> extends SpinWait {
         try {
             int len = elements.length;
             if (count == len) {
-                GridPage<K, D>[] new_ = new GridPage[len * 2];
+                GridPage<D>[] new_ = new GridPage[len * 2];
                 System.arraycopy(elements, 0, new_, 0, len);
                 elements = new_;
             }
@@ -55,13 +55,13 @@ class GridPageList<K, D extends GridData<D>> extends SpinWait {
         }
     }
 
-    public List<GridQuery<K, D>> query(Critera<K> keyer, Critera<D> filter) {
+    public List<GridQuery<Object, D>> query(Critera<Object> keyer, Critera<D> filter) {
         enterRead();
         try {
             // locate pages
-            List<GridQuery<K, D>> lst = null;
+            List<GridQuery<Object, D>> lst = null;
             for (int i = 0; i < count; i++) {
-                GridPage<K, D> v = elements[i];
+                GridPage<D> v = elements[i];
                 if (keyer.test(v.id)) {
                     if (lst == null) lst = new ArrayList<>(16);
                     lst.add(v.newQuery(filter));

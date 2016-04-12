@@ -82,7 +82,7 @@ class GridClient extends GridPeer {
         return null;
     }
 
-    <K, D extends GridData<D>> D query(K dataset, K page, Critera<D> filter) {
+    <D extends GridData<D>> D query(String dataset, String page, Critera<D> filter) {
         StreamConnection conn = null;
         try {
             conn = checkout();
