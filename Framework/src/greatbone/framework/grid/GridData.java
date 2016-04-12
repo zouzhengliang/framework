@@ -10,41 +10,31 @@ import java.io.IOException;
  * The superclass for all strong-typed data entry classes. A data entry points to the attached byte buffer block and acts as a cursor.
  * <p/>
  * Two cases
- * 1) based on memory page store, when used internally
- * 2) based on isolated buffer, used in public API
+ * 1) based on native memory page store, when used internally
+ * 2) based on on-heap buffer, used in public API
+ * <p/>
+ * A data entry has a string key
+ *
+ * @param <D> type of this object
  */
-public abstract class GridData<T extends GridData<T>> implements Printer {
-
-    // schema information
-    GridSchema schema;
+public abstract class GridData<D extends GridData<D>> implements Printer {
 
     // the backing local page
-    final GridLocalPage page;
+    GridLocalPage<D> page;
 
     // the backing byte array
     int[] buckets; // hash buckets
-    final byte[] array;
+    byte[] buffer;
 
     // current index
     int index;
 
-    public GridData() {
-        this(1);
+    void init(int entries) {
+        this.buffer = new byte[schema().size * entries];
     }
 
-    public GridData(int entries) {
-        this.page = null;
-        // initialize the backing byte array
-        GridSchema<T> sch = schema();
-        this.array = new byte[sch.size * entries];
-        this.index = 0;
-    }
-
-    GridData(GridLocalPage page, int index) {
+    void init(GridLocalPage<D> page) {
         this.page = page;
-        this.index = index;
-
-        this.array = null;
     }
 
     public int hash() {
@@ -61,8 +51,6 @@ public abstract class GridData<T extends GridData<T>> implements Printer {
 
     }
 
-    protected abstract GridSchema<T> schema();
-
     public void save(WebContext x) {
     }
 
@@ -70,32 +58,32 @@ public abstract class GridData<T extends GridData<T>> implements Printer {
         if (page != null) {
             return page.eshort(index, off);
         } else {
-            int p = schema.size * index + off;
-            return (short) ((array[p++] << 8) + array[p]);
+            int p = schema().size * index + off;
+            return (short) ((buffer[p++] << 8) + buffer[p]);
         }
     }
 
     void putShort(int off, short v) {
-        int p = schema.size * index + off;
-        array[p++] = (byte) ((v >>> 8) & 0xff);
-        array[p] = (byte) (v & 0xff);
+        int p = schema().size * index + off;
+        buffer[p++] = (byte) ((v >>> 8) & 0xff);
+        buffer[p] = (byte) (v & 0xff);
     }
 
     int getInt(int off) {
         if (page != null) {
             return page.eint(index, off);
         } else {
-            int p = schema.size * index + off;
-            return array[p++] + (array[p++] << 8) + (array[p++] << 16) + (array[p] << 24);
+            int p = schema().size * index + off;
+            return buffer[p++] + (buffer[p++] << 8) + (buffer[p++] << 16) + (buffer[p] << 24);
         }
     }
 
     void putInt(int off, int v) {
-        int p = schema.size * index + off;
-        array[p++] = (byte) (v & 0xff);
-        array[p++] = (byte) ((v >>> 8) & 0xff);
-        array[p++] = (byte) ((v >>> 16) & 0xff);
-        array[p] = (byte) ((v >>> 24) & 0xff);
+        int p = schema().size * index + off;
+        buffer[p++] = (byte) (v & 0xff);
+        buffer[p++] = (byte) ((v >>> 8) & 0xff);
+        buffer[p++] = (byte) ((v >>> 16) & 0xff);
+        buffer[p] = (byte) ((v >>> 24) & 0xff);
     }
 
     String getString(int off) {
@@ -103,13 +91,13 @@ public abstract class GridData<T extends GridData<T>> implements Printer {
             return page.estring(index, off);
         } else {
             StringBuilder sb = null;
-            int p = schema.size * index + off;
-            while (p < schema.size) {
-                char c = (char) ((array[p++] << 8) + array[p++]);
+            int p = schema().size * index + off;
+            while (p < schema().size) {
+                char c = (char) ((buffer[p++] << 8) + buffer[p++]);
                 if (c == 0) {
                     break;
                 } else { // got a valid character
-                    if (sb == null) sb = new StringBuilder(schema.size);
+                    if (sb == null) sb = new StringBuilder(schema().size);
                     sb.append(c);
                 }
             }
@@ -118,11 +106,11 @@ public abstract class GridData<T extends GridData<T>> implements Printer {
     }
 
     void putString(int off, String v) {
-        int p = schema.size * index + off;
+        int p = schema().size * index + off;
         for (int i = 0; i < v.length(); i++) {
             char c = v.charAt(i);
-            array[p++] = (byte) ((c >>> 8) & 0xff);
-            array[p++] = (byte) (c & 0xff);
+            buffer[p++] = (byte) ((c >>> 8) & 0xff);
+            buffer[p++] = (byte) (c & 0xff);
         }
     }
 
@@ -142,5 +130,7 @@ public abstract class GridData<T extends GridData<T>> implements Printer {
     public void print(Out out) throws IOException {
 
     }
+
+    protected abstract GridSchema<D> schema();
 
 }

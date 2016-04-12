@@ -31,11 +31,14 @@ public class Event extends GridData<Event> {
         TEXT.put(this, v);
     }
 
+    //
+    // SCHEMA
+
     @Override
     protected GridSchema<Event> schema() {
         return SCHEMA;
     }
 
-    static final GridSchema<Event> SCHEMA = new GridSchema<>(Event.class);
+    static final GridSchema<Event> SCHEMA = new GridSchema<>(Event.class, 12);
 
 }

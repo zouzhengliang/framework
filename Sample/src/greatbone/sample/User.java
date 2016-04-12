@@ -58,6 +58,6 @@ public class User extends GridData<User> implements Principal {
         return SCHEMA;
     }
 
-    static final GridSchema<User> SCHEMA = new GridSchema<>(User.class);
+    static final GridSchema<User> SCHEMA = new GridSchema<>(User.class,12);
 
 }

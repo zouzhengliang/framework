@@ -37,7 +37,7 @@ public class Item extends GridData<Item> {
         return SCHEMA;
     }
 
-    static final GridSchema<Item> SCHEMA = new GridSchema<>(Item.class);
+    static final GridSchema<Item> SCHEMA = new GridSchema<>(Item.class, 12);
 
 
 }

@@ -45,11 +45,14 @@ public class Staffer extends GridData<Staffer> implements Principal {
         return 0;
     }
 
+    //
+    // SCHEMA
+
     @Override
     protected GridSchema<Staffer> schema() {
         return SCHEMA;
     }
 
-    static final GridSchema<Staffer> SCHEMA = new GridSchema<>(Staffer.class);
+    static final GridSchema<Staffer> SCHEMA = new GridSchema<>(Staffer.class,12);
 
 }

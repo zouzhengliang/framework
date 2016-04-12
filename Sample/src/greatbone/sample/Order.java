@@ -39,12 +39,15 @@ public class Order extends GridData<Order> {
         DETAILS.ID.put(this, v);
     }
 
+    //
+    // SCHEMA
+
     @Override
     protected GridSchema<Order> schema() {
         return SCHEMA;
     }
 
-    static final GridSchema<Order> SCHEMA = new GridSchema<>(Order.class);
+    static final GridSchema<Order> SCHEMA = new GridSchema<>(Order.class, 12);
 
 }
 

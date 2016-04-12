@@ -44,7 +44,7 @@ public class Org extends GridData<Org> implements Principal, Space {
         return SCHEMA;
     }
 
-    static final GridSchema<Org> SCHEMA = new GridSchema<>(Org.class);
+    static final GridSchema<Org> SCHEMA = new GridSchema<>(Org.class,12);
 
 }
 

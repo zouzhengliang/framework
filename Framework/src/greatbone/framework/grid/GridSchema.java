@@ -15,11 +15,11 @@ public class GridSchema<D extends GridData<D>> {
     // each data entry reserves 12 leading bytes for controlling purposes (FLAGS, HASH, NEXT)
     static final int RESERVED = 12;
 
-    // the default data object constructor, for a single entry
+    // the default data object constructor
     final Constructor<D> ctor;
 
-    // the default data object constructor, for a specified number of entries
-//    final Constructor<D> ctorn;
+    // length of the ascii string key
+    final int keylen;
 
     // definitions of columns
     final Roll<String, GridColumn> columns = new Roll<>(64);
@@ -30,15 +30,16 @@ public class GridSchema<D extends GridData<D>> {
     // SQL statements
     String select, insert, update, delete;
 
-    public GridSchema(Class<D> datc) {
+    public GridSchema(Class<D> datc, int keylen) {
 
         // resolve the data class by type parameter
         try {
             this.ctor = datc.getConstructor();
-//            this.ctorn = datclass.getConstructor(Integer.class);
         } catch (NoSuchMethodException e) {
             throw new GridSchemaException(e.getMessage());
         }
+
+        this.keylen = keylen;
 
         int offset = RESERVED;
 
