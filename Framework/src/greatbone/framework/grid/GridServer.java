@@ -10,15 +10,15 @@ import org.xnio.channels.AcceptingChannel;
 import java.io.IOException;
 
 /**
- * The local server connectivity.
+ * The local server connectivity and RPC endpoint..
  */
 class GridServer extends GridPeer {
 
     // the connection acceptor
     volatile AcceptingChannel<? extends StreamConnection> acceptchan;
 
-    GridServer(GridUtility grid, String ip) {
-        super(grid, ip);
+    GridServer(GridUtility grid, String interf) {
+        super(grid, interf);
     }
 
     public void start() throws IOException {
@@ -28,13 +28,13 @@ class GridServer extends GridPeer {
             try {
                 // channel is ready to accept zero or more connections
                 for (; ; ) {
-                    final StreamConnection accepted = acceptchan.accept();
-                    if (accepted != null) {
+                    final StreamConnection conn = acceptchan.accept();
+                    if (conn != null) {
                         // stream channel has been accepted at this stage.
-                        accepted.getSourceChannel().setReadListener(srcchan -> {
-                            //To change body of implemented methods use File | Settings | File Templates.
-                            GridContext context = new GridContext(accepted);
-                            handle(context);
+                        conn.getSourceChannel().setReadListener(srcchan -> {
+                            //
+                            GridContext gc = new GridContext(conn);
+                            handle(gc);
                         });
                     }
                 }
@@ -50,7 +50,7 @@ class GridServer extends GridPeer {
                 .getMap();
 
         // create the server.
-        acceptchan = Greatbone.WORKER.createStreamConnectionServer(soaddr, acceptor, options);
+        acceptchan = Greatbone.WORKER.createStreamConnectionServer(address, acceptor, options);
 
         // start accepting connections
         acceptchan.resumeAccepts();

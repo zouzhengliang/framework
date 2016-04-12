@@ -27,7 +27,7 @@ class GridRemotePage<K, D extends GridData<D>> extends GridPage<K, D> {
 
     @Override
     D search(Critera<D> filter) {
-        return client.search(parent.key, id, filter);
+        return client.query(parent.key, id, filter);
     }
 
 }

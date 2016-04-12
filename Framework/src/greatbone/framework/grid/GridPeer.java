@@ -15,9 +15,9 @@ abstract class GridPeer {
     // the container grid instance
     final GridUtility grid;
 
-    final String addr;
+    final String interf;
 
-    final InetSocketAddress soaddr;
+    final InetSocketAddress address;
 
     // the peer next to this
     GridPeer next;
@@ -25,14 +25,14 @@ abstract class GridPeer {
     // is currently available
     boolean available;
 
-    GridPeer(GridUtility grid, String addr) {
+    GridPeer(GridUtility grid, String interf) {
         this.grid = grid;
-        this.addr = addr;
-        this.soaddr = new InetSocketAddress(addr, 8192);
+        this.interf = interf;
+        this.address = new InetSocketAddress(interf, 8192);
     }
 
-    public String addr() {
-        return addr;
+    public String interf() {
+        return interf;
     }
 
     public void callasd() throws IOException {

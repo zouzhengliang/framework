@@ -2,6 +2,8 @@ package greatbone.framework.grid;
 
 import io.undertow.server.DefaultByteBufferPool;
 import org.xnio.StreamConnection;
+import org.xnio.conduits.ConduitStreamSinkChannel;
+import org.xnio.conduits.ConduitStreamSourceChannel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,60 +11,74 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 /**
- * A grid call & reply exchange.
+ * A call & reply exchange between two grid endpoints.
  */
 class GridContext {
 
-    static final DefaultByteBufferPool RPOOL = new DefaultByteBufferPool(true, 64, -1, 4);
+    // buffer pool for calls, replies and streams
+    static final DefaultByteBufferPool
+            CALLP = new DefaultByteBufferPool(true, 1024 * 64, -1, 4),
+            REPLYP = new DefaultByteBufferPool(true, 64, -1, 4),
+            STREAMP = new DefaultByteBufferPool(true, 64, -1, 4);
 
-    static final DefaultByteBufferPool CPOOL = new DefaultByteBufferPool(true, 1024 * 64, -1, 4);
+    final StreamConnection conn;
 
-    StreamConnection connection;
+    // the header part of the call
+    final ByteBuffer call;
 
-    ByteBuffer callhead;
+    // input stream for call headers
+    InputStream istream;
 
-    ByteBuffer cbody;
+    // the header part of the reply
+    final ByteBuffer reply;
 
-    InputStream istream = new InputStream() {
-        @Override
-        public int read() throws IOException {
-            return 0;
+    // output stream for reply body
+    OutputStream ostream;
+
+
+    GridContext(StreamConnection conn) {
+        this.conn = conn;
+        this.call = CALLP.allocate().getBuffer();
+        this.reply = REPLYP.allocate().getBuffer();
+    }
+
+    final InputStream getInputStream() {
+        if (istream == null) {
+            istream = new InputStream() {
+                final ConduitStreamSourceChannel chan = conn.getSourceChannel();
+                ByteBuffer buf;
+
+                @Override
+                public int read() throws IOException {
+                    return 0;
+                }
+            };
         }
-    };
+        return istream;
+    }
 
-    ByteBuffer replyhead;
+    final OutputStream getOutputStream() {
+        if (ostream == null) {
+            final OutputStream ostream = new OutputStream() {
+                final ConduitStreamSinkChannel chan = conn.getSinkChannel();
+                ByteBuffer buf;
 
-
-    ByteBuffer rbody;
-
-    OutputStream ostream = new OutputStream() {
-        @Override
-        public void write(int b) throws IOException {
-
+                @Override
+                public void write(int b) throws IOException {
+                    chan.write(buf);
+                }
+            };
         }
-    };
-
-
-    GridContext(StreamConnection connection) {
-        this.connection = connection;
-        this.callhead = CPOOL.allocate().getBuffer();
-        this.replyhead = RPOOL.allocate().getBuffer();
+        return ostream;
     }
 
-    void send(StreamConnection conn) throws IOException {
-        conn.getSinkChannel().write(cbody);
-    }
-
-    void send(StreamConnection conn, ByteBuffer add) throws IOException {
-        conn.getSinkChannel().write(new ByteBuffer[]{cbody, add});
-    }
-
-    void receive(StreamConnection conn) throws IOException {
-        conn.getSourceChannel().read(cbody);
-    }
-
-    void receive(StreamConnection conn, ByteBuffer add) throws IOException {
-        conn.getSourceChannel().read(new ByteBuffer[]{cbody, add});
+    void close() throws IOException {
+        if (istream != null) {
+            istream.close();
+        }
+        if (ostream != null) {
+            ostream.close();
+        }
     }
 
 }
