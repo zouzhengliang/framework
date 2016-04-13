@@ -54,7 +54,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
         this.config = Greatbone.childOf(grid.config, "dataset", key);
 
         this.parent = grid;
-        Class<D> datc = (Class<D>) typearg(1); // resolve the data class by type parameter
+        Class<D> datc = (Class<D>) typearg(0); // resolve the data class by type parameter
         this.schema = grid.schema(datc);
         // register mbean
         try {

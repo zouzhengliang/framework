@@ -8,7 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 /**
- * The structural information for a data entry.
+ * The meta information for a data entry.
+ *
+ * @param <D> data object
  */
 public class GridSchema<D extends GridData<D>> {
 
@@ -41,7 +43,7 @@ public class GridSchema<D extends GridData<D>> {
 
         this.keylen = keylen;
 
-        int offset = RESERVED;
+        int offset = RESERVED + keylen;
 
         // collect column declaration fields
         for (final Field fld : datc.getDeclaredFields()) {
