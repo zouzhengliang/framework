@@ -195,15 +195,15 @@ class GridLocalPage<D extends GridData<D>> extends GridPage<D> implements GridLo
 
     void ecopyto(int index, D data) {
         long addr = store + entrylen * index;
-        UNSAFE.copyMemory(null, addr, data.buffer, 16, entrylen);
+        UNSAFE.copyMemory(null, addr, data.content, 16, entrylen);
     }
 
     void ecopyfrom(int index, D data) {
         long addr = store + entrylen * index;
-        UNSAFE.copyMemory(data.buffer, 16, null, addr, entrylen);
+        UNSAFE.copyMemory(data.content, 16, null, addr, entrylen);
     }
 
-    short eshort(int index, int off) {
+    short getShort(int index, int off) {
         long addr = store + entrylen * index + off;
         return UNSAFE.getShort(addr);
     }
