@@ -56,7 +56,7 @@ public abstract class GridPage<D extends GridData<D>> {
         return null;
     }
 
-    GridQuery<Object, D> newQuery(Critera<D> filter) {
+    GridQuery<D> newQuery(Critera<D> filter) {
         return new GridQuery<>(this, filter);
     }
 

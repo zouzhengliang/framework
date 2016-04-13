@@ -4,18 +4,19 @@ import greatbone.framework.util.SpinWait;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
- * element pages that are sorted in the order of page ID
+ * A collection of element pages ordered by ID.
  */
-class GridPageList<D extends GridData<D>> extends SpinWait {
+class GridPageLot<D extends GridData<D>> extends SpinWait {
 
-    // all element pages that are sorted in the order of page ID
+    // all element pages
     GridPage<D>[] elements;
     int count;
 
     @SuppressWarnings("unchecked")
-    GridPageList(int cap) {
+    GridPageLot(int cap) {
         elements = new GridPage[cap];
     }
 
@@ -55,11 +56,11 @@ class GridPageList<D extends GridData<D>> extends SpinWait {
         }
     }
 
-    public List<GridQuery<Object, D>> query(Critera<Object> keyer, Critera<D> filter) {
+    public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
         enterRead();
         try {
             // locate pages
-            List<GridQuery<Object, D>> lst = null;
+            List<GridQuery<D>> lst = null;
             for (int i = 0; i < count; i++) {
                 GridPage<D> v = elements[i];
                 if (keyer.test(v.id)) {

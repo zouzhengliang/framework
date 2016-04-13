@@ -3,9 +3,10 @@ package greatbone.framework.grid;
 import java.io.Serializable;
 
 /**
+ *
  */
-public interface Critera<P> extends Serializable {
+public interface Critera<D extends GridData<D>> extends Serializable {
 
-    boolean test(P value);
+    boolean test(D value);
 
 }

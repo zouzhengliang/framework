@@ -4,15 +4,15 @@ package greatbone.framework.grid;
  */
 public class INT extends GridColumn<Integer> {
 
-    public int get(GridData data) {
-        return data.getInt(offset);
+    public int get(GridData dat) {
+        return dat.getInt(offset);
     }
 
-    public void put(GridData data, int v) {
-        data.putInt(offset, v);
+    public void put(GridData dat, int v) {
+        dat.putInt(offset, v);
     }
 
-    public final int size() {
+    final int size() {
         return 4;
     }
 

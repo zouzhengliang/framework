@@ -86,18 +86,19 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         buffer[p] = (byte) ((v >>> 24) & 0xff);
     }
 
-    String getString(int off) {
+    String getString(int off, int len) {
+        int siz = schema().size;
         if (page != null) {
             return page.estring(index, off);
         } else {
             StringBuilder sb = null;
-            int p = schema().size * index + off;
-            while (p < schema().size) {
+            int p = siz * index + off;
+            while (p < len) {
                 char c = (char) ((buffer[p++] << 8) + buffer[p++]);
                 if (c == 0) {
                     break;
                 } else { // got a valid character
-                    if (sb == null) sb = new StringBuilder(schema().size);
+                    if (sb == null) sb = new StringBuilder(siz);
                     sb.append(c);
                 }
             }
@@ -105,11 +106,41 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         }
     }
 
-    void putString(int off, String v) {
+    void putString(int off, String v, int len) {
         int p = schema().size * index + off;
-        for (int i = 0; i < v.length(); i++) {
+        int min = Math.min(len, v.length());
+        for (int i = 0; i < min; i++) {
             char c = v.charAt(i);
             buffer[p++] = (byte) ((c >>> 8) & 0xff);
+            buffer[p++] = (byte) (c & 0xff);
+        }
+    }
+
+    String getAscii(int off, int len) {
+        int siz = schema().size;
+        if (page != null) {
+            return page.estring(index, off);
+        } else {
+            StringBuilder sb = null;
+            int p = siz * index + off;
+            while (p < len) {
+                char c = (char) buffer[p++];
+                if (c == 0) {
+                    break;
+                } else { // got a valid character
+                    if (sb == null) sb = new StringBuilder(siz);
+                    sb.append(c);
+                }
+            }
+            return (sb == null) ? null : sb.toString();
+        }
+    }
+
+    void putAscii(int off, String v, int len) {
+        int p = schema().size * index + off;
+        int min = Math.min(len, v.length());
+        for (int i = 0; i < min; i++) {
+            char c = v.charAt(i);
             buffer[p++] = (byte) (c & 0xff);
         }
     }

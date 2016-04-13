@@ -17,6 +17,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.function.Predicate;
 
 /**
  * A data collection of particular data class.
@@ -39,10 +40,10 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     // can be null
     ReadPolicy rpolicy;
 
-    GridPageList<D> primary;
+    GridPageLot<D> primary;
 
     // copy of neighbor
-    GridPageList<D> copy;
+    GridPageLot<D> copy;
 
     // configuration xml element
     final Element config;
@@ -66,7 +67,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         // prepare page table
 
-        this.primary = new GridPageList<>(inipages);
+        this.primary = new GridPageLot<>(inipages);
 
     }
 
@@ -128,7 +129,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     abstract GridPage<D> shard(String key);
 
-    public List<GridQuery<Object, D>> query(Critera<Object> keyer, Critera<D> filter) {
+    public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
 
         return primary.query(keyer, filter);
     }

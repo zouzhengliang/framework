@@ -17,13 +17,15 @@ public class GridSchema<D extends GridData<D>> {
     // each data entry reserves 12 leading bytes for controlling purposes (FLAGS, HASH, NEXT)
     static final int RESERVED = 12;
 
+    static final String KEY_COL = "key";
+
     // the default data object constructor
     final Constructor<D> ctor;
 
-    // length of the ascii string key
-    final int keylen;
+    // definition of the key column
+    final KEY keycol;
 
-    // definitions of columns
+    // definitions of regular columns
     final Roll<String, GridColumn> columns = new Roll<>(64);
 
     // total size of a data entry, including reserved bytes
@@ -41,11 +43,13 @@ public class GridSchema<D extends GridData<D>> {
             throw new GridSchemaException(e.getMessage());
         }
 
-        this.keylen = keylen;
+        KEY keycol = new KEY(keylen);
+        keycol.init(KEY_COL, RESERVED);
+        this.keycol = keycol;
 
-        int offset = RESERVED + keylen;
+        // collect column declarations
 
-        // collect column declaration fields
+        int offset = keycol.tail();
         for (final Field fld : datc.getDeclaredFields()) {
             Class<?> type = fld.getType();
             int mod = fld.getModifiers();

@@ -5,24 +5,24 @@ package greatbone.framework.grid;
  */
 public class STRING extends GridColumn<String> {
 
-    int length;
+    final int len;
 
     public STRING(int len) {
-        this.length = len;
+        this.len = len;
     }
 
-    public String get(GridData data) {
-        return data.getString(offset);
+    public String get(GridData dat) {
+        return dat.getString(offset, len);
     }
 
-    public void put(GridData data, String v) {
-        data.putString(offset, v);
+    public void put(GridData dat, String v) {
+        dat.putString(offset, v, len);
     }
 
 
     @Override
     public int size() {
-        return length * 2; // UTF-16 encoded
+        return len * 2; // UTF-16 encoded
     }
 
     public int compare(GridData data, String v) {

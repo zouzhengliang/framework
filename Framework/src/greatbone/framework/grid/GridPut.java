@@ -5,7 +5,7 @@ import java.util.concurrent.ForkJoinTask;
 /**
  * A put operation task that works on a particular page
  */
-class GridPut<K, D extends GridData<D>> extends ForkJoinTask<D> {
+class GridPut<D extends GridData<D>> extends ForkJoinTask<D> {
 
     final GridPage<D> page;
 

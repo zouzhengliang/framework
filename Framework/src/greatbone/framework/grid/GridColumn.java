@@ -5,23 +5,34 @@ package greatbone.framework.grid;
  */
 abstract class GridColumn<T> {
 
+    // lowercase name
     String name;
+
+    // quoted name, used in database
+    String qname;
 
     int origin;
 
     int offset;
 
-    public final String name() {
+    final String name() {
         return name;
     }
 
+    final String qname() {
+        return qname;
+    }
+
     void init(String name, int offset) {
-        this.name = name;
+        this.name = name.toLowerCase();
+        this.qname = "\"" + name + "\"";
         this.offset = offset;
     }
 
-    public int size() {
-        return 0;
+    abstract int size();
+
+    final int tail() {
+        return offset + size();
     }
 
 }
