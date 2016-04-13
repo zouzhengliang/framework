@@ -30,7 +30,8 @@ import java.util.function.Predicate;
  */
 public abstract class GridDataSet<D extends GridData<D>> implements Fabric, GridDataSetMBean, Config {
 
-    final GridUtility parent;
+    // the container grid instance
+    final GridUtility grid;
 
     final String key;
 
@@ -38,7 +39,9 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     final GridSchema<D> schema;
 
     // can be null
-    ReadPolicy rpolicy;
+    ReadPolicy readpol;
+
+    WritePolicy writepol;
 
     GridPageLot<D> primary;
 
@@ -54,7 +57,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
         this.key = getClass().getSimpleName().toLowerCase(); // from class name
         this.config = Greatbone.childOf(grid.config, "dataset", key);
 
-        this.parent = grid;
+        this.grid = grid;
         Class<D> datc = (Class<D>) typearg(0); // resolve the data class by type parameter
         this.schema = grid.schema(datc);
         // register mbean
