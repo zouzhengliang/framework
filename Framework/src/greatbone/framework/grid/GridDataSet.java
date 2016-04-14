@@ -41,10 +41,10 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     // annotated cache policy, can be null
     CachePolicy cachepol;
 
-    GridShardLot<D> primary;
+    GridPageLot<D> primary;
 
     // copy of the preceding neighbor's local pages
-    GridShardLot<D> copy;
+    GridPageLot<D> copy;
 
     // configuration xml element
     final Element config;
@@ -68,7 +68,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         // prepare page table
 
-        this.primary = new GridShardLot<>(inipages);
+        this.primary = new GridPageLot<>(inipages);
 
     }
 
@@ -119,16 +119,16 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     //
     // PAGE OPERATIONS
 
-    GridAbstractPage<D> shard(int index) {
+    GridPage<D> shard(int index) {
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    void insert(GridAbstractPage<D> page) {
+    void insert(GridPage<D> page) {
 
     }
 
-    abstract GridAbstractPage<D> shard(String key);
+    abstract GridPage<D> shard(String key);
 
     public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
 
@@ -187,7 +187,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     public D get(String key) {
         // find the target page
-        GridAbstractPage<D> page = shard(key);
+        GridPage<D> page = shard(key);
         if (page != null) {
             return page.get(key);
         }
@@ -206,9 +206,9 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         }
         // find the target page
-        GridAbstractPage<D> page = shard(key);
+        GridPage<D> page = shard(key);
         if (page == null) {
-            page = new GridPage<>(this, null, 1024);
+            page = new GridPageX<>(this, null, 1024);
             insert(page);
         }
         page.put(key, data);

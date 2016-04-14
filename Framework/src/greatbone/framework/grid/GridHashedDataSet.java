@@ -16,7 +16,7 @@ public abstract class GridHashedDataSet<D extends GridData<D>> extends GridDataS
     }
 
     @Override
-    GridAbstractPage<D> shard(String key) {
+    GridPage<D> shard(String key) {
         return null;
     }
 

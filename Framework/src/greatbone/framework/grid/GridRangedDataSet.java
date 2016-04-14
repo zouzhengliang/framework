@@ -10,7 +10,7 @@ public abstract class GridRangedDataSet<D extends GridData<D>> extends GridDataS
     }
 
     @Override
-    GridAbstractPage<D> shard(String key) {
+    GridPage<D> shard(String key) {
 
 
         return null;

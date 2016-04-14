@@ -21,7 +21,7 @@ abstract class GridFileSet implements Fabric, Config {
     final Element config;
 
     final SpinWait sync = new SpinWait();
-    GridAbstractFolder[] shards;
+    GridFolder[] shards;
     int count;
 
     @SuppressWarnings("unchecked")
@@ -40,7 +40,7 @@ abstract class GridFileSet implements Fabric, Config {
         } catch (Exception e) {
         }
 
-        shards = new GridAbstractFolder[capacity];
+        shards = new GridFolder[capacity];
 
     }
 
@@ -53,7 +53,7 @@ abstract class GridFileSet implements Fabric, Config {
 
     }
 
-    GridAbstractFolder page(int index) {
+    GridFolder page(int index) {
         sync.enterRead();
         try {
             return shards[index];
@@ -63,12 +63,12 @@ abstract class GridFileSet implements Fabric, Config {
     }
 
     @SuppressWarnings("unchecked")
-    void insert(GridAbstractFolder page) {
+    void insert(GridFolder page) {
         sync.enterWrite();
         try {
             int len = shards.length;
             if (count == len) {
-                GridAbstractFolder[] new_ = new GridAbstractFolder[len * 2];
+                GridFolder[] new_ = new GridFolder[len * 2];
                 System.arraycopy(shards, 0, new_, 0, len);
                 shards = new_;
             }

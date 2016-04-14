@@ -2,20 +2,18 @@ package greatbone.framework.grid;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * evictable file  cache
  */
-class GridAbstractFolder {
+class GridFolderX extends GridFolder implements GridFolderXMBean {
 
     String name;
 
-    final ConcurrentHashMap<String, GridFile> cache;
-
-    GridAbstractFolder(int capacity) {
-        cache = new ConcurrentHashMap<>(capacity);
+    GridFolderX(int capacity) {
+        super(capacity);
     }
+
 
     public GridFile get(String key) throws IOException {
         GridFile info = cache.get(key);
