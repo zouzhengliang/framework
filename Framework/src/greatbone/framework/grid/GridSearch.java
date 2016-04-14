@@ -11,13 +11,16 @@ class GridSearch<D extends GridData<D>> extends ForkJoinTask<D> {
 
     final Critera<D> filter;
 
+    final boolean ascending;
+
     // return data
     D result;
 
 
-    GridSearch(GridPage<D> page, Critera<D> filter) {
+    GridSearch(GridPage<D> page, Critera<D> filter, boolean ascending) {
         this.page = page;
         this.filter = filter;
+        this.ascending = ascending;
     }
 
     @Override

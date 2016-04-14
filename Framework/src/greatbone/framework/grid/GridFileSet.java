@@ -12,7 +12,7 @@ import java.lang.management.ManagementFactory;
 /**
  * cache of underlying local file system files. off-heap memory allocation
  */
-abstract class GridFileSet implements Fabric, Config {
+public abstract class GridFileSet implements Fabric, Config {
 
     final GridUtility parent;
 

@@ -37,10 +37,10 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     // annotated cache policy, can be null
     CachePolicy cachepol;
 
-    GridPageLot<D> primary;
+    GridPages<D> primary;
 
     // copy of the preceding neighbor's local pages
-    GridPageLot<D> copy;
+    GridPages<D> copy;
 
     // configuration xml element
     final Element config;
@@ -64,7 +64,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         // prepare page table
 
-        this.primary = new GridPageLot<>(inipages);
+        this.primary = new GridPages<>(inipages);
 
     }
 
