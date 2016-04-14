@@ -1,14 +1,14 @@
 package greatbone.framework.grid;
 
 /**
- * This works as proxy of a remote parge.
+ * A stub works as proxy of a remote parge.
  */
-class GridRemotePage<D extends GridData<D>> extends GridPage<D> {
+class GridStub<D extends GridData<D>> extends GridShard<D> {
 
     // cache
     GridClient client;
 
-    GridRemotePage(GridDataSet<D> parent, String id, GridClient client) {
+    GridStub(GridDataSet<D> parent, String id, GridClient client) {
         super(parent, id);
 
         this.client = client;
@@ -20,13 +20,12 @@ class GridRemotePage<D extends GridData<D>> extends GridPage<D> {
     }
 
     @Override
-    String put(String key, D data) {
-        return null
-                ;
+    D put(String key, D dat) {
+        return null;
     }
 
     @Override
-    D search(Critera<D> filter) {
+    D query(Critera<D> filter) {
         return client.query(parent.key, id, filter);
     }
 
