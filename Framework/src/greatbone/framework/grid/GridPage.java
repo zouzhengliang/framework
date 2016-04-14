@@ -9,9 +9,9 @@ import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
- * A JVM-local data page store that resides off-heap.
+ * A JVM-local data page on native memory (off-heap).
  */
-class GridPage<D extends GridData<D>> extends GridShard<D> implements GridLocalPageMBean {
+class GridPage<D extends GridData<D>> extends GridAbstractPage<D> implements GridPageMBean {
 
     // for atomic operation
     static final Unsafe UNSAFE;
@@ -125,11 +125,11 @@ class GridPage<D extends GridData<D>> extends GridShard<D> implements GridLocalP
         int idx = buckets.get(code % buckets.length());
         while (idx != -1) {
             if (code == ecode(idx) && ekey(idx, key)) { // test hash-plus-key equality
-                D data = parent.create();
-//                data.page = this;
-//                data.index = idx;
-                ecopyto(idx, data);
-                return data;
+                D dat = parent.create();
+                dat.page = this;
+                dat.index = idx;
+                ecopyto(idx, dat);
+                return dat;
             }
             idx = enext(idx);
         }

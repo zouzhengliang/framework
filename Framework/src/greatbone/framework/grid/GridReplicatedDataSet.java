@@ -22,7 +22,7 @@ public abstract class GridReplicatedDataSet<D extends GridData<D>> extends GridD
     }
 
     @Override
-    GridShard<D> shard(String key) {
+    GridAbstractPage<D> shard(String key) {
         return shard(0); // returns the only partition
     }
 

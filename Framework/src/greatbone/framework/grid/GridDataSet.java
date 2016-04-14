@@ -113,22 +113,22 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     }
 
     public D create() {
-        return schema.newObj();
+        return schema.instantiate();
     }
 
     //
     // PAGE OPERATIONS
 
-    GridShard<D> shard(int index) {
+    GridAbstractPage<D> shard(int index) {
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    void insert(GridShard<D> page) {
+    void insert(GridAbstractPage<D> page) {
 
     }
 
-    abstract GridShard<D> shard(String key);
+    abstract GridAbstractPage<D> shard(String key);
 
     public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
 
@@ -187,7 +187,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     public D get(String key) {
         // find the target page
-        GridShard<D> page = shard(key);
+        GridAbstractPage<D> page = shard(key);
         if (page != null) {
             return page.get(key);
         }
@@ -206,7 +206,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         }
         // find the target page
-        GridShard<D> page = shard(key);
+        GridAbstractPage<D> page = shard(key);
         if (page == null) {
             page = new GridPage<>(this, null, 1024);
             insert(page);

@@ -18,7 +18,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
 
     // the associated data page
     // it is the backing store if local page and the buffer field is null
-    GridShard<D> page;
+    GridAbstractPage<D> page;
 
     // the byte array that contains contents of data entries
     byte[] content;

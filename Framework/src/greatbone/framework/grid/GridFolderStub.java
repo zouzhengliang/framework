@@ -6,11 +6,11 @@ import java.nio.file.Paths;
 /**
  * evictable file  cache
  */
-class GridLocalFolder extends GridFolder {
+class GridFolderStub extends GridAbstractFolder {
 
     String name;
 
-    GridLocalFolder(int capacity) {
+    GridFolderStub(int capacity) {
         super(capacity);
     }
 

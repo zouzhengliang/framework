@@ -3,12 +3,12 @@ package greatbone.framework.grid;
 /**
  * A stub works as proxy of a remote parge.
  */
-class GridStub<D extends GridData<D>> extends GridShard<D> {
+class GridPageStub<D extends GridData<D>> extends GridAbstractPage<D> {
 
     // cache
     GridClient client;
 
-    GridStub(GridDataSet<D> parent, String id, GridClient client) {
+    GridPageStub(GridDataSet<D> parent, String id, GridClient client) {
         super(parent, id);
 
         this.client = client;

@@ -12,11 +12,11 @@ public abstract class GridPartedDataSet<D extends GridData<D>> extends GridDataS
     }
 
     @Override
-    public GridShard<D> shard(String key) {
+    public GridAbstractPage<D> shard(String key) {
         return null;
     }
 
-    protected List<GridShard<D>> targets(String keypre) {
+    protected List<GridAbstractPage<D>> targets(String keypre) {
         return null;
     }
 

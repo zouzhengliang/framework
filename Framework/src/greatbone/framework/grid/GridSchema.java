@@ -74,19 +74,9 @@ public class GridSchema<D extends GridData<D>> {
         this.size = offset;
     }
 
-    D newObj() {
+    D instantiate() {
         try {
             return ctor.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    D newObj(int entries) {
-        try {
-            return ctor.newInstance(entries);
         } catch (InstantiationException | IllegalAccessException e) {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
