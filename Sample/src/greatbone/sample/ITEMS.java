@@ -1,12 +1,12 @@
 package greatbone.sample;
 
+import greatbone.framework.grid.CachePolicy;
 import greatbone.framework.grid.GridPartedDataSet;
 import greatbone.framework.grid.GridUtility;
-import greatbone.framework.grid.ReadPolicy;
 
 /**
  */
-@ReadPolicy()
+@CachePolicy
 public class ITEMS extends GridPartedDataSet<Item> {
 
     public ITEMS(GridUtility grid) {

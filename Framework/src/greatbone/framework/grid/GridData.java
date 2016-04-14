@@ -18,7 +18,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
 
     // the associated data page
     // it is the backing store if local page and the buffer field is null
-    GridPage<D> page;
+    GridShard<D> page;
 
     // the byte array that contains contents of data entries
     byte[] content;
@@ -34,7 +34,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         this.content = new byte[schema().size * capacity];
     }
 
-    void init(GridLocalPage<D> page) {
+    void init(GridPage<D> page) {
         this.page = page;
     }
 
@@ -60,7 +60,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
             int p = schema().size * index + off;
             return (short) ((content[p++] << 8) + content[p]);
         } else {
-            return ((GridLocalPage<D>) page).getShort(index, off);
+            return ((GridPage<D>) page).getShort(index, off);
         }
     }
 
@@ -77,7 +77,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
             int p = schema().size * index + off;
             return content[p++] + (content[p++] << 8) + (content[p++] << 16) + (content[p] << 24);
         } else {
-            return ((GridLocalPage<D>) page).eint(index, off);
+            return ((GridPage<D>) page).eint(index, off);
         }
     }
 
@@ -98,7 +98,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
     String getString(int off, int len) {
         int siz = schema().size;
         if (page != null) {
-            return ((GridLocalPage<D>) page).estring(index, off);
+            return ((GridPage<D>) page).estring(index, off);
         } else {
             StringBuilder sb = null;
             int p = siz * index + off;
@@ -145,7 +145,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
             }
             return (sb == null) ? null : sb.toString();
         } else {
-            return ((GridLocalPage<D>) page).estring(index, off);
+            return ((GridPage<D>) page).estring(index, off);
         }
     }
 

@@ -1,12 +1,12 @@
 package greatbone.sample;
 
+import greatbone.framework.grid.CachePolicy;
 import greatbone.framework.grid.GridReplicatedDataSet;
 import greatbone.framework.grid.GridUtility;
-import greatbone.framework.grid.ReadPolicy;
 
 /**
  */
-@ReadPolicy()
+@CachePolicy
 public class EVENTS extends GridReplicatedDataSet<Event> {
 
     public EVENTS(GridUtility grid) {

@@ -33,10 +33,10 @@ public class GridUtility implements GridMBean, Config {
     final Roll<Class<? extends GridData>, GridSchema> schemas = new Roll<>(64);
 
     // registered datasets
-    final Roll<Class<? extends GridDataSet>, GridDataSet> datasets = new Roll<>(64);
+    final Roll<String, GridDataSet> datasets = new Roll<>(64);
 
     // registered filesets
-    final Roll<Class<? extends GridFileSet>, GridFileSet> filesets = new Roll<>(16);
+    final Roll<String, GridFileSet> filesets = new Roll<>(16);
 
     //
     // CONFIGURED
@@ -106,14 +106,14 @@ public class GridUtility implements GridMBean, Config {
                 Class<? extends GridDataSet> c = setc.asSubclass(GridDataSet.class);
                 Constructor<? extends GridDataSet> ctor = c.getConstructor(GridUtility.class);
                 GridDataSet dataset = ctor.newInstance(this);
-                datasets.put(c, dataset);
+                datasets.put(dataset.key, dataset);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         } else {
             // create a fileset instance
             Class<? extends GridFileSet> c = setc.asSubclass(GridFileSet.class);
-            filesets.put(c, null);
+            filesets.put(null, null);
         }
     }
 
@@ -214,7 +214,13 @@ public class GridUtility implements GridMBean, Config {
 
     @SuppressWarnings("unchecked")
     <T extends GridDataSet> T dataset(Class<T> clazz) {
-        return (T) datasets.get(clazz);
+        String key = clazz.getSimpleName().toLowerCase();
+        return (T) datasets.get(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    <T extends GridDataSet> T dataset(String key) {
+        return (T) datasets.get(key);
     }
 
     public static <T extends GridDataSet> T getDataSet(Class<T> clazz) {

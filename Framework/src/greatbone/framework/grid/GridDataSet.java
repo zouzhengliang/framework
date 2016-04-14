@@ -38,15 +38,13 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     // the data schema
     final GridSchema<D> schema;
 
-    // can be null
-    ReadPolicy readpol;
+    // annotated cache policy, can be null
+    CachePolicy cachepol;
 
-    WritePolicy writepol;
+    GridShardLot<D> primary;
 
-    GridPageLot<D> primary;
-
-    // copy of neighbor
-    GridPageLot<D> copy;
+    // copy of the preceding neighbor's local pages
+    GridShardLot<D> copy;
 
     // configuration xml element
     final Element config;
@@ -70,7 +68,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         // prepare page table
 
-        this.primary = new GridPageLot<>(inipages);
+        this.primary = new GridShardLot<>(inipages);
 
     }
 
@@ -121,16 +119,16 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     //
     // PAGE OPERATIONS
 
-    GridPage<D> shard(int index) {
+    GridShard<D> shard(int index) {
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    void insert(GridPage<D> page) {
+    void insert(GridShard<D> page) {
 
     }
 
-    abstract GridPage<D> shard(String key);
+    abstract GridShard<D> shard(String key);
 
     public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
 
@@ -189,7 +187,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     public D get(String key) {
         // find the target page
-        GridPage<D> page = shard(key);
+        GridShard<D> page = shard(key);
         if (page != null) {
             return page.get(key);
         }
@@ -208,9 +206,9 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
         }
         // find the target page
-        GridPage<D> page = shard(key);
+        GridShard<D> page = shard(key);
         if (page == null) {
-            page = new GridLocalPage<>(this, null, 1024);
+            page = new GridPage<>(this, null, 1024);
             insert(page);
         }
         page.put(key, data);

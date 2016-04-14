@@ -9,20 +9,20 @@ import java.util.function.Predicate;
 /**
  * A collection of element pages ordered by ID.
  */
-class GridPageLot<D extends GridData<D>> extends SpinWait {
+class GridShardLot<D extends GridData<D>> extends SpinWait {
 
     // all element pages
-    GridPage<D>[] elements;
+    GridShard<D>[] elements;
     int count;
 
     @SuppressWarnings("unchecked")
-    GridPageLot(int cap) {
-        elements = new GridPage[cap];
+    GridShardLot(int cap) {
+        elements = new GridShard[cap];
     }
 
-    void insert(GridPage<D> v) {
+    void insert(GridShard<D> v) {
 
-        GridPage<D>[] array = elements;
+        GridShard<D>[] elems = elements;
 
         int low = 0;
         int high = count - 1;
@@ -30,7 +30,7 @@ class GridPageLot<D extends GridData<D>> extends SpinWait {
         int r = 0;
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            GridPage<D> midv = array[mid];
+            GridShard<D> midv = elems[mid];
             int cmp = 0;//midv.meet(key);
             if (cmp < 0) low = mid + 1;
             else if (cmp > 0) high = mid - 1;
@@ -46,7 +46,7 @@ class GridPageLot<D extends GridData<D>> extends SpinWait {
         try {
             int len = elements.length;
             if (count == len) {
-                GridPage<D>[] new_ = new GridPage[len * 2];
+                GridShard<D>[] new_ = new GridShard[len * 2];
                 System.arraycopy(elements, 0, new_, 0, len);
                 elements = new_;
             }
@@ -62,7 +62,7 @@ class GridPageLot<D extends GridData<D>> extends SpinWait {
             // locate pages
             List<GridQuery<D>> lst = null;
             for (int i = 0; i < count; i++) {
-                GridPage<D> v = elements[i];
+                GridShard<D> v = elements[i];
                 if (keyer.test(v.id)) {
                     if (lst == null) lst = new ArrayList<>(16);
                     lst.add(v.newQuery(filter));
