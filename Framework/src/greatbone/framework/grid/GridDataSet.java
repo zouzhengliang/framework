@@ -13,10 +13,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.sql.SQLException;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-import java.util.function.Predicate;
+import java.util.*;
 
 /**
  * A data collection of particular data class.
@@ -118,20 +115,11 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     //
     // PAGE OPERATIONS
 
-    GridPage<D> shard(int index) {
+    GridPage<D> locate(int index) {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    void insert(GridPage<D> page) {
-
-    }
-
     abstract GridPage<D> locate(String key);
-
-    public D[] query(Predicate<String> locator, Critera<D> filter) {
-        return primary.query(locator, filter);
-    }
 
     String select(String condition) {
         Roll<String, GridColumn> cols = schema.columns;
@@ -179,12 +167,14 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     }
 
-    public D create(String key) {
-        return null;
-    }
-
+    /**
+     * Gets a single specified data entry.
+     *
+     * @param key the data entry to find
+     * @return a data object containing a single entry, or null
+     */
     public D get(String key) {
-        // find the target page
+        // locate the page
         GridPage<D> page = locate(key);
         if (page != null) {
             return page.get(key);
@@ -192,11 +182,47 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
         return null;
     }
 
-    public D getAll(Critera<D> d) {
-
+    /**
+     * Gets a number of data entries specified by an array of keys. The gets will execute in parallel.
+     *
+     * @param keys data entries to find
+     * @return an merged data object, or null
+     */
+    public D get(String... keys) {
+        List<GridGet<D>> tasks = null;
+        for (int i = 0; i < keys.length; i++) {
+            String key = keys[i];
+            GridPage<D> page = locate(key);
+            if (page != null) {
+                if (tasks == null) tasks = new ArrayList<>(keys.length); // lazy creation of task list
+                tasks.add(new GridGet<>(page, key));
+            }
+        }
+        if (tasks != null) {
+            try {
+                GridGet.invokeAll(tasks);
+                // harvest the results
+                D merge = null;
+                for (int i = 0; i < tasks.size(); i++) {
+                    D res = tasks.get(i).result;
+                    if (res != null) {
+                        if (merge == null) {
+                            merge = res;
+                        } else {
+                            merge.add(res);
+                        }
+                    }
+                }
+                return merge;
+            } catch (Exception e) {
+            }
+        }
         return null;
     }
 
+    public D getAll(Critera<D> d) {
+        return null;
+    }
 
     // a subclass may treat key differently, it can be full key, partial key, or null
     public D put(String key, D dat) {
@@ -207,7 +233,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
         GridPage<D> page = locate(key);
         if (page == null) {
             page = new GridPageX<>(this, null, 1024);
-            insert(page);
+            primary.insert(page);
         }
         page.put(key, dat);
         return dat;

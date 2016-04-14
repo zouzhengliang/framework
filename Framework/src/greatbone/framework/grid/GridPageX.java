@@ -120,7 +120,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXM
     }
 
     @Override
-    D get(String key) {
+    public D get(String key) {
         int code = key.hashCode() & 0x7fffffff;
         int idx = buckets.get(code % buckets.length());
         while (idx != -1) {
@@ -137,7 +137,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXM
     }
 
     @Override
-    D put(String key, D dat) {
+    public D put(String key, D dat) {
         int code = key.hashCode() & 0x7fffffff;
         int bucket = code % buckets.length(); // target bucket
         int idx = buckets.get(bucket);
@@ -156,6 +156,15 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXM
         buckets.set(bucket, idx);
         count++;
         return dat;
+    }
+
+    public D search(Critera<D> filter) {
+        D dat = parent.instantiate();
+        int i = 0;
+        while (i < count) {
+            //
+        }
+        return null;
     }
 
     // get entry hash code
@@ -230,18 +239,6 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXM
         }
         return (sb == null) ? null : sb.toString();
     }
-
-
-    D query(Critera<D> filter) {
-        D dat = parent.instantiate();
-
-        int i = 0;
-        while (i < count) {
-            //
-        }
-        return null;
-    }
-
 
     @Override
     protected void finalize() throws Throwable {

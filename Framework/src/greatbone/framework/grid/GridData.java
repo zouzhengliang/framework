@@ -42,6 +42,10 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         return -1;
     }
 
+    public void add(D dat) {
+
+    }
+
     public void parse(WebContext wc) {
         // parse data according to schema
 

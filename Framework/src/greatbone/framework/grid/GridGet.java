@@ -3,21 +3,22 @@ package greatbone.framework.grid;
 import java.util.concurrent.ForkJoinTask;
 
 /**
- * A query task that works on a particular page
+ * A get task that works on a particular page
  */
-class GridQuery<D extends GridData<D>> extends ForkJoinTask<D> {
+class GridGet<D extends GridData<D>> extends ForkJoinTask<D> {
 
+    // the target abstract page
     final GridPage<D> page;
 
-    final Critera<D> filter;
+    // the key to find out
+    final String key;
 
-    // return data
+    // the result data entry, can be null
     D result;
 
-
-    GridQuery(GridPage<D> page, Critera<D> filter) {
+    GridGet(GridPage<D> page, String key) {
         this.page = page;
-        this.filter = filter;
+        this.key = key;
     }
 
     @Override
@@ -32,7 +33,7 @@ class GridQuery<D extends GridData<D>> extends ForkJoinTask<D> {
 
     @Override
     protected boolean exec() {
-        result = page.query(filter);
+        result = page.get(key);
         return true;
     }
 

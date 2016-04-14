@@ -23,7 +23,7 @@ public abstract class GridReplicatedDataSet<D extends GridData<D>> extends GridD
 
     @Override
     GridPage<D> locate(String key) {
-        return shard(0); // returns the only partition
+        return locate(0); // returns the only partition
     }
 
 }

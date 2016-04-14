@@ -38,7 +38,7 @@ public class EventControl extends WebControl {
 
         // create and insert
 
-        Event _new = events.create(null);
+        Event _new = new Event();
         if (true) {
 //            _new.load(exch);
         }  else {

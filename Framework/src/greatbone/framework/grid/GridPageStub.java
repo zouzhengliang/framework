@@ -20,7 +20,7 @@ class GridPageStub<D extends GridData<D>> extends GridPage<D> {
     }
 
     @Override
-    D get(String key) {
+    public D get(String key) {
         StreamConnection conn = null;
         try (GridContext gc = new GridContext(conn = client.checkout())) {
             //
@@ -37,7 +37,7 @@ class GridPageStub<D extends GridData<D>> extends GridPage<D> {
     }
 
     @Override
-    D put(String key, D dat) {
+    public D put(String key, D dat) {
         StreamConnection conn = null;
         try (GridContext gc = new GridContext(conn = client.checkout())) {
             //
@@ -54,7 +54,7 @@ class GridPageStub<D extends GridData<D>> extends GridPage<D> {
     }
 
     @Override
-    D query(Critera<D> filter) {
+    public D search(Critera<D> filter) {
         StreamConnection conn = null;
         try (GridContext gc = new GridContext(conn = client.checkout())) {
             //

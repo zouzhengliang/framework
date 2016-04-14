@@ -3,9 +3,9 @@ package greatbone.framework.grid;
 import java.util.concurrent.ForkJoinTask;
 
 /**
- * A put operation task that works on a particular page
+ * A query task that works on a particular page
  */
-class GridPut<D extends GridData<D>> extends ForkJoinTask<D> {
+class GridSearch<D extends GridData<D>> extends ForkJoinTask<D> {
 
     final GridPage<D> page;
 
@@ -15,7 +15,7 @@ class GridPut<D extends GridData<D>> extends ForkJoinTask<D> {
     D result;
 
 
-    GridPut(GridPage<D> page, Critera<D> filter) {
+    GridSearch(GridPage<D> page, Critera<D> filter) {
         this.page = page;
         this.filter = filter;
     }

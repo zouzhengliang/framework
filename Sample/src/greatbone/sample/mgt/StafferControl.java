@@ -26,10 +26,10 @@ public class StafferControl extends WebControl {
     public void Get(WebContext wc) throws IOException {
 
         // get all records
-        Staffer lst = staffers.getAll(null);
+//        Staffer[] lst = staffers.search(null,null);
 
         // send the list in json format
-        wc.sendOK(lst);
+//        wc.sendOK(lst);
     }
 
     @Override

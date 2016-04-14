@@ -1,13 +1,11 @@
 package greatbone.framework.grid;
 
-import java.util.function.Predicate;
-
 /**
  * An abstract data page, conceptually containing data entries belonged.
  *
  * @param <D> type of data object
  */
-abstract class GridPage<D extends GridData<D>> {
+public abstract class GridPage<D extends GridData<D>> {
 
     // the parent dataset
     final GridDataSet<D> parent;
@@ -24,20 +22,11 @@ abstract class GridPage<D extends GridData<D>> {
         return id;
     }
 
-    abstract D get(String key);
+    public abstract D get(String key);
 
-    abstract D put(String key, D data);
+    public abstract D put(String key, D data);
 
-    abstract D query(Critera<D> filter);
-
-    public D update(String key, Updater<D> updater) {
-        return null;
-    }
-
-    public D update(Predicate<D> condition, Updater<D> updater) {
-        return null;
-    }
-
+    public abstract D search(Critera<D> filter);
 
     /**
      * create a key aocrdding to the rule specific to this partion
@@ -46,10 +35,6 @@ abstract class GridPage<D extends GridData<D>> {
      */
     protected String newKey() {
         return null;
-    }
-
-    GridQuery<D> newQuery(Critera<D> filter) {
-        return new GridQuery<>(this, filter);
     }
 
 //    int meet(K akey) {
