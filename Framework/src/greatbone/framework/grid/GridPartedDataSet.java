@@ -12,7 +12,7 @@ public abstract class GridPartedDataSet<D extends GridData<D>> extends GridDataS
     }
 
     @Override
-    public GridPage<D> shard(String key) {
+    public GridPage<D> locate(String key) {
         return null;
     }
 

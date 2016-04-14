@@ -12,7 +12,7 @@ abstract class GridPage<D extends GridData<D>> {
     // the parent dataset
     final GridDataSet<D> parent;
 
-    // the shard id
+    // the page id
     final String id;
 
     GridPage(final GridDataSet<D> parent, String id) {

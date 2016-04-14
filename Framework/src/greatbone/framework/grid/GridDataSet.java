@@ -15,7 +15,6 @@ import java.lang.reflect.TypeVariable;
 import java.sql.SQLException;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 import java.util.function.Predicate;
 
@@ -73,7 +72,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     }
 
     // resolve a type argument along the inheritance hierarchy
-    Class typearg(int ordinal) {
+    final Class typearg(int ordinal) {
         // gather along the inheritence hierarchy
         Deque<Class> que = new LinkedList<Class>();
         for (Class c = getClass(); c != GridDataSet.class; c = c.getSuperclass()) {
@@ -112,7 +111,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     }
 
-    public D create() {
+    public D instantiate() {
         return schema.instantiate();
     }
 
@@ -128,11 +127,10 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     }
 
-    abstract GridPage<D> shard(String key);
+    abstract GridPage<D> locate(String key);
 
-    public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
-
-        return primary.query(keyer, filter);
+    public D[] query(Predicate<String> locator, Critera<D> filter) {
+        return primary.query(locator, filter);
     }
 
     String select(String condition) {
@@ -187,7 +185,7 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
     public D get(String key) {
         // find the target page
-        GridPage<D> page = shard(key);
+        GridPage<D> page = locate(key);
         if (page != null) {
             return page.get(key);
         }
@@ -201,18 +199,18 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
 
 
     // a subclass may treat key differently, it can be full key, partial key, or null
-    public Object put(String key, D data) {
+    public D put(String key, D dat) {
         if (key == null) {
 
         }
         // find the target page
-        GridPage<D> page = shard(key);
+        GridPage<D> page = locate(key);
         if (page == null) {
             page = new GridPageX<>(this, null, 1024);
             insert(page);
         }
-        page.put(key, data);
-        return key;
+        page.put(key, dat);
+        return dat;
     }
 
     public void forEach(Critera<D> condition) {

@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
- * A JVM-local data page on native memory (off-heap).
+ * A native data page (off-heap).
  */
 class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXMBean {
 
@@ -125,7 +125,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXM
         int idx = buckets.get(code % buckets.length());
         while (idx != -1) {
             if (code == ecode(idx) && ekey(idx, key)) { // test hash-plus-key equality
-                D dat = parent.create();
+                D dat = parent.instantiate();
                 dat.page = this;
                 dat.index = idx;
                 ecopyto(idx, dat);
@@ -233,7 +233,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXM
 
 
     D query(Critera<D> filter) {
-        D dat = parent.create();
+        D dat = parent.instantiate();
 
         int i = 0;
         while (i < count) {

@@ -56,14 +56,15 @@ class GridPageLot<D extends GridData<D>> extends SpinWait {
         }
     }
 
-    public List<GridQuery<D>> query(Predicate<String> keyer, Critera<D> filter) {
+    @SuppressWarnings("unchecked")
+    D[] query(Predicate<String> locator, Critera<D> filter) {
         enterRead();
         try {
             // locate pages
             List<GridQuery<D>> lst = null;
             for (int i = 0; i < count; i++) {
                 GridPage<D> v = elements[i];
-                if (keyer.test(v.id)) {
+                if (locator.test(v.id)) {
                     if (lst == null) lst = new ArrayList<>(16);
                     lst.add(v.newQuery(filter));
                 }
@@ -71,8 +72,14 @@ class GridPageLot<D extends GridData<D>> extends SpinWait {
             if (lst != null) {
                 // in parallel fork join
                 GridQuery.invokeAll(lst);
+                int len = lst.size();
+                D[] ret = (D[]) new GridData[len];
+                for (int i = 0; i < len; i++) {
+                    ret[i] = lst.get(i).result;
+                }
+                return ret;
             }
-            return lst;
+            return null;
         } finally {
             exitRead();
         }

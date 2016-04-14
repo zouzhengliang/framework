@@ -1,7 +1,12 @@
 package greatbone.framework.grid;
 
+import org.xnio.StreamConnection;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 /**
- * A stub works as proxy of a remote parge.
+ * The proxy of a remote parge.
  */
 class GridPageStub<D extends GridData<D>> extends GridPage<D> {
 
@@ -16,17 +21,59 @@ class GridPageStub<D extends GridData<D>> extends GridPage<D> {
 
     @Override
     D get(String key) {
+        StreamConnection conn = null;
+        try (GridContext gc = new GridContext(conn = client.checkout())) {
+            //
+            // parent.key
+            // id;
+            // key
+            client.call(gc);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            client.checkin(conn);
+        }
         return null;
     }
 
     @Override
     D put(String key, D dat) {
+        StreamConnection conn = null;
+        try (GridContext gc = new GridContext(conn = client.checkout())) {
+            //
+            // parent.key
+            // id;
+            // key
+            client.call(gc);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            client.checkin(conn);
+        }
         return null;
     }
 
     @Override
     D query(Critera<D> filter) {
-        return client.query(parent.key, id, filter);
+        StreamConnection conn = null;
+        try (GridContext gc = new GridContext(conn = client.checkout())) {
+            //
+            // parent.key
+            // id;
+            // key
+
+            // serialize the critera object or lambda expression as call body
+            ObjectOutputStream out = new ObjectOutputStream(gc.ostream);
+            out.writeObject(filter);
+            out.close();
+
+            client.call(gc);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            client.checkin(conn);
+        }
+        return null;
     }
 
 }

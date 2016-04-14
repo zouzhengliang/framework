@@ -37,7 +37,7 @@ public class AgentControl extends WebControl {
     }
 
     public void Post(WebContext wc) {
-        Org agent = orgs.create();
+        Org agent = orgs.instantiate();
 
         wc.content(agent);
 

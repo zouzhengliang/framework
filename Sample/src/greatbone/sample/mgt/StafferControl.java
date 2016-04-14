@@ -46,7 +46,7 @@ public class StafferControl extends WebControl {
 
     public void Post(WebContext wc) {
 
-        Staffer new_ = staffers.create();
+        Staffer new_ = staffers.instantiate();
 
         wc.content(new_); // validate the input
 

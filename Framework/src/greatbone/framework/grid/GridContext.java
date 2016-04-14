@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 /**
  * A call & reply exchange between two grid endpoints.
  */
-class GridContext {
+class GridContext implements AutoCloseable{
 
     // buffer pool for calls, replies and streams
     static final DefaultByteBufferPool
@@ -21,20 +21,22 @@ class GridContext {
             REPLYP = new DefaultByteBufferPool(true, 64, -1, 4),
             STREAMP = new DefaultByteBufferPool(true, 64, -1, 4);
 
-    final StreamConnection conn;
+    StreamConnection conn;
 
     // the header part of the call
-    final ByteBuffer call;
+    ByteBuffer call;
 
     // input stream for call headers
     InputStream istream;
 
     // the header part of the reply
-    final ByteBuffer reply;
+    ByteBuffer reply;
 
     // output stream for reply body
     OutputStream ostream;
 
+    GridContext() {
+    }
 
     GridContext(StreamConnection conn) {
         this.conn = conn;
@@ -72,7 +74,7 @@ class GridContext {
         return ostream;
     }
 
-    void close() throws IOException {
+    public void close() throws IOException {
         if (istream != null) {
             istream.close();
         }

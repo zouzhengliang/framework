@@ -6,7 +6,6 @@ import org.xnio.Options;
 import org.xnio.StreamConnection;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayDeque;
 
 /**
@@ -82,24 +81,19 @@ class GridClient extends GridPeer {
         return null;
     }
 
-    <D extends GridData<D>> D query(String dataset, String page, Critera<D> filter) {
+    // send call for a get operation to the remote
+    void call(GridContext gc) {
         StreamConnection conn = null;
         try {
             conn = checkout();
-            GridContext gc = new GridContext(conn);
-            // set header
+            // send and receive
 
-            // serialize the critera object or lambda expression as call body
-            ObjectOutputStream out = new ObjectOutputStream(gc.ostream);
-            out.writeObject(filter);
-            out.close();
             gc.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             checkin(conn);
         }
-        return null;
     }
 
 }
