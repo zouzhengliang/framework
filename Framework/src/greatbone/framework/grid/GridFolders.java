@@ -5,14 +5,14 @@ import greatbone.framework.util.SpinWait;
 /**
  * A collection of element pages ordered by ID.
  */
-class GridFolderLot extends SpinWait {
+class GridFolders extends SpinWait {
 
     // all element pages
     GridFolder[] elements;
     int count;
 
     @SuppressWarnings("unchecked")
-    GridFolderLot(int cap) {
+    GridFolders(int cap) {
         elements = new GridFolder[cap];
     }
 

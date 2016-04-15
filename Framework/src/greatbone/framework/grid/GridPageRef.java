@@ -8,12 +8,12 @@ import java.io.ObjectOutputStream;
 /**
  * The proxy of a remote parge.
  */
-class GridPageStub<D extends GridData<D>> extends GridPage<D> {
+class GridPageRef<D extends GridData<D>> extends GridPage<D> {
 
     // cache
     GridClient client;
 
-    GridPageStub(GridDataSet<D> parent, String id, GridClient client) {
+    GridPageRef(GridDataSet<D> parent, String id, GridClient client) {
         super(parent, id);
 
         this.client = client;

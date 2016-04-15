@@ -2,5 +2,5 @@ package greatbone.framework.grid;
 
 /**
  */
-public interface GridFolderXMBean {
+public interface GridPageMBean {
 }

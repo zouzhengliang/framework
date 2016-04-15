@@ -21,8 +21,8 @@ public @interface CachePolicy {
     int save() default -1;
 
     /**
-     * To keep a copy of data pages on the next node.
+     * whether to make a backup copy on the next node.
      */
-    boolean copy() default false;
+    boolean duplicate() default false;
 
 }

@@ -9,9 +9,9 @@ import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
- * A native data page (off-heap).
+ * A native-memory-based data page (off-heap).
  */
-class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageXMBean {
+class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMBean {
 
     // for atomic operation
     static final Unsafe UNSAFE;

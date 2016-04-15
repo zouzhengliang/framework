@@ -50,7 +50,7 @@ public class GridUtility implements GridMBean, Config {
     volatile int status;
 
     // cluster status monitoring
-    final Monitor monitor = new Monitor();
+    final Poller poller = new Poller();
 
     // async data persistence
     final Persister persister = new Persister();
@@ -122,13 +122,13 @@ public class GridUtility implements GridMBean, Config {
             peers.get(i).start();
         }
         persister.start();
-        monitor.start();
+        poller.start();
     }
 
     @Override
     public void stop() {
         persister.interrupt();
-        monitor.interrupt();
+        poller.interrupt();
         for (int i = 0; i < peers.size(); i++) {
             peers.get(i).stop();
         }
@@ -230,11 +230,11 @@ public class GridUtility implements GridMBean, Config {
     /**
      * For monitoring status changes of peers and pages in the cluster.
      */
-    final class Monitor extends Thread {
+    final class Poller extends Thread {
 
         static final int INTERVAL = 7 * 1000;
 
-        Monitor() {
+        Poller() {
             super("Monitor");
         }
 
