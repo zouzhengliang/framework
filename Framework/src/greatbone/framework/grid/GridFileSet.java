@@ -12,11 +12,7 @@ import java.lang.management.ManagementFactory;
 /**
  * cache of underlying local file system files. off-heap memory allocation
  */
-public abstract class GridFileSet implements Fabric, Config {
-
-    final GridUtility parent;
-
-    final String key;
+public abstract class GridFileSet extends GridSet implements Config {
 
     final Element config;
 
@@ -25,13 +21,13 @@ public abstract class GridFileSet implements Fabric, Config {
     int count;
 
     @SuppressWarnings("unchecked")
-    protected GridFileSet(GridUtility parent, int capacity) {
+    protected GridFileSet(GridUtility grid, int capacity) {
 
-        this.key = getClass().getSimpleName().toLowerCase(); // from class name
+        super(grid);
 
-        this.config = Greatbone.childOf(parent.config, "fileset", key);
 
-        this.parent = parent;
+        this.config = Greatbone.childOf(grid.config, "fileset", key);
+
         // register mbean
         try {
             MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();

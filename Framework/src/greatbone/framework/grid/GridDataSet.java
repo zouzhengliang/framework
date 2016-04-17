@@ -24,12 +24,7 @@ import java.util.*;
  * <p/>
  * setup during environment initialization
  */
-public abstract class GridDataSet<D extends GridData<D>> implements Fabric, GridDataSetMBean, Config {
-
-    // the container grid instance
-    final GridUtility grid;
-
-    final String key;
+public abstract class GridDataSet<D extends GridData<D>> extends GridSet implements GridDataSetMBean, Config {
 
     // the data schema
     final GridSchema<D> schema;
@@ -48,10 +43,10 @@ public abstract class GridDataSet<D extends GridData<D>> implements Fabric, Grid
     @SuppressWarnings("unchecked")
     protected GridDataSet(GridUtility grid, int inipages) {
 
-        this.key = getClass().getSimpleName().toLowerCase(); // from class name
+        super(grid);
+
         this.config = Greatbone.childOf(grid.config, "dataset", key);
 
-        this.grid = grid;
         Class<D> datc = (Class<D>) typearg(0); // resolve the data class by type parameter
         this.schema = grid.schema(datc);
         // register mbean

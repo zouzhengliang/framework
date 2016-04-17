@@ -19,7 +19,7 @@ public class WebUtility implements WebMBean, Config {
     // singleton instance
     static WebUtility INST;
 
-    final Element configel;
+    final Element config;
 
     final Roll<String, WebStatic> statics;
 
@@ -27,7 +27,7 @@ public class WebUtility implements WebMBean, Config {
     final ArrayList<WebHost> hosts = new ArrayList<>(4);
 
     WebUtility() {
-        this.configel = Greatbone.getXmlTopTag("web");
+        this.config = Greatbone.getXmlTopTag("web");
 
         // load static resources
         statics = new Roll<>(256);
@@ -91,7 +91,7 @@ public class WebUtility implements WebMBean, Config {
 
     @Override
     public Element config() {
-        return configel;
+        return config;
     }
 
     public static <T extends WebHost> T createHost(String key, Class<T> clazz, Checker checker) {

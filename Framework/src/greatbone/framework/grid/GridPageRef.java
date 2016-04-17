@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 /**
- * The proxy of a remote parge.
+ * The proxy of a remote page.
  */
 class GridPageRef<D extends GridData<D>> extends GridPage<D> {
 
-    // cache
+    // the client endpoint that has connectivity to the remote page beong referenced
     GridClient client;
 
     GridPageRef(GridDataSet<D> parent, String id, GridClient client) {

@@ -56,12 +56,12 @@ public class GridUtility implements GridMBean, Config {
     final Persister persister = new Persister();
 
     @SafeVarargs
-    GridUtility(Class<? extends Fabric>... setcs) {
+    GridUtility(Class<? extends GridSet>... setcs) {
 
         this.config = Greatbone.getXmlTopTag("grid");
 
         // register datasets & filesets
-        for (Class<? extends Fabric> c : setcs) {
+        for (Class<? extends GridSet> c : setcs) {
             register(c);
         }
         // register as mbean
@@ -99,7 +99,7 @@ public class GridUtility implements GridMBean, Config {
     }
 
     // add datasets & filesets by dataset class.
-    void register(Class<? extends Fabric> setc) {
+    void register(Class<? extends GridSet> setc) {
         if (GridDataSet.class.isAssignableFrom(setc)) {
             try {
                 // create a dataset instance
@@ -151,7 +151,7 @@ public class GridUtility implements GridMBean, Config {
     }
 
     @SafeVarargs
-    public static void initialize(Class<? extends Fabric>... setcs) throws IOException {
+    public static void initialize(Class<? extends GridSet>... setcs) throws IOException {
         if (INST == null) {
             INST = new GridUtility(setcs);
         }
