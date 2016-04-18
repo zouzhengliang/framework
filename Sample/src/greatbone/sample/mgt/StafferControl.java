@@ -39,14 +39,14 @@ public class StafferControl extends WebControl {
         String key = cnt.getFirst("key");
 
         // get all records
-        Staffer obj = staffers.get(key);
+        Staffer obj = staffers.getData(key);
 
         wc.sendOK(obj);
     }
 
     public void Post(WebContext wc) {
 
-        Staffer new_ = staffers.instantiate();
+        Staffer new_ = staffers.newData();
 
         wc.content(new_); // validate the input
 

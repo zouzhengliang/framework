@@ -125,7 +125,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
         int idx = buckets.get(code % buckets.length());
         while (idx != -1) {
             if (code == ecode(idx) && ekey(idx, key)) { // test hash-plus-key equality
-                D dat = parent.instantiate();
+                D dat = parent.newData();
                 dat.page = this;
                 dat.index = idx;
                 ecopyto(idx, dat);
@@ -159,7 +159,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
     }
 
     public D search(Critera<D> filter) {
-        D dat = parent.instantiate();
+        D dat = parent.newData();
         int i = 0;
         while (i < count) {
             //

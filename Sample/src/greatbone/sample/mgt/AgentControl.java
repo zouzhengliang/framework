@@ -27,7 +27,7 @@ public class AgentControl extends WebControl {
     }
 
     public void Get(String rsc, WebContext wc) throws Exception {
-        Org ret = orgs.get(rsc);
+        Org ret = orgs.getData(rsc);
         if (ret == null) {
             wc.sendNotFound();
         } else {
@@ -37,7 +37,7 @@ public class AgentControl extends WebControl {
     }
 
     public void Post(WebContext wc) {
-        Org agent = orgs.instantiate();
+        Org agent = orgs.newData();
 
         wc.content(agent);
 

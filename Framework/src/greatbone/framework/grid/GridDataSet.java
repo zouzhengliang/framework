@@ -1,10 +1,7 @@
 package greatbone.framework.grid;
 
-import greatbone.framework.Config;
-import greatbone.framework.Greatbone;
 import greatbone.framework.db.DbContext;
 import greatbone.framework.util.Roll;
-import org.w3c.dom.Element;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -24,29 +21,24 @@ import java.util.*;
  * <p/>
  * setup during environment initialization
  */
-public abstract class GridDataSet<D extends GridData<D>> extends GridSet implements GridDataSetMBean, Config {
+public abstract class GridDataSet<D extends GridData<D>> extends GridSet implements GridDataSetMBean {
 
     // the data schema
     final GridSchema<D> schema;
 
     // annotated cache policy, can be null
-    CachePolicy cachepol;
+    final CachePolicy cachepol;
 
     // orgin data pages of this dataset which reside on this node
-    GridPages<D> origin;
+    final GridPages<D> origin;
 
     // backup of the preceding node
-    GridPages<D> backup;
-
-    // configuration xml element
-    final Element config;
+    final GridPages<D> backup;
 
     @SuppressWarnings("unchecked")
     protected GridDataSet(GridUtility grid, int inipages) {
 
         super(grid);
-
-        this.config = Greatbone.childOf(grid.config, "dataset", key);
 
         Class<D> datc = (Class<D>) typearg(0); // resolve the data class by type parameter
         this.schema = grid.schema(datc);
@@ -59,8 +51,10 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         }
 
         // prepare page table
+        this.cachepol = getClass().getAnnotation(CachePolicy.class);
 
         this.origin = new GridPages<>(inipages);
+        this.backup = new GridPages<>(inipages);
 
     }
 
@@ -104,19 +98,19 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
     }
 
-    public D instantiate() {
+    public D newData() {
         return schema.instantiate();
     }
 
     //
     // PAGE OPERATIONS
 
-    GridPage<D> locate(int index) {
-        return null;
+    public GridPage<D> getPage(String id) {
+        return origin.get(id);
     }
 
-    GridPage<D> resolve(String key) {
-        return null;
+    public GridPage<D> locatePage(String key) {
+        return origin.locate(key);
     }
 
     String select(String condition) {
@@ -171,9 +165,9 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
      * @param key the data entry to find
      * @return a data object containing a single entry, or null
      */
-    public D get(String key) {
+    public D getData(String key) {
         // locate the page
-        GridPage<D> page = resolve(key);
+        GridPage<D> page = locatePage(key);
         if (page != null) {
             return page.get(key);
         }
@@ -186,11 +180,11 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
      * @param keys data entries to find
      * @return an merged data object, or null
      */
-    public D get(String... keys) {
+    public D getData(String... keys) {
         List<GridGet<D>> tasks = null;
         for (int i = 0; i < keys.length; i++) {
             String key = keys[i];
-            GridPage<D> page = resolve(key);
+            GridPage<D> page = locatePage(key);
             if (page != null) {
                 if (tasks == null) tasks = new ArrayList<>(keys.length); // lazy creation of task list
                 tasks.add(new GridGet<>(page, key));
@@ -218,7 +212,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         return null;
     }
 
-    public D getAll(Critera<D> d) {
+    public D getData(Critera<D> d) {
         return null;
     }
 
@@ -228,7 +222,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
         }
         // find the target page
-        GridPage<D> page = resolve(key);
+        GridPage<D> page = locatePage(key);
         if (page == null) {
             page = new GridPageX<>(this, null, 1024);
             origin.insert(page);
@@ -251,11 +245,6 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
     public boolean isClosed() {
         return false;
-    }
-
-    @Override
-    public Element config() {
-        return config;
     }
 
 }

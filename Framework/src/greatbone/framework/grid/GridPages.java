@@ -7,17 +7,63 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * A collection of element pages ordered by ID.
+ * A collection of data pages that are basically in addition order.
  */
-public class GridPages<D extends GridData<D>> extends SpinWait {
+public class GridPages<D extends GridData<D>> {
+
+    final SpinWait sync = new SpinWait();
 
     // all element pages
     GridPage<D>[] elements;
+
+    // actual number of elements
     int size;
 
     @SuppressWarnings("unchecked")
     GridPages(int cap) {
         elements = new GridPage[cap];
+    }
+
+    public GridPage<D> get(int index) {
+        sync.enterRead();
+        try {
+            return elements[index];
+        } finally {
+            sync.exitRead();
+        }
+    }
+
+    public GridPage<D> get(String id) {
+        sync.enterRead();
+        try {
+            if (id == null) {
+                return elements[0];
+            } else {
+                for (int i = 0; i < size; i++) {
+                    GridPage<D> page = elements[i];
+                    if (id.equals(page.id)) { // equals
+                        return page;
+                    }
+                }
+                return null;
+            }
+        } finally {
+            sync.exitRead();
+        }
+    }
+
+    GridPage<D> locate(String key) {
+        if (key == null) {
+            return elements[0];
+        } else {
+            for (int i = 0; i < size; i++) {
+                GridPage<D> page = elements[i];
+                if (key.startsWith(page.id)) { // starts with
+                    return page;
+                }
+            }
+            return null;
+        }
     }
 
     void insert(GridPage<D> v) {
@@ -42,7 +88,7 @@ public class GridPages<D extends GridData<D>> extends SpinWait {
         }
 
 
-        enterWrite();
+        sync.enterWrite();
         try {
             int len = elements.length;
             if (size == len) {
@@ -52,7 +98,7 @@ public class GridPages<D extends GridData<D>> extends SpinWait {
             }
             elements[size++] = v;
         } finally {
-            exitWrite();
+            sync.exitWrite();
         }
     }
 
@@ -73,7 +119,7 @@ public class GridPages<D extends GridData<D>> extends SpinWait {
 
     @SuppressWarnings("unchecked")
     D[] search(Predicate<String> locator, Critera<D> filter) {
-        enterRead();
+        sync.enterRead();
         try {
             // locate pages
             List<GridSearch<D>> lst = null;
@@ -96,7 +142,7 @@ public class GridPages<D extends GridData<D>> extends SpinWait {
             }
             return null;
         } finally {
-            exitRead();
+            sync.exitRead();
         }
     }
 

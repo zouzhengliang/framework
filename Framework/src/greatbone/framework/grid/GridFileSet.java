@@ -1,9 +1,6 @@
 package greatbone.framework.grid;
 
-import greatbone.framework.Config;
-import greatbone.framework.Greatbone;
 import greatbone.framework.util.SpinWait;
-import org.w3c.dom.Element;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -12,9 +9,7 @@ import java.lang.management.ManagementFactory;
 /**
  * cache of underlying local file system files. off-heap memory allocation
  */
-public abstract class GridFileSet extends GridSet implements Config {
-
-    final Element config;
+public abstract class GridFileSet extends GridSet {
 
     final SpinWait sync = new SpinWait();
     GridFolder[] shards;
@@ -24,9 +19,6 @@ public abstract class GridFileSet extends GridSet implements Config {
     protected GridFileSet(GridUtility grid, int capacity) {
 
         super(grid);
-
-
-        this.config = Greatbone.childOf(grid.config, "fileset", key);
 
         // register mbean
         try {
@@ -72,11 +64,6 @@ public abstract class GridFileSet extends GridSet implements Config {
         } finally {
             sync.exitWrite();
         }
-    }
-
-    @Override
-    public Element config() {
-        return config;
     }
 
 }

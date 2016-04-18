@@ -1,7 +1,7 @@
 package greatbone.framework.db;
 
 import com.zaxxer.hikari.HikariConfig;
-import greatbone.framework.Config;
+import greatbone.framework.Configurable;
 import greatbone.framework.Greatbone;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,7 +16,7 @@ import java.util.Properties;
 /**
  * The managerial point of the database access facilities.
  */
-public class DbUtility implements DbMBean, Config {
+public class DbUtility implements DbMBean, Configurable {
 
     static final String POSTGRESQL = "org.postgresql.ds.PGSimpleDataSource";
 

@@ -2,7 +2,7 @@ package greatbone.framework.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import greatbone.framework.Config;
+import greatbone.framework.Configurable;
 import org.w3c.dom.Element;
 
 import javax.management.MBeanServer;
@@ -12,7 +12,7 @@ import java.lang.management.ManagementFactory;
 /**
  * A poolable data source based on HikariCP, from which contexts can be created.
  */
-public class DbSource extends HikariDataSource implements DbSourceMBean, Config {
+public class DbSource extends HikariDataSource implements DbSourceMBean, Configurable {
 
     final String key;
 

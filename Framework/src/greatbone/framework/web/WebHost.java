@@ -8,7 +8,7 @@ import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.protocol.http.HttpOpenListener;
 import io.undertow.util.HttpString;
-import greatbone.framework.Config;
+import greatbone.framework.Configurable;
 import greatbone.framework.Greatbone;
 import org.w3c.dom.Element;
 import org.xnio.*;
@@ -31,7 +31,7 @@ import static io.undertow.util.StatusCodes.*;
 /**
  * A root web folder that may have a hub handler which deals with variable sector folders.
  */
-public abstract class WebHost extends WebControl implements HttpHandler, WebHostMBean, Config {
+public abstract class WebHost extends WebControl implements HttpHandler, WebHostMBean, Configurable {
 
     static final String EMPTY = "";
 

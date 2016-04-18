@@ -1,6 +1,6 @@
 package greatbone.framework.grid;
 
-import greatbone.framework.Config;
+import greatbone.framework.Configurable;
 import greatbone.framework.Greatbone;
 import greatbone.framework.util.Roll;
 import org.w3c.dom.Element;
@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
 /**
  * The singleton environment for in-memory data grid operations. This is the control center of grid-related assets and operations.
  */
-public class GridUtility implements GridMBean, Config {
+public class GridUtility implements GridMBean, Configurable {
 
     // the singleton instance
     static GridUtility INST;

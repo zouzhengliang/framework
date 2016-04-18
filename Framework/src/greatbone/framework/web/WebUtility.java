@@ -1,6 +1,6 @@
 package greatbone.framework.web;
 
-import greatbone.framework.Config;
+import greatbone.framework.Configurable;
 import greatbone.framework.Greatbone;
 import greatbone.framework.util.Roll;
 import org.w3c.dom.Element;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * The managerial point of web services.
  */
-public class WebUtility implements WebMBean, Config {
+public class WebUtility implements WebMBean, Configurable {
 
     // singleton instance
     static WebUtility INST;
