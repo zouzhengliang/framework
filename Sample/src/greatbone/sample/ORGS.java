@@ -1,14 +1,14 @@
 package greatbone.sample;
 
-import greatbone.framework.grid.GridPartedDataSet;
+import greatbone.framework.grid.GridDataSet;
 import greatbone.framework.grid.GridUtility;
 
 /**
  */
-public class ORGS extends GridPartedDataSet<Org> {
+public class ORGS extends GridDataSet<Org> {
 
     public ORGS(GridUtility grid) {
-        super(grid);
+        super(grid, 12);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 /**
  * The connectivity correponding to a particular networking peer.
  */
-abstract class GridPeer {
+abstract class GridEndPoint {
 
     // the container grid instance
     final GridUtility grid;
@@ -20,12 +20,12 @@ abstract class GridPeer {
     final InetSocketAddress address;
 
     // the peer next to this
-    GridPeer next;
+    GridEndPoint next;
 
     // is currently available
     boolean available;
 
-    GridPeer(GridUtility grid, String interf) {
+    GridEndPoint(GridUtility grid, String interf) {
         this.grid = grid;
         this.interf = interf;
         this.address = new InetSocketAddress(interf, 8192);

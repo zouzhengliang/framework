@@ -11,7 +11,7 @@ import java.util.ArrayDeque;
 /**
  * The client connectivity and RPC endpoint to a particular member node.
  */
-class GridClient extends GridPeer {
+class GridClient extends GridEndPoint {
 
     static final OptionMap OPTIONS = OptionMap.builder()
             .set(Options.RECEIVE_BUFFER, (1024 * 1024 * 4)) // large buffer for high speed LAN

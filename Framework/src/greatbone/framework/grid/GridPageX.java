@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
- * A native-memory-based data page (off-heap).
+ * A memory-based data page (off-heap).
  */
 class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMBean {
 
@@ -58,7 +58,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
         // register as mbean
         try {
             MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-            ObjectName objname = new ObjectName(":type=LocalPage");
+            ObjectName objname = new ObjectName(":type=Page");
             mbs.registerMBean(this, objname);
         } catch (Exception e) {
         }

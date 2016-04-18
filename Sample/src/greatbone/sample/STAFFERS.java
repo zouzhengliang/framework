@@ -1,18 +1,17 @@
 package greatbone.sample;
 
-import greatbone.framework.grid.GridReplicatedDataSet;
+import greatbone.framework.grid.GridDataSet;
 import greatbone.framework.grid.GridUtility;
 
 /**
  */
-public class STAFFERS extends GridReplicatedDataSet<Staffer> {
+public class STAFFERS extends GridDataSet<Staffer> {
 
 
     public STAFFERS(GridUtility grid) {
-        super(grid);
+        super(grid, 12);
     }
 
-    @Override
     protected void load(String arg) {
     }
 

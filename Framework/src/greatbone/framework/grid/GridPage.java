@@ -1,5 +1,7 @@
 package greatbone.framework.grid;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * An abstract data page, conceptually containing data entries belonged.
  *
@@ -13,9 +15,13 @@ public abstract class GridPage<D extends GridData<D>> {
     // the page id
     final String id;
 
+    // for the key-generating algorithm
+    final AtomicInteger serial;
+
     GridPage(final GridDataSet<D> parent, String id) {
         this.parent = parent;
         this.id = id;
+        this.serial = new AtomicInteger(0);
     }
 
     public String id() {

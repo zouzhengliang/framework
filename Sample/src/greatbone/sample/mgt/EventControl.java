@@ -14,8 +14,8 @@ public class EventControl extends WebControl {
 
     final EVENTS events;
 
-    public EventControl(WebHost root, WebControl parent) {
-        super(root, parent);
+    public EventControl(WebHost host, WebControl parent) {
+        super(host, parent);
 
          events= GridUtility.getDataSet(EVENTS.class);
 

@@ -32,10 +32,11 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     // annotated cache policy, can be null
     CachePolicy cachepol;
 
-    GridPages<D> primary;
+    // orgin data pages of this dataset which reside on this node
+    GridPages<D> origin;
 
-    // copy of the preceding neighbor's local pages
-    GridPages<D> copy;
+    // backup of the preceding node
+    GridPages<D> backup;
 
     // configuration xml element
     final Element config;
@@ -59,7 +60,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
         // prepare page table
 
-        this.primary = new GridPages<>(inipages);
+        this.origin = new GridPages<>(inipages);
 
     }
 
@@ -114,7 +115,9 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         return null;
     }
 
-    abstract GridPage<D> locate(String key);
+    GridPage<D> resolve(String key) {
+        return null;
+    }
 
     String select(String condition) {
         Roll<String, GridColumn> cols = schema.columns;
@@ -170,7 +173,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
      */
     public D get(String key) {
         // locate the page
-        GridPage<D> page = locate(key);
+        GridPage<D> page = resolve(key);
         if (page != null) {
             return page.get(key);
         }
@@ -187,7 +190,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         List<GridGet<D>> tasks = null;
         for (int i = 0; i < keys.length; i++) {
             String key = keys[i];
-            GridPage<D> page = locate(key);
+            GridPage<D> page = resolve(key);
             if (page != null) {
                 if (tasks == null) tasks = new ArrayList<>(keys.length); // lazy creation of task list
                 tasks.add(new GridGet<>(page, key));
@@ -225,10 +228,10 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
         }
         // find the target page
-        GridPage<D> page = locate(key);
+        GridPage<D> page = resolve(key);
         if (page == null) {
             page = new GridPageX<>(this, null, 1024);
-            primary.insert(page);
+            origin.insert(page);
         }
         page.put(key, dat);
         return dat;

@@ -16,8 +16,8 @@ public class OrderControl extends WebControl {
 
     final ORDERS dset;
 
-    public OrderControl(WebHost service, WebControl parent) {
-        super(service, parent);
+    public OrderControl(WebHost host, WebControl parent) {
+        super(host, parent);
 
         dset = GridUtility.getDataSet(ORDERS.class);
     }

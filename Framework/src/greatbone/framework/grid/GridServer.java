@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * The local server connectivity and RPC endpoint..
  */
-class GridServer extends GridPeer {
+class GridServer extends GridEndPoint {
 
     // the connection acceptor
     volatile AcceptingChannel<? extends StreamConnection> acceptchan;

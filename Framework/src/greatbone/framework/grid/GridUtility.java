@@ -43,8 +43,8 @@ public class GridUtility implements GridMBean, Config {
 
     final Element config;
 
-    // member peers forming the cluster, defined in config.xml
-    final Roll<String, GridPeer> peers = new Roll<>(256);
+    // each corresponds to a member peer, in configuration order so that query results are consistent
+    final Roll<String, GridEndPoint> endpoints = new Roll<>(256);
     GridServer server;
 
     volatile int status;
@@ -77,15 +77,15 @@ public class GridUtility implements GridMBean, Config {
         String interf = config.getAttribute("interfaces");
         List<String> addrs = parseAddresses(interf);
         for (String addr : addrs) {
-            GridPeer last = peers.last();
-            GridPeer new_;
+            GridEndPoint last = endpoints.last();
+            GridEndPoint new_;
             try {
                 if (addr.equals(bind) || (bind.isEmpty() && isLocalAddress(InetAddress.getByName(addr)))) {
                     new_ = server = new GridServer(this, addr);
                 } else {
                     new_ = new GridClient(this, addr, 10);
                 }
-                peers.put(addr, new_);
+                endpoints.put(addr, new_);
                 if (last != null) {
                     last.next = new_;
                 }
@@ -94,7 +94,6 @@ public class GridUtility implements GridMBean, Config {
                 e.printStackTrace();
             }
         }
-
 
     }
 
@@ -118,8 +117,8 @@ public class GridUtility implements GridMBean, Config {
     }
 
     public void start() throws IOException {
-        for (int i = 0; i < peers.size(); i++) {
-            peers.get(i).start();
+        for (int i = 0; i < endpoints.size(); i++) {
+            endpoints.get(i).start();
         }
         persister.start();
         poller.start();
@@ -129,8 +128,8 @@ public class GridUtility implements GridMBean, Config {
     public void stop() {
         persister.interrupt();
         poller.interrupt();
-        for (int i = 0; i < peers.size(); i++) {
-            peers.get(i).stop();
+        for (int i = 0; i < endpoints.size(); i++) {
+            endpoints.get(i).stop();
         }
     }
 
@@ -242,8 +241,8 @@ public class GridUtility implements GridMBean, Config {
         public void run() {
             while (status != 0) {
 
-                for (int i = 0; i < peers.size(); i++) {
-                    GridPeer peer = peers.get(i);
+                for (int i = 0; i < endpoints.size(); i++) {
+                    GridEndPoint peer = endpoints.get(i);
                     if (peer instanceof GridClient) {
                         try {
 //                            ((GridClient) peer).call();
