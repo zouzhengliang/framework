@@ -29,14 +29,14 @@ public class SpinWait {
     // flags for read/write sync, -1 = writing, 0 = nothing, n = reading count
     volatile int sync;
 
-    final int cycle;
+    final int loops;
 
     public SpinWait() {
         this(16);
     }
 
-    public SpinWait(int cycle) {
-        this.cycle = cycle;
+    public SpinWait(int loops) {
+        this.loops = loops;
     }
 
     public void enterRead() {
@@ -46,7 +46,7 @@ public class SpinWait {
             if (prev >= 0 && UNSAFE.compareAndSwapInt(this, SYNC, prev, prev + 1)) {
                 return; // the only return point is after increment
             }
-            elapse();
+            loop();
         }
     }
 
@@ -57,7 +57,7 @@ public class SpinWait {
             if (prev > 0 && UNSAFE.compareAndSwapInt(this, SYNC, prev, prev - 1)) {
                 return; // the only return point is after decrement
             }
-            elapse();
+            loop();
         }
     }
 
@@ -66,7 +66,7 @@ public class SpinWait {
             if (UNSAFE.compareAndSwapInt(this, SYNC, 0, -1)) {
                 return; // the only return point is after switching
             }
-            elapse();
+            loop();
         }
     }
 
@@ -75,13 +75,13 @@ public class SpinWait {
             if (UNSAFE.compareAndSwapInt(this, SYNC, -1, 0)) {
                 return; // the only return point is after switching
             }
-            elapse();
+            loop();
         }
     }
 
     // elapse a number of cycles
-    void elapse() {
-        for (int i = 0; i < cycle; i++) ;
+    void loop() {
+        for (int i = 0; i < loops; i++) ;
     }
 
 }

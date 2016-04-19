@@ -220,7 +220,7 @@ public abstract class WebHost extends WebControl implements HttpHandler, WebHost
     }
 
     @Override
-    public Element config() {
+    public Element xmlcfg() {
         return config;
     }
 

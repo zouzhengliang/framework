@@ -5,13 +5,13 @@
         <host key="www" hostname="localhost" port="8080"/>
     </web>
     <grid interfaces="10.0.0.201-210" bind="10.0.0.202">
-        <dataset key="staffers" pagecap="64"/>
-        <dataset key="ingredients" pagecap="512"/>
+        <dataset key="staffers" pagesize="10000"/>
+        <dataset key="ingredients" pagesize="512"/>
         <dataset key="users" source="dir"/>
         <dataset key="orgs" local="jx, bj, sh" source="dir"/>
         <dataset key="items" local="jx, bj, sh"/>
         <dataset key="orders" local="jx, bj, sh"/>
-        <dataset key="journals" local="jx, bj, sh" pagecap="1024"/>
+        <dataset key="journals" local="jx, bj, sh" pagesize="1024"/>
         <fileset key="clips" local="jx, bj, sh"/>
     </grid>
     <db>

@@ -1,7 +1,5 @@
 package greatbone.framework.grid;
 
-import greatbone.framework.util.SpinWait;
-
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
@@ -11,13 +9,7 @@ import java.lang.management.ManagementFactory;
  */
 public abstract class GridFileSet extends GridSet {
 
-    final SpinWait sync = new SpinWait();
-    GridFolder[] shards;
-    int count;
-
-    @SuppressWarnings("unchecked")
-    protected GridFileSet(GridUtility grid, int capacity) {
-
+    public GridFileSet(GridUtility grid, int folders) {
         super(grid);
 
         // register mbean
@@ -27,8 +19,6 @@ public abstract class GridFileSet extends GridSet {
             mbs.registerMBean(this, objname);
         } catch (Exception e) {
         }
-
-        shards = new GridFolder[capacity];
 
     }
 
@@ -41,29 +31,5 @@ public abstract class GridFileSet extends GridSet {
 
     }
 
-    GridFolder page(int index) {
-        sync.enterRead();
-        try {
-            return shards[index];
-        } finally {
-            sync.exitRead();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    void insert(GridFolder page) {
-        sync.enterWrite();
-        try {
-            int len = shards.length;
-            if (count == len) {
-                GridFolder[] new_ = new GridFolder[len * 2];
-                System.arraycopy(shards, 0, new_, 0, len);
-                shards = new_;
-            }
-            shards[count++] = page;
-        } finally {
-            sync.exitWrite();
-        }
-    }
 
 }

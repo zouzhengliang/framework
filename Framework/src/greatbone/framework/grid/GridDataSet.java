@@ -140,7 +140,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     protected void load(String arg) {
 
         // create shards based on configuration
-        String attlocal = config.getAttribute("local");
+        String attlocal = xmlcfg.getAttribute("local");
         StringTokenizer st = new StringTokenizer(attlocal, ",");
         while (st.hasMoreTokens()) {
             String tok = st.nextToken().trim();

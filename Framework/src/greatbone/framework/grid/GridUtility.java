@@ -23,8 +23,8 @@ import java.util.StringTokenizer;
  */
 public class GridUtility implements GridMBean, Configurable {
 
-    // the singleton instance
-    static GridUtility INST;
+    // the singleton grid instance
+    static GridUtility GRID;
 
     //
     // REGISTERED (fixed structures)
@@ -97,22 +97,26 @@ public class GridUtility implements GridMBean, Configurable {
 
     }
 
-    // add datasets & filesets by dataset class.
+    // register datasets & filesets from classes.
     void register(Class<? extends GridSet> setc) {
         if (GridDataSet.class.isAssignableFrom(setc)) {
-            try {
-                // create a dataset instance
+            try { // create a dataset instance
                 Class<? extends GridDataSet> c = setc.asSubclass(GridDataSet.class);
                 Constructor<? extends GridDataSet> ctor = c.getConstructor(GridUtility.class);
-                GridDataSet dataset = ctor.newInstance(this);
-                datasets.put(dataset.key, dataset);
+                GridDataSet set = ctor.newInstance(this);
+                datasets.put(set.key, set);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         } else {
-            // create a fileset instance
-            Class<? extends GridFileSet> c = setc.asSubclass(GridFileSet.class);
-            filesets.put(null, null);
+            try { // create a fileset instance
+                Class<? extends GridFileSet> c = setc.asSubclass(GridFileSet.class);
+                Constructor<? extends GridFileSet> ctor = c.getConstructor(GridUtility.class);
+                GridFileSet set = ctor.newInstance(this);
+                filesets.put(set.key, set);
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -145,17 +149,17 @@ public class GridUtility implements GridMBean, Configurable {
     }
 
     @Override
-    public Element config() {
+    public Element xmlcfg() {
         return config;
     }
 
     @SafeVarargs
     public static void initialize(Class<? extends GridSet>... setcs) throws IOException {
-        if (INST == null) {
-            INST = new GridUtility(setcs);
+        if (GRID == null) {
+            GRID = new GridUtility(setcs);
         }
         // start the grid service
-        INST.start();
+        GRID.start();
     }
 
     static List<String> parseAddresses(String interf) {
@@ -223,7 +227,7 @@ public class GridUtility implements GridMBean, Configurable {
     }
 
     public static <T extends GridDataSet> T getDataSet(Class<T> clazz) {
-        return INST.dataset(clazz);
+        return GRID.dataset(clazz);
     }
 
     /**
