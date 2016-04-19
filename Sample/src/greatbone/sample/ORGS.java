@@ -11,8 +11,4 @@ public class ORGS extends GridDataSet<Org> {
         super(grid, 12);
     }
 
-    @Override
-    protected void load(String arg) {
-    }
-
 }

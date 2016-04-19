@@ -12,10 +12,4 @@ public class USERS extends GridDataSet<User> {
         super(grid,12);
     }
 
-    @Override
-    protected void load(String arg) {
-
-
-    }
-
 }

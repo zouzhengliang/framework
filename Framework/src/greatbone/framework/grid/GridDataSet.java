@@ -10,7 +10,10 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A data collection of particular data class.
@@ -29,15 +32,18 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     // annotated cache policy, can be null
     final CachePolicy cachepol;
 
-    // orgin data pages of this dataset which reside on this node
-    final GridPages<D> origin;
+    // primary data pages, both origins and references
+    final GridPages<D> primary;
 
-    // backup of the preceding node
-    final GridPages<D> backup;
+    // the backup copy of the preceding node's origin data pages
+    final GridPages<D> copy;
+
+    final String likes;
+
+    final String filter;
 
     @SuppressWarnings("unchecked")
     protected GridDataSet(GridUtility grid, int inipages) {
-
         super(grid);
 
         Class<D> datc = (Class<D>) typearg(0); // resolve the data class by type parameter
@@ -53,8 +59,24 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         // prepare page table
         this.cachepol = getClass().getAnnotation(CachePolicy.class);
 
-        this.origin = new GridPages<>(inipages);
-        this.backup = new GridPages<>(inipages);
+        this.primary = new GridPages<>(inipages);
+        this.copy = new GridPages<>(inipages);
+
+        if (localspec != null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < localspec.size(); i++) {
+                String con = localspec.get(i);
+                sb.append(schema.keycol.name).append(" LIKE ").append(con);
+                if (i != localspec.size() - 1) {
+                    sb.append(" OR ");
+                }
+            }
+            this.likes = sb.toString();
+        } else {
+            this.likes = null;
+        }
+
+        this.filter = config == null ? null : config.getAttribute("filter");
 
     }
 
@@ -106,11 +128,11 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     // PAGE OPERATIONS
 
     public GridPage<D> getPage(String pageid) {
-        return origin.get(pageid);
+        return primary.get(pageid);
     }
 
     public GridPage<D> locatePage(String datakey) {
-        return origin.locate(datakey);
+        return primary.locate(datakey);
     }
 
     String select(String condition) {
@@ -137,26 +159,19 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         return sb.toString();
     }
 
-    protected void load(String arg) {
+    protected void load() {
 
-        // create shards based on configuration
-        String attlocal = config.getAttribute("local");
-        StringTokenizer st = new StringTokenizer(attlocal, ",");
-        while (st.hasMoreTokens()) {
-            String tok = st.nextToken().trim();
+        try (DbContext dc = new DbContext()) {
+            StringBuilder sb = new StringBuilder(schema.select);
+            sb.append(" FROM ").append(key);
 
-//            GridShard<K, V> p = new GridShard<>(this, tok, 1024);
+            sb.append("WHERE ").append(likes).append(" AND ").append(filter);
 
-        }
+            dc.query(sb.toString(), null, null);
 
-
-        // after init of shards
-        try (DbContext ctx = new DbContext()) {
-            ctx.update("SELECT * FROM " + key + " WHERE ", null);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -225,7 +240,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         GridPage<D> page = locatePage(key);
         if (page == null) {
             page = new GridPageX<>(this, null, 1024);
-            origin.add(page);
+            primary.add(page);
         }
         page.put(key, dat);
         return dat;

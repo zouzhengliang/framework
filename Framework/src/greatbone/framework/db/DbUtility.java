@@ -42,7 +42,7 @@ public class DbUtility implements DbMBean, Configurable {
             // get attributes from xml
             Properties props = new Properties();
             String clazz = e.getAttribute("class");
-            if (clazz == null) {
+            if (clazz.isEmpty()) {
                 clazz = POSTGRESQL;
             }
             String user = e.getAttribute("user");

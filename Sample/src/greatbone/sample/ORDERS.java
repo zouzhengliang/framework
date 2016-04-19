@@ -13,16 +13,8 @@ public class ORDERS extends GridDataSet<Order> {
         super(grid, 12);
     }
 
-    @Override
-    protected void load(String arg) {
-
-        // SELECT
-    }
-
     public void partitionLogic() {
 
     }
-
-
 
 }

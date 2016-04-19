@@ -272,6 +272,19 @@ public class GridUtility implements GridMBean, Configurable {
             super("Persister");
         }
 
+        @Override
+        public void run() {
+
+            while (!isInterrupted()) {
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                }
+                for (int i = 0; i < datasets.size(); i++) {
+                    datasets.get(i).load();
+                }
+            }
+        }
     }
 
 }

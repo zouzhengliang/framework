@@ -31,7 +31,7 @@ public class GridSchema<D extends GridData<D>> {
     // total size of a data entry, including reserved bytes
     final int size;
 
-    // SQL statements
+    // SQL clause
     String select, insert, update, delete;
 
     public GridSchema(Class<D> datc, int keylen) {
@@ -72,6 +72,8 @@ public class GridSchema<D extends GridData<D>> {
         }
         // total length
         this.size = offset;
+
+        this.select = evalSelect();
     }
 
     D instantiate() {
@@ -82,6 +84,18 @@ public class GridSchema<D extends GridData<D>> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    String evalSelect() {
+        StringBuilder sb = new StringBuilder("SELECT ");
+        for (int i = 0; i < columns.size(); i++) {
+            GridColumn col = columns.get(i);
+            if (i > 0) {
+                sb.append(",");
+            }
+            sb.append(col.name);
+        }
+        return sb.toString();
     }
 
 }

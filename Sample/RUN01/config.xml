@@ -9,13 +9,13 @@
         <dataset key="ingredients" pagecap="512"/>
         <dataset key="users" source="dir"/>
         <dataset key="orgs" local="jx, bj, sh" source="dir"/>
-        <dataset key="items" local="jx, bj, sh" where="date > (current_date() - 3)"/>
-        <dataset key="orders" local="jx, bj, sh" where="date > (current_date() - 3)"/>
+        <dataset key="items" local="jx, bj, sh" filter="date > (current_date() - 3)"/>
+        <dataset key="orders" local="jx, bj, sh" filter="date > (current_date() - 3)"/>
         <dataset key="journals" local="jx, bj, sh" pagecap="1024"/>
         <fileset key="clips" local="jx, bj, sh"/>
     </grid>
     <db>
-        <source user="postgres" password="123" database="postgres"/>
-        <source key="dir" url="jdbc://192.165.34.2" user="postgres" password="123" database="postgres"/>
+        <source user="postgres" password="postgres" database="postgres"/>
+        <source key="dir" url="jdbc:postgresql://localhost" user="postgres" password="postgres" database="postgres"/>
     </db>
 </greatbone>

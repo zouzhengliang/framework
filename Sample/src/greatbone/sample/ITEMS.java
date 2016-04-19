@@ -13,10 +13,6 @@ public class ITEMS extends GridDataSet<Item> {
         super(grid, 12);
     }
 
-    @Override
-    protected void load(String arg) {
-    }
-
     protected Class<Item> getDataClass() {
         return Item.class;
     }
