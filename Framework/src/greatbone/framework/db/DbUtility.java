@@ -85,7 +85,7 @@ public class DbUtility implements DbMBean, Configurable {
     }
 
     @Override
-    public Element xmlcfg() {
+    public Element config() {
         return config;
     }
 

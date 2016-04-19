@@ -98,10 +98,10 @@ public class GridUtility implements GridMBean, Configurable {
     }
 
     // register datasets & filesets from classes.
-    void register(Class<? extends GridSet> setc) {
-        if (GridDataSet.class.isAssignableFrom(setc)) {
+    void register(Class<? extends GridSet> setclass) {
+        if (GridDataSet.class.isAssignableFrom(setclass)) {
             try { // create a dataset instance
-                Class<? extends GridDataSet> c = setc.asSubclass(GridDataSet.class);
+                Class<? extends GridDataSet> c = setclass.asSubclass(GridDataSet.class);
                 Constructor<? extends GridDataSet> ctor = c.getConstructor(GridUtility.class);
                 GridDataSet set = ctor.newInstance(this);
                 datasets.put(set.key, set);
@@ -110,7 +110,7 @@ public class GridUtility implements GridMBean, Configurable {
             }
         } else {
             try { // create a fileset instance
-                Class<? extends GridFileSet> c = setc.asSubclass(GridFileSet.class);
+                Class<? extends GridFileSet> c = setclass.asSubclass(GridFileSet.class);
                 Constructor<? extends GridFileSet> ctor = c.getConstructor(GridUtility.class);
                 GridFileSet set = ctor.newInstance(this);
                 filesets.put(set.key, set);
@@ -149,7 +149,7 @@ public class GridUtility implements GridMBean, Configurable {
     }
 
     @Override
-    public Element xmlcfg() {
+    public Element config() {
         return config;
     }
 
@@ -216,18 +216,13 @@ public class GridUtility implements GridMBean, Configurable {
     }
 
     @SuppressWarnings("unchecked")
-    <T extends GridDataSet> T dataset(Class<T> clazz) {
-        String key = clazz.getSimpleName().toLowerCase();
-        return (T) datasets.get(key);
-    }
-
-    @SuppressWarnings("unchecked")
     <T extends GridDataSet> T dataset(String key) {
         return (T) datasets.get(key);
     }
 
     public static <T extends GridDataSet> T getDataSet(Class<T> clazz) {
-        return GRID.dataset(clazz);
+        String key = clazz.getSimpleName().toLowerCase();
+        return GRID.dataset(key);
     }
 
     /**

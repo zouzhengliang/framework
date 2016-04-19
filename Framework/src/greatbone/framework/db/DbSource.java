@@ -38,7 +38,7 @@ public class DbSource extends HikariDataSource implements DbSourceMBean, Configu
     }
 
     @Override
-    public Element xmlcfg() {
+    public Element config() {
         return config;
     }
 

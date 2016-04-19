@@ -90,7 +90,7 @@ public class WebUtility implements WebMBean, Configurable {
 
 
     @Override
-    public Element xmlcfg() {
+    public Element config() {
         return config;
     }
 

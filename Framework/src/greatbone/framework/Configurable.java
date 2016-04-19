@@ -6,6 +6,6 @@ import org.w3c.dom.Element;
  */
 public interface Configurable {
 
-    Element xmlcfg();
+    Element config();
 
 }

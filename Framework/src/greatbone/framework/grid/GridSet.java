@@ -18,10 +18,11 @@ public abstract class GridSet implements Configurable {
 
     final String key;
 
-    // configurative xml element, can be null when the set is replicated to every node
-    final Element xmlcfg;
+    // configurative xml element, can be null when no store on this VM for a registered set
+    final Element config;
 
-    final List<String> local;
+    // spec for local data, null when no local attribute is found, empty when the local atrribute is empty
+    final List<String> localspec;
 
     GridSet(GridUtility grid) {
         this.grid = grid;
@@ -39,27 +40,29 @@ public abstract class GridSet implements Configurable {
                 tag = n.substring(4);
             }
         }
-        this.xmlcfg = Greatbone.childOf(grid.config, tag, key);
+        this.config = Greatbone.childOf(grid.config, tag, key);
 
         // parse the local attribute
-        String attlocal = xmlcfg.getAttribute("local");
         List<String> lst = null;
-        StringTokenizer st = new StringTokenizer(attlocal, ",");
-        while (st.hasMoreTokens()) {
-            String tok = st.nextToken().trim();
-            if (!tok.isEmpty()) {
-                if (lst == null) lst = new ArrayList<>(16);
-                lst.add(tok);
+        if (config != null) {
+            String attlocal = config.getAttribute("local");
+            if (!attlocal.isEmpty()) {
+                lst = new ArrayList<>(16);
+                StringTokenizer st = new StringTokenizer(attlocal, ",");
+                while (st.hasMoreTokens()) {
+                    String tok = st.nextToken().trim();
+                    if (!tok.isEmpty()) lst.add(tok);
+                }
             }
         }
-        this.local = lst;
+        this.localspec = lst;
     }
 
     abstract void flush();
 
     @Override
-    public Element xmlcfg() {
-        return xmlcfg;
+    public Element config() {
+        return config;
     }
 
 }

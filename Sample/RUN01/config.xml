@@ -1,16 +1,16 @@
-<myfarm>
+<greatbone>
     <web>
+        <host key="www" hostname="10.0.0.201" port="8080"/>
         <host key="mgt" hostname="10.0.0.201" port="8081"/>
-        <host key="op" hostname="localhost" port="8082"/>
-        <host key="www" hostname="localhost" port="8080"/>
+        <host key="op" hostname="10.0.0.201" port="8082"/>
     </web>
     <grid interfaces="10.0.0.201-210" bind="10.0.0.201">
         <dataset key="staffers" pagecap="64"/>
         <dataset key="ingredients" pagecap="512"/>
         <dataset key="users" source="dir"/>
         <dataset key="orgs" local="jx, bj, sh" source="dir"/>
-        <dataset key="items" local="jx, bj, sh"/>
-        <dataset key="orders" local="jx, bj, sh"/>
+        <dataset key="items" local="jx, bj, sh" where="date > (current_date() - 3)"/>
+        <dataset key="orders" local="jx, bj, sh" where="date > (current_date() - 3)"/>
         <dataset key="journals" local="jx, bj, sh" pagecap="1024"/>
         <fileset key="clips" local="jx, bj, sh"/>
     </grid>
@@ -18,4 +18,4 @@
         <source user="postgres" password="123" database="postgres"/>
         <source key="dir" url="jdbc://192.165.34.2" user="postgres" password="123" database="postgres"/>
     </db>
-</myfarm>
+</greatbone>
