@@ -29,6 +29,16 @@ public class SpinWait {
     // flags for read/write sync, -1 = writing, 0 = nothing, n = reading count
     volatile int sync;
 
+    final int cycle;
+
+    public SpinWait() {
+        this(16);
+    }
+
+    public SpinWait(int cycle) {
+        this.cycle = cycle;
+    }
+
     public void enterRead() {
         int prev;
         for (; ; ) {
@@ -71,7 +81,7 @@ public class SpinWait {
 
     // elapse a number of cycles
     void elapse() {
-        for (int i = 0; i < 32; i++) ;
+        for (int i = 0; i < cycle; i++) ;
     }
 
 }

@@ -33,61 +33,44 @@ public class GridPages<D extends GridData<D>> {
         }
     }
 
-    public GridPage<D> get(String id) {
+    public GridPage<D> get(String pageid) {
         sync.enterRead();
         try {
-            if (id == null) {
-                return elements[0];
-            } else {
-                for (int i = 0; i < size; i++) {
-                    GridPage<D> page = elements[i];
-                    if (id.equals(page.id)) { // equals
+            for (int i = 0; i < size; i++) {
+                GridPage<D> page = elements[i];
+                if ((pageid == null)) { // equals
+                    if (page.id == null) {
                         return page;
                     }
+                } else if (pageid.equals(page.id)) {
+                    return page;
                 }
-                return null;
             }
+            return null;
         } finally {
             sync.exitRead();
         }
     }
 
-    GridPage<D> locate(String key) {
-        if (key == null) {
-            return elements[0];
-        } else {
-            for (int i = 0; i < size; i++) {
-                GridPage<D> page = elements[i];
-                if (key.startsWith(page.id)) { // starts with
-                    return page;
+    GridPage<D> locate(String datakey) {
+        if (datakey != null) {
+            sync.enterRead();
+            try {
+                for (int i = 0; i < size; i++) {
+                    GridPage<D> page = elements[i];
+                    if (datakey.startsWith(page.id)) { // starts with
+                        return page;
+                    }
                 }
+            } finally {
+                sync.exitRead();
             }
-            return null;
         }
+        return null;
     }
 
-    void insert(GridPage<D> v) {
-
-        GridPage<D>[] elems = elements;
-
-        int low = 0;
-        int high = size - 1;
-
-        int r = 0;
-        while (low <= high) {
-            int mid = (low + high) >>> 1;
-            GridPage<D> midv = elems[mid];
-            int cmp = 0;//midv.meet(key);
-            if (cmp < 0) low = mid + 1;
-            else if (cmp > 0) high = mid - 1;
-            else r = mid; // key found
-        }
-        r = -(low + 1);  // key not found.
-        if (r >= 0) {
-        } else {
-        }
-
-
+    @SuppressWarnings("unchecked")
+    void add(GridPage<D> v) {
         sync.enterWrite();
         try {
             int len = elements.length;
@@ -103,16 +86,16 @@ public class GridPages<D extends GridData<D>> {
     }
 
     D search(String pageid, Critera<D> filter) {
-        GridSearch<D> query = null;
+        GridSearch<D> search = null;
         for (int i = 0; i < size; i++) {
             GridPage<D> v = elements[i];
             if (v.id.equals(pageid)) {
-                query = new GridSearch<>(v, filter, false);
+                search = new GridSearch<>(v, filter, false);
             }
         }
-        if (query != null) {
-            GridSearch.invokeAll(query);
-            return query.result;
+        if (search != null) {
+            GridSearch.invokeAll(search);
+            return search.result;
         }
         return null;
     }

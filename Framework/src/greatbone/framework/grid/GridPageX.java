@@ -36,7 +36,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
     final long store;
 
     // actual data entries
-    volatile int count;
+    volatile int size;
 
     GridPageX(GridDataSet<D> parent, String id, int capacity) {
         super(parent, id);
@@ -53,7 +53,7 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
             buckets.set(i, -1); // initialize all buckets to -1
         }
         store = UNSAFE.allocateMemory(entrylen * cap);
-        count = 0;
+        size = 0;
 
         // register as mbean
         try {
@@ -64,7 +64,6 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
         }
 
     }
-
 
     void enterRead(int index) {
         long sync = store + entrylen * index; // offset of the sync flag
@@ -120,6 +119,11 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
     }
 
     @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
     public D get(String key) {
         int code = key.hashCode() & 0x7fffffff;
         int idx = buckets.get(code % buckets.length());
@@ -149,19 +153,19 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
             idx = enext(idx); // to next index
         }
         // add a new entry
-        idx = count;
+        idx = size;
         ecopyfrom(idx, dat);
         ecode(idx, code); // set hash code
         enext(idx, -1); // set next index
         buckets.set(bucket, idx);
-        count++;
+        size++;
         return dat;
     }
 
     public D search(Critera<D> filter) {
         D dat = parent.newData();
         int i = 0;
-        while (i < count) {
+        while (i < size) {
             //
         }
         return null;

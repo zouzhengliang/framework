@@ -105,12 +105,12 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     //
     // PAGE OPERATIONS
 
-    public GridPage<D> getPage(String id) {
-        return origin.get(id);
+    public GridPage<D> getPage(String pageid) {
+        return origin.get(pageid);
     }
 
-    public GridPage<D> locatePage(String key) {
-        return origin.locate(key);
+    public GridPage<D> locatePage(String datakey) {
+        return origin.locate(datakey);
     }
 
     String select(String condition) {
@@ -225,7 +225,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         GridPage<D> page = locatePage(key);
         if (page == null) {
             page = new GridPageX<>(this, null, 1024);
-            origin.insert(page);
+            origin.add(page);
         }
         page.put(key, dat);
         return dat;
