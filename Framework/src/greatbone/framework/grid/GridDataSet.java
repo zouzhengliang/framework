@@ -9,6 +9,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -167,12 +168,23 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
         try (DbContext dc = new DbContext()) {
             dc.query(sql.toString(), null, wrap -> {
+
 //                wrap.
             });
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
+    void loadwith(ResultSet rs) throws SQLException {
+        D dat = schema.instantiate();
+
+        while (rs.next()) {
+
+        }
+    }
+
 
 
     /**

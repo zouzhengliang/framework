@@ -50,11 +50,17 @@ public class GridSchema<D extends GridData<D>> {
         for (final Field fld : datclass.getDeclaredFields()) {
             Class<?> type = fld.getType();
             int mod = fld.getModifiers();
-            if (Modifier.isStatic(mod) && GridColumn.class.isAssignableFrom(type)) {
-                fld.setAccessible(true);
+            if (Modifier.isStatic(mod)) {
                 GridColumn col = null;
                 try {
-                    col = (GridColumn) fld.get(null);
+                    if (GridColumn.class.isAssignableFrom(type)) {
+                        fld.setAccessible(true);
+                        col = (GridColumn) fld.get(null);
+                    } else if (type.isArray() && STRUCT[].class.isAssignableFrom(type)) {
+                        fld.setAccessible(true);
+                        STRUCT[] structs = (STRUCT[]) fld.get(null);
+                        col = new GridStructsColumn(structs);
+                    }
                 } catch (IllegalAccessException e) { // never happen
                 }
                 if (col != null) {
@@ -68,6 +74,7 @@ public class GridSchema<D extends GridData<D>> {
                 }
             }
         }
+
         this.keycol = keycol;
         // total length
         this.size = offset;

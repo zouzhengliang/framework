@@ -16,12 +16,6 @@ public abstract class STRUCT extends GridColumn {
 
     int size;
 
-    // number of repeats
-    int repeat;
-
-    // size * repeat
-    int total;
-
     void init(String name, int offset) {
         this.name = name;
         this.offset = offset;
