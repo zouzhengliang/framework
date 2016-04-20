@@ -1,31 +1,32 @@
 package greatbone.framework.grid;
 
 /**
- * A KEY represents a key column of ASCII string type.
+ * A character string encoded in ASCII
  */
 public class KEY extends GridColumn<String> {
 
-    final int len;
+    // maxinum number of characters
+    final int length;
 
-    public KEY(int len) {
-        this.len = len;
+    public KEY(int length) {
+        this.length = length;
     }
 
-    public String get(GridData dat) {
-        return dat.getAscii(offset, len);
+    public String getValue(GridData dat) {
+        return dat.getAscii(offset, length);
     }
 
-    public void put(GridData dat, String v) {
-        dat.putAscii(offset, v, len);
+    public void putValue(GridData dat, String v) {
+        dat.putAscii(offset, v, length);
+    }
+
+    public int tryValue(GridData dat, String v) {
+        return -1;
     }
 
     @Override
     int size() {
-        return len;
-    }
-
-    int compare(GridData data, String v) {
-        return -1;
+        return length;
     }
 
 }

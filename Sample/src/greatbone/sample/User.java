@@ -27,7 +27,7 @@ public class User extends GridData<User> implements Principal {
     }
 
     public int compareLogin(String v) {
-        return LOGIN.compare(this, v);
+        return LOGIN.tryValue(this, v);
     }
 
     public int compareCredential(String v) {

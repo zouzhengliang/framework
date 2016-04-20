@@ -23,27 +23,27 @@ public class Item extends GridData<Item> {
     // ACCESSORS
 
     public String getName() {
-        return NAME.get(this);
+        return NAME.getValue(this);
     }
 
     public void setName(String v) {
-        NAME.put(this, v);
+        NAME.putValue(this, v);
     }
 
     public String getCategory() {
-        return CATEGORY.get(this);
+        return CATEGORY.getValue(this);
     }
 
     public void setCategory(String v) {
-        CATEGORY.put(this, v);
+        CATEGORY.putValue(this, v);
     }
 
     public Decimal getPrice() {
-        return PRICE.get(this);
+        return PRICE.getValue(this);
     }
 
     public void setPrice(Decimal v) {
-        PRICE.put(this, v);
+        PRICE.putValue(this, v);
     }
 
     public byte[] getIcon() {

@@ -11,7 +11,4 @@ public class CALLS extends GridDataSet<Call> {
         super(grid, 12);
     }
 
-    protected void load(String arg) {
-    }
-
 }

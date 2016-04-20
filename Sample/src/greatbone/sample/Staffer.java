@@ -21,11 +21,11 @@ public class Staffer extends GridData<Staffer> implements Principal {
 
     @Override
     public String getName() {
-        return NAME.get(this);
+        return NAME.getValue(this);
     }
 
     public String getCredential() {
-        return CREDENTIAL.get(this);
+        return CREDENTIAL.getValue(this);
     }
 
     @Override

@@ -6,9 +6,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 /**
- * A column that contains a list of records.
+ * A column that itself consists of a number of sub columns.
  */
-public abstract class ARRAY extends GridColumn {
+public abstract class STRUCT extends GridColumn {
 
     int length;
 
@@ -22,15 +22,11 @@ public abstract class ARRAY extends GridColumn {
     // size * repeat
     int total;
 
-    public ARRAY(int maxlen) {
-        this.length = maxlen;
-    }
-
     void init(String name, int offset) {
         this.name = name;
         this.offset = offset;
 
-        Class<? extends ARRAY> c = getClass();
+        Class<? extends STRUCT> c = getClass();
         int off = offset;
 
         // iterate through fields

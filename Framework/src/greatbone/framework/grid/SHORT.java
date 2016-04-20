@@ -4,12 +4,16 @@ package greatbone.framework.grid;
  */
 public class SHORT extends GridColumn<Short> {
 
-    public short get(GridData data) {
-        return data.getShort(offset);
+    public int tryValue(GridData dat, short v) {
+        return -1;
     }
 
-    public void put(GridData data, short v) {
-        data.putShort(offset, v);
+    public short getValue(GridData dat) {
+        return dat.getShort(offset);
+    }
+
+    public void putValue(GridData dat, short v) {
+        dat.putShort(offset, v);
     }
 
     @Override

@@ -2,7 +2,7 @@ package greatbone.sample;
 
 import greatbone.framework.grid.GridData;
 import greatbone.framework.grid.GridSchema;
-import greatbone.framework.grid.INT;
+import greatbone.framework.grid.KEY;
 import greatbone.framework.grid.STRING;
 
 /**
@@ -13,7 +13,7 @@ public class Call extends GridData<Call> {
     //
     // COLUMNS
 
-    static final INT ID = new INT();
+    static final KEY ID = new KEY(12);
 
     static final STRING TEXT = new STRING(12);
 

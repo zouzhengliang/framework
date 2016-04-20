@@ -19,19 +19,19 @@ public class Event extends GridData<Event> {
     // ACCESSORS
 
     public String getId() {
-        return ID.get(this);
+        return ID.getValue(this);
     }
 
     public void setId(String id) {
-        ID.put(this, id);
+        ID.putValue(this, id);
     }
 
     public String getText() {
-        return TEXT.get(this);
+        return TEXT.getValue(this);
     }
 
     public void setText(String v) {
-        TEXT.put(this, v);
+        TEXT.putValue(this, v);
     }
 
     public byte[] getIcon() {

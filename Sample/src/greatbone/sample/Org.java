@@ -18,21 +18,21 @@ public class Org extends GridData<Org> implements Principal, Space {
 
     static final STRING NAME = new STRING(12);
 
-    static final STRING PASSWORD = new STRING(12);
+    static final STRING CREDENTIAL = new STRING(12);
 
     @Override
     public String spaceid() {
-        return ID.get(this);
+        return ID.getValue(this);
     }
 
     @Override
     public String getName() {
-        return null;
+        return ID.getValue(this);
     }
 
     @Override
     public String getCredential() {
-        return null;
+        return CREDENTIAL.getValue(this);
     }
 
     @Override

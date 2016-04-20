@@ -1,31 +1,32 @@
 package greatbone.framework.grid;
 
 /**
- * character string
+ * A character string encoded in UTF-16.
  */
 public class STRING extends GridColumn<String> {
 
-    final int len;
+    // maximun number of characters
+    final int length;
 
-    public STRING(int len) {
-        this.len = len;
+    public STRING(int length) {
+        this.length = length;
     }
 
-    public String get(GridData dat) {
-        return dat.getString(offset, len);
-    }
-
-    public void put(GridData dat, String v) {
-        dat.putString(offset, v, len);
-    }
-
-    public int compare(GridData data, String v) {
+    public int tryValue(GridData dat, String v) {
         return -1;
+    }
+
+    public String getValue(GridData dat) {
+        return dat.getString(offset, length);
+    }
+
+    public void putValue(GridData dat, String v) {
+        dat.putString(offset, v, length);
     }
 
     @Override
     public int size() {
-        return len * 2; // UTF-16 encoded
+        return length * 2;
     }
 
 }

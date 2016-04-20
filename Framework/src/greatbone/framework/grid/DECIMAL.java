@@ -2,8 +2,6 @@ package greatbone.framework.grid;
 
 import greatbone.framework.Decimal;
 
-import java.math.BigDecimal;
-
 /**
  */
 public class DECIMAL extends GridColumn<Decimal> {
@@ -14,16 +12,16 @@ public class DECIMAL extends GridColumn<Decimal> {
         this.precision = precision;
     }
 
-    public Decimal get(GridData dat) {
+    public int tryValue(GridData dat, Decimal v) {
+        return -1;
+    }
+
+    public Decimal getValue(GridData dat) {
         return null;
     }
 
-    public void put(GridData dat, Decimal v) {
+    public void putValue(GridData dat, Decimal v) {
 
-    }
-
-    public int compare(GridData dat, Decimal v) {
-        return -1;
     }
 
     @Override
