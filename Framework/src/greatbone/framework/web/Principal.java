@@ -4,9 +4,9 @@ package greatbone.framework.web;
  */
 public interface Principal {
 
-    String name();
+    String getName();
 
-    String password();
+    String getCredential();
 
     int roles();
 

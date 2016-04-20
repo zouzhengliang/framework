@@ -38,10 +38,6 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     // the backup copy of the preceding node's origin data pages
     final GridPages<D> copy;
 
-    final String likes;
-
-    final String filter;
-
     @SuppressWarnings("unchecked")
     protected GridDataSet(GridUtility grid, int inipages) {
         super(grid);
@@ -61,22 +57,6 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
         this.primary = new GridPages<>(inipages);
         this.copy = new GridPages<>(inipages);
-
-        if (localspec != null) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < localspec.size(); i++) {
-                String con = localspec.get(i);
-                sb.append(schema.keycol.name).append(" LIKE ").append(con);
-                if (i != localspec.size() - 1) {
-                    sb.append(" OR ");
-                }
-            }
-            this.likes = sb.toString();
-        } else {
-            this.likes = null;
-        }
-
-        this.filter = config == null ? null : config.getAttribute("filter");
 
     }
 
@@ -161,18 +141,39 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
     protected void load() {
 
+        // compose sql statement
+        StringBuilder sql = new StringBuilder(schema.select);
+        sql.append(" FROM ").append(key);
+
+        String likes;
+        if (localspec != null) {
+            for (int i = 0; i < localspec.size(); i++) {
+                String con = localspec.get(i);
+                sql.append(schema.keycol.name).append(" LIKE ").append(con);
+                if (i != localspec.size() - 1) {
+                    sql.append(" OR ");
+                }
+            }
+            likes = sql.toString();
+        } else {
+            likes = null;
+        }
+
+        sql.append("WHERE ").append(likes);
+
+        String filter;
+        if (config != null && !(filter = config.getAttribute("filter")).isEmpty())
+            sql.append(" AND (").append(filter).append(")");
+
         try (DbContext dc = new DbContext()) {
-            StringBuilder sb = new StringBuilder(schema.select);
-            sb.append(" FROM ").append(key);
-
-            sb.append("WHERE ").append(likes).append(" AND ").append(filter);
-
-            dc.query(sb.toString(), null, null);
-
+            dc.query(sql.toString(), null, wrap -> {
+//                wrap.
+            });
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Gets a single specified data entry.

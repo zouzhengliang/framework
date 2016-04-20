@@ -36,12 +36,12 @@ public class User extends GridData<User> implements Principal {
 
 
     @Override
-    public String name() {
+    public String getName() {
         return null;
     }
 
     @Override
-    public String password() {
+    public String getCredential() {
         return null;
     }
 
@@ -58,6 +58,6 @@ public class User extends GridData<User> implements Principal {
         return SCHEMA;
     }
 
-    static final GridSchema<User> SCHEMA = new GridSchema<>(User.class,12);
+    static final GridSchema<User> SCHEMA = new GridSchema<>(User.class);
 
 }

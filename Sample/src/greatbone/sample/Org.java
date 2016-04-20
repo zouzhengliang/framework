@@ -2,18 +2,19 @@ package greatbone.sample;
 
 import greatbone.framework.grid.GridData;
 import greatbone.framework.grid.GridSchema;
+import greatbone.framework.grid.KEY;
 import greatbone.framework.grid.STRING;
 import greatbone.framework.web.Principal;
 import greatbone.framework.web.Space;
 
 /**
- * A shop or business of other types
+ * A shop or other type of organizational unit.
  */
 public class Org extends GridData<Org> implements Principal, Space {
 
     // COLUMNS
 
-    static final STRING ID = new STRING(10);
+    static final KEY ID = new KEY(10);
 
     static final STRING NAME = new STRING(12);
 
@@ -25,12 +26,12 @@ public class Org extends GridData<Org> implements Principal, Space {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return null;
     }
 
     @Override
-    public String password() {
+    public String getCredential() {
         return null;
     }
 
@@ -44,7 +45,7 @@ public class Org extends GridData<Org> implements Principal, Space {
         return SCHEMA;
     }
 
-    static final GridSchema<Org> SCHEMA = new GridSchema<>(Org.class,12);
+    static final GridSchema<Org> SCHEMA = new GridSchema<>(Org.class);
 
 }
 

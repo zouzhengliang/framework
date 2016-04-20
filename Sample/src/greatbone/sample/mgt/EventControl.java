@@ -43,8 +43,8 @@ public class EventControl extends WebControl {
 //            _new.load(exch);
         }  else {
             // explicitly set fields
-            _new.id(12);
-            _new.text("asfsdfsadf");
+            _new.setId("");
+            _new.setText("asfsdfsadf");
 
         }
 

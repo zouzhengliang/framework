@@ -19,14 +19,13 @@ public class STRING extends GridColumn<String> {
         dat.putString(offset, v, len);
     }
 
+    public int compare(GridData data, String v) {
+        return -1;
+    }
 
     @Override
     public int size() {
         return len * 2; // UTF-16 encoded
-    }
-
-    public int compare(GridData data, String v) {
-        return -1;
     }
 
 }

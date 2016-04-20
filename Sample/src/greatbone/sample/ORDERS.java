@@ -8,13 +8,8 @@ import greatbone.framework.grid.GridUtility;
  */
 public class ORDERS extends GridDataSet<Order> {
 
-
     public ORDERS(GridUtility grid) {
         super(grid, 12);
-    }
-
-    public void partitionLogic() {
-
     }
 
 }

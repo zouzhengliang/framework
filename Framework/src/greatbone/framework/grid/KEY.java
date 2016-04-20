@@ -3,7 +3,7 @@ package greatbone.framework.grid;
 /**
  * A KEY represents a key column of ASCII string type.
  */
-class KEY extends GridColumn<String> {
+public class KEY extends GridColumn<String> {
 
     final int len;
 

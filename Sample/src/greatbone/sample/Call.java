@@ -25,6 +25,6 @@ public class Call extends GridData<Call> {
         return SCHEMA;
     }
 
-    static final GridSchema<Call> SCHEMA = new GridSchema<>(Call.class, 12);
+    static final GridSchema<Call> SCHEMA = new GridSchema<>(Call.class);
 
 }

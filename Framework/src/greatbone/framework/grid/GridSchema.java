@@ -28,29 +28,26 @@ public class GridSchema<D extends GridData<D>> {
     // definitions of regular columns
     final Roll<String, GridColumn> columns = new Roll<>(64);
 
-    // total size of a data entry, including reserved bytes
+    // total bytes of a data record, including those reserved
     final int size;
 
     // SQL clause
     String select, insert, update, delete;
 
-    public GridSchema(Class<D> datc, int keylen) {
+    public GridSchema(Class<D> datclass) {
 
         // resolve the data class by type parameter
         try {
-            this.ctor = datc.getConstructor();
+            this.ctor = datclass.getConstructor();
         } catch (NoSuchMethodException e) {
             throw new GridSchemaException(e.getMessage());
         }
 
-        KEY keycol = new KEY(keylen);
-        keycol.init(KEY_COL, RESERVED);
-        this.keycol = keycol;
-
         // collect column declarations
 
-        int offset = keycol.tail();
-        for (final Field fld : datc.getDeclaredFields()) {
+        KEY keycol = null;
+        int offset = RESERVED;
+        for (final Field fld : datclass.getDeclaredFields()) {
             Class<?> type = fld.getType();
             int mod = fld.getModifiers();
             if (Modifier.isStatic(mod) && GridColumn.class.isAssignableFrom(type)) {
@@ -59,17 +56,19 @@ public class GridSchema<D extends GridData<D>> {
                 try {
                     col = (GridColumn) fld.get(null);
                 } catch (IllegalAccessException e) { // never happen
-                    e.printStackTrace();
                 }
                 if (col != null) {
                     // set late column attributes
                     col.init(fld.getName().toLowerCase(), offset);
                     offset += col.size();
-
                     columns.put(col.name, col);
+                    if (col instanceof KEY) {
+                        keycol = (KEY) col;
+                    }
                 }
             }
         }
+        this.keycol = keycol;
         // total length
         this.size = offset;
 

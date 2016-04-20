@@ -1,9 +1,6 @@
 package greatbone.sample;
 
-import greatbone.framework.grid.GridData;
-import greatbone.framework.grid.GridSchema;
-import greatbone.framework.grid.MONEY;
-import greatbone.framework.grid.STRING;
+import greatbone.framework.grid.*;
 import greatbone.framework.web.Principal;
 
 /**
@@ -14,30 +11,21 @@ public class Staffer extends GridData<Staffer> implements Principal {
     //
     // COLUMNS
 
-    static final STRING LOGIN = new STRING(12);
+    static final KEY ID = new KEY(12);
 
     static final STRING CREDENTIAL = new STRING(12);
 
     static final STRING NAME = new STRING(12);
 
-    static final MONEY WAGE = new MONEY();
-
-    public int compareLogin(String v) {
-        return LOGIN.compare(this, v);
-    }
-
-    public int compareCredential(String v) {
-        return -1;
-    }
+    static final DECIMAL WAGE = new DECIMAL(2);
 
     @Override
-    public String name() {
-        return null;
+    public String getName() {
+        return NAME.get(this);
     }
 
-    @Override
-    public String password() {
-        return null;
+    public String getCredential() {
+        return CREDENTIAL.get(this);
     }
 
     @Override
@@ -53,6 +41,6 @@ public class Staffer extends GridData<Staffer> implements Principal {
         return SCHEMA;
     }
 
-    static final GridSchema<Staffer> SCHEMA = new GridSchema<>(Staffer.class,12);
+    static final GridSchema<Staffer> SCHEMA = new GridSchema<>(Staffer.class);
 
 }

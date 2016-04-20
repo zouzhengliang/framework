@@ -10,6 +10,16 @@ public class BINARY extends GridColumn<byte[]> {
         this.length = kbytes * 1024;
     }
 
+    public byte[] get(GridData dat) {
+//        return dat.getString(offset);
+        return null;
+    }
+
+    public void put(GridData dat, byte[] v) {
+//        dat.putString(offset, v, len);
+    }
+
+
     @Override
     public int size() {
         return length;

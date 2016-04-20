@@ -9,27 +9,39 @@ public class Event extends GridData<Event> {
     //
     // COLUMNS
 
-    static final INT ID = new INT();
+    static final KEY ID = new KEY(8);
 
     static final STRING TEXT = new STRING(128);
 
     static final BINARY ICON = new BINARY((byte) 32);
 
-    public int id() {
+    //
+    // ACCESSORS
+
+    public String getId() {
         return ID.get(this);
     }
 
-    public void id(int id) {
+    public void setId(String id) {
         ID.put(this, id);
     }
 
-    public String text() {
+    public String getText() {
         return TEXT.get(this);
     }
 
-    public void text(String v) {
+    public void setText(String v) {
         TEXT.put(this, v);
     }
+
+    public byte[] getIcon() {
+        return ICON.get(this);
+    }
+
+    public void setIcon(byte[] v) {
+        ICON.put(this, v);
+    }
+
 
     //
     // SCHEMA
@@ -39,6 +51,6 @@ public class Event extends GridData<Event> {
         return SCHEMA;
     }
 
-    static final GridSchema<Event> SCHEMA = new GridSchema<>(Event.class, 12);
+    static final GridSchema<Event> SCHEMA = new GridSchema<>(Event.class);
 
 }

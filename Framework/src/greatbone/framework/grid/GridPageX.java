@@ -6,6 +6,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
@@ -29,21 +30,21 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
     // hash buckets
     volatile AtomicIntegerArray buckets;
 
-    // length of each data entry. long integer so that related arithmetics results are long
-    final long entrylen;
+    // length of each data record, long arithmetics
+    final long recSize;
 
-    // address of the OFF-HEAP data store
-    final long store;
+    // address of the OFF-HEAP data buffer
+    final long content;
 
-    // actual data entries
-    volatile int size;
+    // actual number of data records
+    volatile int count;
 
     GridPageX(GridDataSet<D> parent, String id, int capacity) {
         super(parent, id);
 
-        this.entrylen = parent.schema.size;
+        this.recSize = parent.schema.size;
 
-        // initialize the off-heap data store
+        // initialize the off-heap data buffer
         int cap = 1;
         while (cap < capacity) { // ensure power of 2
             cap <<= 1;
@@ -52,8 +53,8 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
         for (int i = 0; i < cap; i++) {
             buckets.set(i, -1); // initialize all buckets to -1
         }
-        store = UNSAFE.allocateMemory(entrylen * cap);
-        size = 0;
+        content = UNSAFE.allocateMemory(recSize * cap);
+        count = 0;
 
         // register as mbean
         try {
@@ -66,61 +67,61 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
     }
 
     void enterRead(int index) {
-        long sync = store + entrylen * index; // offset of the sync flag
+        long sync = content + recSize * index; // offset of the sync flag
         int prev;
         for (; ; ) {
             prev = UNSAFE.getIntVolatile(null, sync); // first byte is the sync flag
             if ((prev >> 24) >= 0 && UNSAFE.compareAndSwapInt(null, sync, prev, prev + (1 << 24))) {
                 return; // the only return point is after increment
             }
-            elapse();
+            loop();
         }
     }
 
     void exitRead(int index) {
-        long sync = store + entrylen * index; // offset of the sync flag
+        long sync = content + recSize * index; // offset of the sync flag
         int prev;
         for (; ; ) {
-            prev = UNSAFE.getIntVolatile(store, sync); // first byte is the sync flag
+            prev = UNSAFE.getIntVolatile(content, sync); // first byte is the sync flag
             if ((prev >> 24) > 0 && UNSAFE.compareAndSwapInt(null, sync, prev, prev - (1 << 24))) {
                 return; // the only return point is after increment
             }
-            elapse();
+            loop();
         }
     }
 
     void enterWrite(int index) {
-        long sync = store + entrylen * index; // offset of the sync flag
+        long sync = content + recSize * index; // offset of the sync flag
         int prev;
         for (; ; ) {
-            prev = UNSAFE.getIntVolatile(store, sync); // first byte is the sync flag
+            prev = UNSAFE.getIntVolatile(content, sync); // first byte is the sync flag
             if ((prev >> 24) == 0 && UNSAFE.compareAndSwapInt(null, sync, prev, prev & (-11 << 24))) {
                 return; // the only return point is after increment
             }
-            elapse();
+            loop();
         }
     }
 
     void exitWrite(int index) {
-        long sync = store + entrylen * index; // offset of the sync flag
+        long sync = content + recSize * index; // offset of the sync flag
         int prev;
         for (; ; ) {
-            prev = UNSAFE.getIntVolatile(store, sync); // first byte is the sync flag
+            prev = UNSAFE.getIntVolatile(content, sync); // first byte is the sync flag
             if ((prev >> 24) == 0 && UNSAFE.compareAndSwapInt(null, sync, prev, prev & (-11 << 24))) {
                 return; // the only return point is after increment
             }
-            elapse();
+            loop();
         }
     }
 
     // elapse a number of cycles
-    void elapse() {
-        for (int i = 0; i < 32; i++) ;
+    void loop() {
+        for (int i = 0; i < 16; i++) ;
     }
 
     @Override
-    public int getSize() {
-        return size;
+    public int getCount() {
+        return count;
     }
 
     @Override
@@ -147,55 +148,59 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
         int idx = buckets.get(bucket);
         while (idx != -1) {
             if (code == ecode(idx) && ekey(idx, key)) { // if exist then copy to replace the value
-                ecopyfrom(idx, dat);
+                rcopy(idx, dat);
                 return dat;
             }
             idx = enext(idx); // to next index
         }
         // add a new entry
-        idx = size;
-        ecopyfrom(idx, dat);
+        idx = count;
+        rcopy(idx, dat);
         ecode(idx, code); // set hash code
         enext(idx, -1); // set next index
         buckets.set(bucket, idx);
-        size++;
+        count++;
         return dat;
     }
 
     public D search(Critera<D> filter) {
         D dat = parent.newData();
         int i = 0;
-        while (i < size) {
+        while (i < count) {
             //
         }
         return null;
     }
 
+    void pack() {
+
+    }
+
     // get entry hash code
     int ecode(int index) {
-        long addr = store + entrylen * index + 4;
+        long addr = content + recSize * index + 4;
         return UNSAFE.getIntVolatile(null, addr);
     }
 
     // set entry's hash code item
     void ecode(int index, int v) {
-        long addr = store + entrylen * index + 4;
+        long addr = content + recSize * index + 4;
         UNSAFE.putIntVolatile(null, addr, v);
     }
 
     int enext(int index) {
-        long addr = store + entrylen * index + 8;
+        long addr = content + recSize * index + 8;
         return UNSAFE.getIntVolatile(null, addr);
     }
 
     // set entry's next item
     void enext(int index, int v) {
-        long addr = store + entrylen * index + 8;
+        long addr = content + recSize * index + 8;
         UNSAFE.putIntVolatile(null, addr, v);
     }
 
     boolean ekey(int index, String key) {
-        long addr = store + entrylen * index + 12;
+        long addr = content + recSize * index + 12;
         String s = (String) key;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -207,46 +212,83 @@ class GridPageX<D extends GridData<D>> extends GridPage<D> implements GridPageMB
     }
 
     void ecopyto(int index, D data) {
-        long addr = store + entrylen * index;
-        UNSAFE.copyMemory(null, addr, data.content, 16, entrylen);
+        long addr = content + recSize * index;
+        UNSAFE.copyMemory(null, addr, data.buffer, 16, recSize);
     }
 
-    void ecopyfrom(int index, D data) {
-        long addr = store + entrylen * index;
-        UNSAFE.copyMemory(data.content, 16, null, addr, entrylen);
+    void rcopy(int index, D data) {
+        long addr = content + recSize * index;
+        UNSAFE.copyMemory(data.buffer, 16, null, addr, recSize);
     }
 
     short getShort(int index, int off) {
-        long addr = store + entrylen * index + off;
+        long addr = content + recSize * index + off;
         return UNSAFE.getShort(addr);
     }
 
-    int eint(int index, int off) {
-        long addr = store + entrylen * index + off;
+    void putShort(int index, int off, short v) {
+        long addr = content + recSize * index + off;
+        UNSAFE.putShort(addr, v);
+    }
+
+    int getInt(int index, int off) {
+        long addr = content + recSize * index + off;
         return UNSAFE.getInt(addr);
     }
 
-    String estring(int index, int off) {
+    void putInt(int index, int off, int v) {
+        long addr = content + recSize * index + off;
+        UNSAFE.putInt(addr, v);
+    }
+
+    String getString(int index, int off) {
         StringBuilder sb = null;
-        long addr = store + entrylen * index + off;
-        while (addr < entrylen) {
-            char c = UNSAFE.getChar(addr);
+        long addr = content + recSize * index + off;
+        int i = 0;
+        while (i < recSize) {
+            char c = UNSAFE.getChar(i);
             if (c == 0) {
                 break;
             } else { // got a valid character
                 if (sb == null) {
-                    sb = new StringBuilder((int) entrylen);
+                    sb = new StringBuilder((int) recSize);
                 }
                 sb.append(c);
-                addr += 2;
+                i += 2;
             }
         }
         return (sb == null) ? null : sb.toString();
     }
 
+    int compareString(int index, int off, String v) {
+        long addr = content + recSize * index + off;
+        return -1;
+    }
+
+    void putString(int index, int off, String v) {
+        long addr = content + recSize * index + off;
+        for (int i = 0; i < v.length(); i = i + 2) {
+            UNSAFE.putChar(addr, v.charAt(i));
+        }
+    }
+
+    BigDecimal getDecimal(int index, int off) {
+        long addr = content + recSize * index + off;
+        return null;
+    }
+
+    int compareDecimal(int index, int off, BigDecimal v) {
+        long addr = content + recSize * index + off;
+        return -1;
+    }
+
+    void putDecimal(int index, int off, BigDecimal v) {
+        long addr = content + recSize * index + off;
+    }
+
     @Override
     protected void finalize() throws Throwable {
-        UNSAFE.freeMemory(store);
+        UNSAFE.freeMemory(content);
         super.finalize();
     }
 

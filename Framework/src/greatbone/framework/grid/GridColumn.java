@@ -31,8 +31,4 @@ abstract class GridColumn<T> {
 
     abstract int size();
 
-    final int tail() {
-        return offset + size();
-    }
-
 }

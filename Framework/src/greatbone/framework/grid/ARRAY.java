@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 /**
  * A column that contains a list of records.
  */
-public abstract class LIST extends GridColumn {
+public abstract class ARRAY extends GridColumn {
 
     int length;
 
@@ -22,7 +22,7 @@ public abstract class LIST extends GridColumn {
     // size * repeat
     int total;
 
-    public LIST(int maxlen) {
+    public ARRAY(int maxlen) {
         this.length = maxlen;
     }
 
@@ -30,7 +30,7 @@ public abstract class LIST extends GridColumn {
         this.name = name;
         this.offset = offset;
 
-        Class<? extends LIST> c = getClass();
+        Class<? extends ARRAY> c = getClass();
         int off = offset;
 
         // iterate through fields

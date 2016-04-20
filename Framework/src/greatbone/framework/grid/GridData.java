@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
- * An abstract data object. that can contain one or more data entries.
+ * An abstract data object. that can contain one or more data records.
  * A data object is also used internally as a cursor that points to a backing native page store.
  * A data entry has a string key
  *
@@ -17,12 +17,12 @@ import java.nio.ByteBuffer;
 public abstract class GridData<D extends GridData<D>> implements Printer {
 
     // the associated data page
-    // it is the backing store if local page and the buffer field is null
+    // it is the backing store if native page and the buffer field is null
     GridPage<D> page;
 
-    // the byte array that contains contents of data entries
-    byte[] content;
-    int length; // actual number of entries
+    // contents of data records
+    byte[] buffer;
+    int size; // actual number of records
 
     // current index
     int index;
@@ -31,7 +31,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
     int[] buckets;
 
     void init(int capacity) {
-        this.content = new byte[schema().size * capacity];
+        this.buffer = new byte[schema().size * capacity];
     }
 
     void init(GridPageX<D> page) {
@@ -56,42 +56,44 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
 
     // for direct sending thru a stream channel
     ByteBuffer wrap() {
-        return ByteBuffer.wrap(content, 0, length * schema().size);
+        return ByteBuffer.wrap(buffer, 0, size * schema().size);
     }
 
     short getShort(int off) {
-        if (content != null) {
+        if (buffer != null) {
             int p = schema().size * index + off;
-            return (short) ((content[p++] << 8) + content[p]);
+            return (short) ((buffer[p++] << 8) + buffer[p]);
         } else {
             return ((GridPageX<D>) page).getShort(index, off);
         }
     }
 
     void putShort(int off, short v) {
-        if (content != null) {
+        if (buffer != null) {
             int p = schema().size * index + off;
-            content[p++] = (byte) ((v >>> 8) & 0xff);
-            content[p] = (byte) (v & 0xff);
+            buffer[p++] = (byte) ((v >>> 8) & 0xff);
+            buffer[p] = (byte) (v & 0xff);
+        } else {
+
         }
     }
 
     int getInt(int off) {
-        if (content != null) {
+        if (buffer != null) {
             int p = schema().size * index + off;
-            return content[p++] + (content[p++] << 8) + (content[p++] << 16) + (content[p] << 24);
+            return buffer[p++] + (buffer[p++] << 8) + (buffer[p++] << 16) + (buffer[p] << 24);
         } else {
-            return ((GridPageX<D>) page).eint(index, off);
+            return ((GridPageX<D>) page).getInt(index, off);
         }
     }
 
     void putInt(int off, int v) {
-        if (content != null) {
+        if (buffer != null) {
             int p = schema().size * index + off;
-            content[p++] = (byte) (v & 0xff);
-            content[p++] = (byte) ((v >>> 8) & 0xff);
-            content[p++] = (byte) ((v >>> 16) & 0xff);
-            content[p] = (byte) ((v >>> 24) & 0xff);
+            buffer[p++] = (byte) (v & 0xff);
+            buffer[p++] = (byte) ((v >>> 8) & 0xff);
+            buffer[p++] = (byte) ((v >>> 16) & 0xff);
+            buffer[p] = (byte) ((v >>> 24) & 0xff);
         }
     }
 
@@ -102,12 +104,12 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
     String getString(int off, int len) {
         int siz = schema().size;
         if (page != null) {
-            return ((GridPageX<D>) page).estring(index, off);
+            return ((GridPageX<D>) page).getString(index, off);
         } else {
             StringBuilder sb = null;
             int p = siz * index + off;
             while (p < len) {
-                char c = (char) ((content[p++] << 8) + content[p++]);
+                char c = (char) ((buffer[p++] << 8) + buffer[p++]);
                 if (c == 0) {
                     break;
                 } else { // got a valid character
@@ -124,8 +126,8 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         int min = Math.min(len, v.length());
         for (int i = 0; i < min; i++) {
             char c = v.charAt(i);
-            content[p++] = (byte) ((c >>> 8) & 0xff);
-            content[p++] = (byte) (c & 0xff);
+            buffer[p++] = (byte) ((c >>> 8) & 0xff);
+            buffer[p++] = (byte) (c & 0xff);
         }
     }
 
@@ -135,11 +137,11 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
 
     String getAscii(int off, int len) {
         int siz = schema().size;
-        if (content != null) {
+        if (buffer != null) {
             StringBuilder sb = null;
             int p = siz * index + off;
             while (p < len) {
-                char c = (char) content[p++];
+                char c = (char) buffer[p++];
                 if (c == 0) {
                     break;
                 } else { // got a valid character
@@ -149,7 +151,7 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
             }
             return (sb == null) ? null : sb.toString();
         } else {
-            return ((GridPageX<D>) page).estring(index, off);
+            return ((GridPageX<D>) page).getString(index, off);
         }
     }
 
@@ -158,10 +160,18 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         int min = Math.min(len, v.length());
         for (int i = 0; i < min; i++) {
             char c = v.charAt(i);
-            content[p++] = (byte) (c & 0xff);
+            buffer[p++] = (byte) (c & 0xff);
         }
     }
 
+    byte[] getBinary(int off, int len) {
+        if (buffer != null) {
+            int p = schema().size * index + off;
+        } else {
+
+        }
+        return null;
+    }
     //
     // CURSOR OPERATION
     //

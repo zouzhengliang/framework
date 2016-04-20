@@ -9,7 +9,7 @@ public class Order extends GridData<Order> {
     //
     // COLUMNS
 
-    static final INT ID = new INT();
+    static final KEY ID = new KEY(12);
 
     static final TIMESTAMP DATE = new TIMESTAMP();
 
@@ -17,26 +17,33 @@ public class Order extends GridData<Order> {
 
     static final INTA OPS = new INTA(12);
 
-    static final DETAILLIST DETAILS = new DETAILLIST(12);
+    static final DETAILS DETAILS = new DETAILS(12);
 
-    public int id() {
+    final DECIMAL TOTAL = new DECIMAL(2);
+
+
+    public String getId() {
         return ID.get(this);
     }
 
-    public void id(int v) {
+    public void setId(String v) {
         ID.put(this, v);
     }
 
-    public String name() {
+    public String getName() {
         return NAME.get(this);
     }
 
-    public void name(String v) {
+    public void setName(String v) {
         NAME.put(this, v);
     }
 
-    public void details_item(int index, int v) {
-        DETAILS.ID.put(this, v);
+    public String getItemId(int index) {
+        return DETAILS.ITEMID.get(this);
+    }
+
+    public void setItemId(int index, String v) {
+        DETAILS.ITEMID.put(this, v);
     }
 
     //
@@ -47,19 +54,23 @@ public class Order extends GridData<Order> {
         return SCHEMA;
     }
 
-    static final GridSchema<Order> SCHEMA = new GridSchema<>(Order.class, 12);
+    static final GridSchema<Order> SCHEMA = new GridSchema<>(Order.class);
 
 }
 
 /**
  */
-class DETAILLIST extends LIST {
+class DETAILS extends ARRAY {
 
-    final INT ID = new INT();
+    final STRING ITEMID = new STRING(12);
 
-    final STRING NAME = new STRING(12);
+    final STRING ITEMNAME = new STRING(12);
 
-    public DETAILLIST(int maxlen) {
+    final INT QTY = new INT();
+
+    final DECIMAL PRICE = new DECIMAL(12);
+
+    public DETAILS(int maxlen) {
         super(maxlen);
     }
 
