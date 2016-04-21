@@ -141,7 +141,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     }
 
     public String createtable() {
-        return schema.evalCreateTable(key);
+        return schema.getCreateTableCommand(key);
     }
 
     protected void load() {

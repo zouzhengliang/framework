@@ -78,14 +78,14 @@ public class GridSchema<D extends GridData<D>> {
         // total length
         this.size = offset;
 
-        this.select = evalSelectClause();
+        this.select = getSelectClause();
     }
 
     final Roll<String, GridColumn> columns() {
         return columns;
     }
 
-    void load(GridData<D> dat, ResultSet rs) throws SQLException {
+    void loadRecord(GridData<D> dat, ResultSet rs) throws SQLException {
         for (int i = 0; i < columns.count(); i++) {
             GridColumn col = columns.get(i);
             col.load(dat, rs);
@@ -102,7 +102,7 @@ public class GridSchema<D extends GridData<D>> {
         return null;
     }
 
-    String evalSelectClause() {
+    String getSelectClause() {
         StringBuilder sb = new StringBuilder("SELECT ");
         for (int i = 0; i < columns.count(); i++) {
             GridColumn col = columns.get(i);
@@ -114,14 +114,15 @@ public class GridSchema<D extends GridData<D>> {
         return sb.toString();
     }
 
-    String evalCreateTable(String table) {
+    String getCreateTableCommand(String table) {
         StringBuilder sb = new StringBuilder("CREATE TABLE ").append(table).append(" (");
         for (int i = 0; i < columns.count(); i++) {
             GridColumn col = columns.get(i);
             sb.append(col.key).append(" ").append(col.dbtype()).append(",");
         }
-        sb.append("PRIMARY KEY ").append(keycol.key);
-        sb.append(")");
+        sb.append("PRIMARY KEY (").append(keycol.key).append(")");
+        sb.append(");");
         return sb.toString();
     }
+
 }

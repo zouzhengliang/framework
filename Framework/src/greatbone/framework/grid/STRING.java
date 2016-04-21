@@ -16,6 +16,16 @@ public class STRING extends GridColumn<String> {
         this.length = length;
     }
 
+    @Override
+    public int size() {
+        return length * 2;
+    }
+
+    @Override
+    String dbtype() {
+        return "VARCHAR(" + size() + ")";
+    }
+
     public int tryValue(GridData dat, String v) {
         return -1;
     }
@@ -26,16 +36,6 @@ public class STRING extends GridColumn<String> {
 
     public void putValue(GridData dat, String v) {
         dat.putString(offset, v, length);
-    }
-
-    @Override
-    public int size() {
-        return length * 2;
-    }
-
-    @Override
-    String dbtype() {
-        return "VARCHAR(" + size() + ")";
     }
 
     @Override
