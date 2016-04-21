@@ -16,7 +16,7 @@ public class Order extends GridData<Order> {
 
     static final STRING NAME = new STRING(12);
 
-    static final INTA OPS = new INTA(12);
+    static final INT OPS = new INT();
 
     static final DETAIL[] DETAILS = {new DETAIL(), new DETAIL(), new DETAIL(), new DETAIL(), new DETAIL(), new DETAIL(), new DETAIL(), new DETAIL()};
 

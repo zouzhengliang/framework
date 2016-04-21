@@ -3,6 +3,7 @@ package greatbone.framework.grid;
 import greatbone.framework.Decimal;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -48,6 +49,11 @@ public class DECIMAL extends GridColumn<Decimal> {
 
     public int addAndSet(GridData data, int a) {
         return 0;
+    }
+
+    @Override
+    void param(GridData dat, PreparedStatement pstmt) throws SQLException {
+
     }
 
 }

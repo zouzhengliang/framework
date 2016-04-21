@@ -1,5 +1,6 @@
 package greatbone.framework.grid;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,6 +23,11 @@ public class INT extends GridColumn<Integer> {
     @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
         putValue(dat, rs.getInt(ordinal));
+    }
+
+    @Override
+    void param(GridData dat, PreparedStatement pstmt) throws SQLException {
+        pstmt.setInt(ordinal, getValue(dat));
     }
 
 }

@@ -4,6 +4,7 @@ import greatbone.framework.util.Roll;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -59,6 +60,11 @@ public abstract class STRUCT extends GridColumn {
 
     @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
+
+    }
+
+    @Override
+    void param(GridData dat, PreparedStatement pstmt) throws SQLException {
 
     }
 
