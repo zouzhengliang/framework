@@ -39,6 +39,11 @@ public class DECIMAL extends GridColumn<Decimal> {
     }
 
     @Override
+    String dbtype() {
+        return "DECIMAL(8," + precision + ")";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
         putValue(dat, rs.getBigDecimal(ordinal));
     }

@@ -26,6 +26,11 @@ public class SHORT extends GridColumn<Short> {
     }
 
     @Override
+    String dbtype() {
+        return "SMALLINT";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }

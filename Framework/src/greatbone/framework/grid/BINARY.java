@@ -30,6 +30,11 @@ public class BINARY extends GridColumn<byte[]> {
     }
 
     @Override
+    String dbtype() {
+        return "BYTEA";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }

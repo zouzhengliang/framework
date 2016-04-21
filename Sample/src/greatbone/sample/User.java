@@ -2,6 +2,7 @@ package greatbone.sample;
 
 import greatbone.framework.grid.GridData;
 import greatbone.framework.grid.GridSchema;
+import greatbone.framework.grid.KEY;
 import greatbone.framework.grid.STRING;
 import greatbone.framework.web.Principal;
 
@@ -13,7 +14,7 @@ public class User extends GridData<User> implements Principal {
     //
     // COLUMNS
 
-    static final STRING LOGIN = new STRING(12);
+    static final KEY LOGIN = new KEY(12);
 
     static final STRING CREDENTIAL = new STRING(12);
 

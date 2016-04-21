@@ -11,6 +11,8 @@ public class Item extends GridData<Item> {
     //
     // COLUMNS
 
+    static final KEY ID = new KEY(12);
+
     static final STRING NAME = new STRING(12);
 
     static final STRING CATEGORY = new STRING(16);

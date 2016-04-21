@@ -21,6 +21,11 @@ public class INT extends GridColumn<Integer> {
     }
 
     @Override
+    String dbtype() {
+        return "INT";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
         putValue(dat, rs.getInt(ordinal));
     }

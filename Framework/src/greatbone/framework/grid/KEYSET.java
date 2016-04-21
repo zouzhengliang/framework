@@ -7,7 +7,7 @@ import java.sql.SQLException;
 /**
  * string array
  */
-public class KEYSET extends GridColumn {
+public class KEYSET extends GridColumn<String[]> {
 
     // number of characters for each element
     int chars;
@@ -18,6 +18,11 @@ public class KEYSET extends GridColumn {
     public KEYSET(int chars, int count) {
         this.chars = chars;
         this.count = count;
+    }
+
+    @Override
+    String dbtype() {
+        return "VARCHAR[" + size() + "]";
     }
 
     @Override
@@ -33,7 +38,7 @@ public class KEYSET extends GridColumn {
         return null;
     }
 
-    public int tryValue(GridData dat, String v) {
+    public int tryValue(GridData dat, String[] v) {
         return -1;
     }
 

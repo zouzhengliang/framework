@@ -15,6 +15,11 @@ public class TIMESTAMP extends GridColumn<Timestamp> {
     }
 
     @Override
+    String dbtype() {
+        return "TIMESTAMP";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }

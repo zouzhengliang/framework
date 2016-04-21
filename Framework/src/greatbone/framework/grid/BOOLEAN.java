@@ -14,6 +14,11 @@ public class BOOLEAN extends GridColumn<Boolean> {
     }
 
     @Override
+    String dbtype() {
+        return "BIT";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }

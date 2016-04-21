@@ -18,6 +18,11 @@ public class LONG extends GridColumn {
     }
 
     @Override
+    String dbtype() {
+        return "BIGINT";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }

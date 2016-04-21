@@ -59,6 +59,11 @@ public abstract class STRUCT extends GridColumn {
     }
 
     @Override
+    String dbtype() {
+        return "JSONB";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }

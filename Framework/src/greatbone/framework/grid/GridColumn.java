@@ -36,6 +36,8 @@ abstract class GridColumn<T> {
         this.offset = offset;
     }
 
+    abstract String dbtype();
+
     abstract int size();
 
     abstract void load(GridData dat, ResultSet rs) throws SQLException;

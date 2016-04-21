@@ -158,8 +158,16 @@ public class GridUtility implements GridMBean, Configurable {
         if (GRID == null) {
             GRID = new GridUtility(setcs);
         }
+        GRID.print();
         // start the grid service
         GRID.start();
+
+    }
+
+    public void print() {
+        for (int i = 0; i < datasets.count(); i++) {
+            System.out.println(datasets.get(i).createtable());
+        }
     }
 
     static List<String> parseAddresses(String interf) {

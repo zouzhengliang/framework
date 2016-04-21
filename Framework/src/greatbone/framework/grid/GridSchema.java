@@ -114,4 +114,14 @@ public class GridSchema<D extends GridData<D>> {
         return sb.toString();
     }
 
+    String evalCreateTable(String table) {
+        StringBuilder sb = new StringBuilder("CREATE TABLE ").append(table).append(" (");
+        for (int i = 0; i < columns.count(); i++) {
+            GridColumn col = columns.get(i);
+            sb.append(col.key).append(" ").append(col.dbtype()).append(",");
+        }
+        sb.append("PRIMARY KEY ").append(keycol.key);
+        sb.append(")");
+        return sb.toString();
+    }
 }

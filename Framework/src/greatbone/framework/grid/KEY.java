@@ -34,6 +34,11 @@ public class KEY extends GridColumn<String> {
     }
 
     @Override
+    String dbtype() {
+        return "CHAR(" + size() + ")";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
         putValue(dat, rs.getString(ordinal));
     }

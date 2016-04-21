@@ -15,6 +15,11 @@ public class DATE extends GridColumn<Date> {
     }
 
     @Override
+    String dbtype() {
+        return "DATE";
+    }
+
+    @Override
     void load(GridData dat, ResultSet rs) throws SQLException {
 
     }
