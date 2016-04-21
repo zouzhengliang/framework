@@ -1,5 +1,8 @@
 package greatbone.framework.grid;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  */
 public class LONG extends GridColumn {
@@ -11,6 +14,11 @@ public class LONG extends GridColumn {
     @Override
     public int size() {
         return 8;
+    }
+
+    @Override
+    void load(GridData dat, ResultSet rs) throws SQLException {
+
     }
 
 }

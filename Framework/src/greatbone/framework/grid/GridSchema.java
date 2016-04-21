@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * The meta information for a data entry.
@@ -17,16 +19,12 @@ public class GridSchema<D extends GridData<D>> {
     // each data entry reserves 12 leading bytes for controlling purposes (FLAGS, HASH, NEXT)
     static final int RESERVED = 12;
 
-    static final String KEY_COL = "key";
-
     // the default data object constructor
     final Constructor<D> ctor;
 
-    // definition of the key column
-    final KEY keycol;
-
     // definitions of regular columns
     final Roll<String, GridColumn> columns = new Roll<>(64);
+    final KEY keycol; // definition of the key column
 
     // total bytes of a data record, including those reserved
     final int size;
@@ -65,10 +63,11 @@ public class GridSchema<D extends GridData<D>> {
                 }
                 if (col != null) {
                     // set late column attributes
-                    col.init(fld.getName().toLowerCase(), offset);
+                    col.INIT(1, fld.getName().toLowerCase(), offset);
                     offset += col.size();
-                    columns.put(col.name, col);
-                    if (col instanceof KEY) {
+                    columns.put(col.key, col);
+                    // get key column
+                    if (keycol == null && col instanceof KEY) {
                         keycol = (KEY) col;
                     }
                 }
@@ -79,7 +78,18 @@ public class GridSchema<D extends GridData<D>> {
         // total length
         this.size = offset;
 
-        this.select = evalSelect();
+        this.select = evalSelectClause();
+    }
+
+    final Roll<String, GridColumn> columns() {
+        return columns;
+    }
+
+    void load(GridData<D> dat, ResultSet rs) throws SQLException {
+        for (int i = 0; i < columns.count(); i++) {
+            GridColumn col = columns.get(i);
+            col.load(dat, rs);
+        }
     }
 
     D instantiate() {
@@ -92,14 +102,14 @@ public class GridSchema<D extends GridData<D>> {
         return null;
     }
 
-    String evalSelect() {
+    String evalSelectClause() {
         StringBuilder sb = new StringBuilder("SELECT ");
-        for (int i = 0; i < columns.size(); i++) {
+        for (int i = 0; i < columns.count(); i++) {
             GridColumn col = columns.get(i);
             if (i > 0) {
                 sb.append(",");
             }
-            sb.append(col.name);
+            sb.append(col.key);
         }
         return sb.toString();
     }

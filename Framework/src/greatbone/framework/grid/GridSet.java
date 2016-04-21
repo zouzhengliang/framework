@@ -40,7 +40,7 @@ public abstract class GridSet implements Configurable {
                 tag = n.substring(4);
             }
         }
-        this.config = Greatbone.childOf(grid.config, tag, key);
+        this.config = Greatbone.getChildElementOf(grid.config, tag, key);
 
         // parse the local attribute
         List<String> lst = null;

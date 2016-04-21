@@ -30,7 +30,7 @@ public class Roll<K, V> {
         count = 0;
     }
 
-    public int size() {
+    public int count() {
         return count;
     }
 

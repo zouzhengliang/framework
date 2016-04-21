@@ -67,7 +67,7 @@ public abstract class WebHost extends WebControl implements HttpHandler, WebHost
         }
 
         // get address settings from configuration, can be null if no configuration for the host is found
-        this.config = Greatbone.childOf(parent.config, "host", key);
+        this.config = Greatbone.getChildElementOf(parent.config, "host", key);
         this.hostname = (config != null) ? config.getAttribute("hostname") : null;
         this.port = (config != null) ? Integer.parseInt(config.getAttribute("port")) : 80;
         this.address = (hostname == null) ? null : new InetSocketAddress(hostname, port);

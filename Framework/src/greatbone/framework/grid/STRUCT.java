@@ -4,6 +4,8 @@ import greatbone.framework.util.Roll;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * A column that itself consists of a number of sub columns.
@@ -16,9 +18,9 @@ public abstract class STRUCT extends GridColumn {
 
     int size;
 
-    void init(String name, int offset) {
-        this.name = name;
-        this.offset = offset;
+    void INIT(int ordinal, String name, int offset) {
+
+        super.INIT(ordinal, name, offset);
 
         Class<? extends STRUCT> c = getClass();
         int off = offset;
@@ -36,10 +38,10 @@ public abstract class STRUCT extends GridColumn {
                 }
                 if (col != null) {
                     // initialized column attributes
-                    col.name = fld.getName().toLowerCase();
+                    col.key = fld.getName().toLowerCase();
                     col.offset = off;
                     off += col.size();
-                    columns.put(col.name, col);
+                    columns.put(col.key, col);
                 }
             }
         }
@@ -47,12 +49,17 @@ public abstract class STRUCT extends GridColumn {
     }
 
     public String key() {
-        return name;
+        return key;
     }
 
     @Override
     public int size() {
         return 0;
+    }
+
+    @Override
+    void load(GridData dat, ResultSet rs) throws SQLException {
+
     }
 
 }

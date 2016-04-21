@@ -1,5 +1,8 @@
 package greatbone.framework.grid;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * A character string encoded in UTF-16.
  */
@@ -27,6 +30,11 @@ public class STRING extends GridColumn<String> {
     @Override
     public int size() {
         return length * 2;
+    }
+
+    @Override
+    void load(GridData dat, ResultSet rs) throws SQLException {
+        putValue(dat, rs.getString(ordinal));
     }
 
 }

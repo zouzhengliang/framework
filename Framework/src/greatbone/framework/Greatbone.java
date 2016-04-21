@@ -92,17 +92,17 @@ public class Greatbone {
         return null;
     }
 
-    public static Element childOf(Element parentel, String tag, String key) {
+    public static Element getChildElementOf(Element parent, String tag, String keyattr) {
         Element el = null;
-        NodeList lst = parentel.getElementsByTagName(tag);
+        NodeList lst = parent.getElementsByTagName(tag);
         for (int i = 0; i < lst.getLength(); i++) {
             Element e = (Element) lst.item(i);
-            if (key.equals(e.getAttribute("key"))) el = e;
+            if (keyattr.equals(e.getAttribute("key"))) el = e;
         }
         return el;
     }
 
-    public static String getStringFromXml() {
+    public static String getStringForXml() {
         DOMImplementationLS dom = (DOMImplementationLS) configdoc.getImplementation();
         LSSerializer lsSerializer = dom.createLSSerializer();
         return lsSerializer.writeToString(configdoc);

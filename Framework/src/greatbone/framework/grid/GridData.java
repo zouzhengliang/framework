@@ -2,10 +2,12 @@ package greatbone.framework.grid;
 
 import greatbone.framework.Out;
 import greatbone.framework.Printer;
+import greatbone.framework.util.Roll;
 import greatbone.framework.web.WebContext;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.ResultSet;
 
 /**
  * An abstract data object. that can contain one or more data records.
@@ -40,6 +42,12 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
 
     public int next(boolean grow) {
         return -1;
+    }
+
+    // take input from an open result set
+    public void assign(ResultSet rs) {
+        Roll<String, GridColumn> cols = schema().columns();
+
     }
 
     public void add(D dat) {
@@ -172,6 +180,15 @@ public abstract class GridData<D extends GridData<D>> implements Printer {
         }
         return null;
     }
+
+    public String getKey() {
+        return schema().keycol.getValue(this);
+    }
+
+    public void setKey(String v) {
+        schema().keycol.putValue(this, v);
+    }
+
     //
     // CURSOR OPERATION
     //

@@ -1,5 +1,8 @@
 package greatbone.framework.grid;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  */
 public class BINARY extends GridColumn<byte[]> {
@@ -23,6 +26,11 @@ public class BINARY extends GridColumn<byte[]> {
     @Override
     public int size() {
         return length;
+    }
+
+    @Override
+    void load(GridData dat, ResultSet rs) throws SQLException {
+
     }
 
 }

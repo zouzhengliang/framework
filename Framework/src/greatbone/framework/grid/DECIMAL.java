@@ -2,6 +2,10 @@ package greatbone.framework.grid;
 
 import greatbone.framework.Decimal;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  */
 public class DECIMAL extends GridColumn<Decimal> {
@@ -24,9 +28,18 @@ public class DECIMAL extends GridColumn<Decimal> {
 
     }
 
+    public void putValue(GridData dat, BigDecimal v) {
+
+    }
+
     @Override
     public int size() {
         return 8;
+    }
+
+    @Override
+    void load(GridData dat, ResultSet rs) throws SQLException {
+        putValue(dat, rs.getBigDecimal(ordinal));
     }
 
     public int add(GridData data, int a) {

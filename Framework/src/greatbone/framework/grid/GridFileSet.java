@@ -15,7 +15,7 @@ public abstract class GridFileSet extends GridSet {
         // register mbean
         try {
             MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-            ObjectName objname = new ObjectName("myfarm.grid.fileset:type=FileSet,name=" + key);
+            ObjectName objname = new ObjectName("grid.fileset:type=FileSet,name=" + key);
             mbs.registerMBean(this, objname);
         } catch (Exception e) {
         }

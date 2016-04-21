@@ -119,9 +119,9 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     String select(String condition) {
         Roll<String, GridColumn> cols = schema.columns;
         StringBuilder sb = new StringBuilder("SELECT ");
-        for (int i = 0; i < cols.size(); i++) {
+        for (int i = 0; i < cols.count(); i++) {
             GridColumn col = cols.get(i);
-            sb.append(col.name);
+            sb.append(col.key);
         }
         sb.append(" FROM ");
         sb.append(key);
@@ -133,9 +133,9 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
     String update() {
         Roll<String, GridColumn> cols = schema.columns;
         StringBuilder sb = new StringBuilder("UPDATE ").append(key).append(" SET ");
-        for (int i = 0; i < cols.size(); i++) {
+        for (int i = 0; i < cols.count(); i++) {
             GridColumn col = cols.get(i);
-            sb.append(col.name).append("=?");
+            sb.append(col.key).append("=?");
         }
         return sb.toString();
     }
@@ -150,7 +150,7 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
         if (localspec != null) {
             for (int i = 0; i < localspec.size(); i++) {
                 String con = localspec.get(i);
-                sql.append(schema.keycol.name).append(" LIKE ").append(con);
+                sql.append(schema.keycol.key).append(" LIKE ").append(con);
                 if (i != localspec.size() - 1) {
                     sql.append(" OR ");
                 }
@@ -178,13 +178,16 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
 
     void loadwith(ResultSet rs) throws SQLException {
+        // create a data object with one record buffer
         D dat = schema.instantiate();
 
         while (rs.next()) {
-
+            // input data from result set
+            dat.assign(rs);
+            // put to native primary store
+            put(dat);
         }
     }
-
 
 
     /**
@@ -242,6 +245,15 @@ public abstract class GridDataSet<D extends GridData<D>> extends GridSet impleme
 
     public D getData(Critera<D> d) {
         return null;
+    }
+
+    // no autogen of key
+    public void put(D dat) {
+        String key = dat.getKey();
+        GridPage<D> page = locatePage(key);
+        if (page != null) {
+            page.put(null, dat);
+        }
     }
 
     // a subclass may treat key differently, it can be full key, partial key, or null

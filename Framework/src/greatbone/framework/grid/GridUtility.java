@@ -121,7 +121,7 @@ public class GridUtility implements GridMBean, Configurable {
     }
 
     public void start() throws IOException {
-        for (int i = 0; i < endpoints.size(); i++) {
+        for (int i = 0; i < endpoints.count(); i++) {
             endpoints.get(i).start();
         }
         persister.start();
@@ -132,7 +132,7 @@ public class GridUtility implements GridMBean, Configurable {
     public void stop() {
         persister.interrupt();
         poller.interrupt();
-        for (int i = 0; i < endpoints.size(); i++) {
+        for (int i = 0; i < endpoints.count(); i++) {
             endpoints.get(i).stop();
         }
     }
@@ -240,7 +240,7 @@ public class GridUtility implements GridMBean, Configurable {
         public void run() {
             while (status != 0) {
 
-                for (int i = 0; i < endpoints.size(); i++) {
+                for (int i = 0; i < endpoints.count(); i++) {
                     GridEndPoint peer = endpoints.get(i);
                     if (peer instanceof GridClient) {
                         try {
@@ -280,7 +280,7 @@ public class GridUtility implements GridMBean, Configurable {
                     sleep(1000);
                 } catch (InterruptedException e) {
                 }
-                for (int i = 0; i < datasets.size(); i++) {
+                for (int i = 0; i < datasets.count(); i++) {
                     datasets.get(i).load();
                 }
             }
