@@ -9,4 +9,12 @@
 <li>application controlled partitioning, that effectively eliminates use of indexes on datasets</li>
 <li>failover & fault-tolerance server cluster</li>
 
+# Roadmap 2.x
+
+<li>Transaction</li>
+<li>Distributed Locks</li>
+<li>New WebAPI based on Undertow 2</li>
+<li>Runtime Partitioning Management</li>
+
+
 
