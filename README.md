@@ -13,7 +13,7 @@
 
 <li>Transaction</li>
 <li>Distributed Locks</li>
-<li>New WebAPI based on Undertow 2</li>
+<li>New Web API based on Undertow 2</li>
 <li>Runtime Partitioning Management</li>
 
 
