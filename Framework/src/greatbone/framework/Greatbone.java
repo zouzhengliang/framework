@@ -42,6 +42,7 @@ public class Greatbone {
 
     static {
 
+
         // initialize the global XNIO worker
         Xnio xnio = Xnio.getInstance(Greatbone.class.getClassLoader());
         XnioWorker worker = null;
